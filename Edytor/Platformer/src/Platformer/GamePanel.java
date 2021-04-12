@@ -1,9 +1,7 @@
 package Platformer;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,6 +20,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         cursor = new Cursor(400,300,this);
         gameTimer = new Timer();
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cursor.put();
+
+            }
+        });
 
         //walls.add(new Wall(i,800,90,50));
 
@@ -54,14 +59,14 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             gtd.drawLine(i, 0, i, getHeight());
             gtd.drawLine(0, i, getWidth(), i);
         }
-        //System.out.println(getWidth());
+
 
     }
 
 
     public void keyPressed(KeyEvent e) {
         if(e.getKeyChar() == ' ')cursor.put();
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)System.exit(0);
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)cursor.exit();
         if(e.getKeyChar() =='p' )cursor.change_Id(true);
         if(e.getKeyChar() == 'l')cursor.change_Id(false);
 

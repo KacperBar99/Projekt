@@ -26,4 +26,9 @@ public class Wall {
         gtd.setColor(Color.white);
         gtd.fillRect(x+1,y+1,width-2,height-2);
     }
+    public int getID(){return 0;}
+    public int getX(){return x;}
+    public int getY(){return y;}
+    public int getWidth(){return width;}
+    public int getHeight(){return height;}
 }

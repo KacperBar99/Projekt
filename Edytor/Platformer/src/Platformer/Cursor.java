@@ -1,6 +1,9 @@
 package Platformer;
 
 import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.InaccessibleObjectException;
 import java.sql.SQLOutput;
 
 public class Cursor {
@@ -37,24 +40,6 @@ public class Cursor {
     }
     public void put()
     {
-        /*for(int i=0;i<panel.getWidth();i+=64)
-        {
-            if(i>x)
-            {
-                i-=64;
-                x=i;
-                break;
-            }
-        }
-        for(int i=0;i<panel.getHeight();i+=64)
-        {
-            if(i>y)
-            {
-                i-=64;
-                y=i;
-                break;
-            }
-        }*/
 
         panel.walls.add(new Wall(x,y,width,height));
     }
@@ -87,6 +72,38 @@ public class Cursor {
         change_type();
         gtd.fillRect(x,y,width,height);
     }
+    public void exit()
+    {
+        try{
+            FileWriter myWriter = new FileWriter("level.txt");
+            for(Wall wall: panel.walls)
+            {
+                myWriter.write(wall.getID()+"\n");
+                myWriter.write(wall.getX()+"\n");
+                myWriter.write(wall.getY()+"\n");
+                myWriter.write(wall.getWidth()+"\n");
+                myWriter.write(wall.getHeight()+"\n");
+
+            }
+            for(WallB wallB: panel.wallsB)
+            {
+
+            }
+            for(Gravity_Changer changer: panel.changers)
+            {
+
+            }
+            for(KillBox box:panel.boxes)
+            {
+
+            }
+            myWriter.close();
+        }catch (IOException e){
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        System.exit(0);
+    }
     public void change_type()
     {
         switch (Id)
@@ -107,8 +124,8 @@ public class Cursor {
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:
-                width=1;
-                height=1;
+                width=64;
+                height=32;
                 hitBox=new Rectangle(x,y,width,height);
         }
     }
