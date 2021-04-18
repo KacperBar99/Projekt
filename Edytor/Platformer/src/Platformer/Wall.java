@@ -10,13 +10,12 @@ public class Wall {
 
     Rectangle hitBox;
 
-
-    public Wall(int x,int y, int width, int height)
+    public Wall(int x,int y)
     {
         this.x=x;
         this.y=y;
-        this.width=width;
-        this.height=height;
+        this.width=64;
+        this.height=64;
 
         hitBox = new Rectangle(x,y,width,height);
     }
@@ -26,9 +25,7 @@ public class Wall {
         gtd.setColor(Color.white);
         gtd.fillRect(x+1,y+1,width-2,height-2);
     }
-    public int getID(){return 0;}
+
     public int getX(){return x;}
     public int getY(){return y;}
-    public int getWidth(){return width;}
-    public int getHeight(){return height;}
 }
