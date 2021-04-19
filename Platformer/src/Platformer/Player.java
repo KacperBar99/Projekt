@@ -35,8 +35,8 @@ public class Player {
         dash=false;
         gravity=true;
 
-        width=49;
-        height=49;
+        width=64;
+        height=64;
         hitBox = new Rectangle(x,y,width,height);
 
     }

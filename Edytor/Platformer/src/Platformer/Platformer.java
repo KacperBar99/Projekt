@@ -16,5 +16,6 @@ public class Platformer {
         frame.setTitle("Platformówka");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
     }
 }

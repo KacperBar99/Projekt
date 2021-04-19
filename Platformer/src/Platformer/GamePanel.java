@@ -4,7 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,10 +22,37 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     public GamePanel()
     {
+        try {
+            File myObj = new File("level.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+
+                switch (Integer.valueOf(data))
+                {
+                    case 0:
+                        walls.add(new Wall(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 1:
+                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 2:
+                        changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+
+
         player = new Player(400,300,this);
-        makeWalls();
-        makeChangers();
-        makeWallsB();
+       // makeWalls();
+      //  makeChangers();
+      //  makeWallsB();
         gameTimer = new Timer();
 
         gameTimer.schedule(new TimerTask(){
@@ -45,7 +75,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         player.draw(gtd);
     }
     public void makeWalls()
-    {
+    {/*
         for(int i=50;i<600;i+=150)
         {
             walls.add(new Wall(i,0,90,50));
@@ -55,18 +85,18 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         {
             walls.add(new Wall(100,i,50,50));
         }
-
+*/
     }
     public void makeChangers()
-    {
+    {/*
         for(int i=0;i<600;i+=150)
         {
             changers.add(new Gravity_Changer(i,800));
             changers.add(new Gravity_Changer(i,0));
-        }
+        }*/
     }
     public void makeWallsB()
-    {
+    {/*
         for(int i=600;i<1000;i+=50)
         {
             wallsB.add(new WallB(i,800,50,50));
@@ -75,7 +105,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int i=0;i<=800;i+=50)
         {
             wallsB.add(new WallB(600,i,50,50));
-        }
+        }*/
     }
 
 

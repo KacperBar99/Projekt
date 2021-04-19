@@ -17,37 +17,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     public GamePanel()
     {
-        cursor = new Cursor(400,300,this);
-        gameTimer = new Timer();
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 1) {
-                    cursor.put();
-                }
-                if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
-
-                }
-
-
-            }
-        });
-
-        //walls.add(new Wall(i,800,90,50));
-
-        gameTimer.schedule(new TimerTask(){
-
-            @Override
-            public void run() {
-                cursor.set();
-                repaint();
-
-            }
-        },0,17);
-
         try {
-            File myObj = new File("level11.txt");
+            File myObj = new File("level_load.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -70,6 +41,37 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
+        cursor = new Cursor(400,300,this);
+        gameTimer = new Timer();
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 1) {
+                    cursor.put();
+                }
+                if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                    cursor.delete();
+                }
+
+
+            }
+        });
+
+
+
+        gameTimer.schedule(new TimerTask(){
+
+            @Override
+            public void run() {
+                cursor.set();
+                repaint();
+
+            }
+        },0,17);
+
+
     }
 
     public void paint(Graphics g)

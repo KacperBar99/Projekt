@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InaccessibleObjectException;
 import java.sql.SQLOutput;
+import java.util.Iterator;
 
 public class Cursor {
 
@@ -37,6 +38,23 @@ public class Cursor {
                 Taken[i][j]=-1;
             }
         }
+        for(Wall wall: panel.walls)
+        {
+            Taken[wall.getX()/64][wall.getY()/64]=0;
+        }
+        for(WallB wallB:panel.wallsB)
+        {
+            Taken[wallB.getX()/64][wallB.getY()/64]=1;
+        }
+        for(Gravity_Changer changer:panel.changers)
+        {
+            Taken[changer.getX()/64][changer.getY()/64]=2;
+        }
+        for(KillBox box:panel.boxes)
+        {
+            Taken[box.getX()/64][box.getY()/64]=3;
+        }
+
 
         width=64;
         height=64;
@@ -79,7 +97,45 @@ public class Cursor {
     public void delete()
     {
 
-        //Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())
+        Iterator itr;
+        switch (Taken[x/64][y/64])
+        {
+            case 0:
+                itr = panel.walls.iterator();
+                while(itr.hasNext())
+                {
+                    Wall wall=(Wall) itr.next();
+                    if(wall.getX()==x && wall.getY()==y)itr.remove();
+                }
+                break;
+            case 1:
+                 itr = panel.wallsB.iterator();
+                while(itr.hasNext())
+                {
+                    WallB wallb=(WallB) itr.next();
+                    if(wallb.getX()==x && wallb.getY()==y)itr.remove();
+                }
+                break;
+            case 2:
+                 itr = panel.changers.iterator();
+                while(itr.hasNext())
+                {
+                    Gravity_Changer changer=(Gravity_Changer) itr.next();
+                    if(changer.getX()==x && changer.getY()==y)itr.remove();
+                }
+                break;
+            case 3:
+                 itr = panel.walls.iterator();
+                while(itr.hasNext())
+                {
+                    KillBox box=(KillBox) itr.next();
+                    if(box.getX()==x && box.getY()==y)itr.remove();
+                }
+                break;
+            default :
+                System.out.println("Test");
+        }
+       Taken[x/64][y/64]=-1;
     }
 
     public void change_Id(boolean up)
