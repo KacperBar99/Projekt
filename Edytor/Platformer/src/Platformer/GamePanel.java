@@ -18,7 +18,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     public GamePanel()
     {
         try {
-            File myObj = new File("level_load.txt");
+            File myObj = new File("level.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

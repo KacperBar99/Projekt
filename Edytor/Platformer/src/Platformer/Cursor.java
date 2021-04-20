@@ -125,15 +125,14 @@ public class Cursor {
                 }
                 break;
             case 3:
-                 itr = panel.walls.iterator();
+                 itr = panel.boxes.iterator();
                 while(itr.hasNext())
                 {
                     KillBox box=(KillBox) itr.next();
                     if(box.getX()==x && box.getY()==y)itr.remove();
                 }
                 break;
-            default :
-                System.out.println("Test");
+
         }
        Taken[x/64][y/64]=-1;
     }
@@ -169,7 +168,7 @@ public class Cursor {
     public void exit()
     {
         try{
-            FileWriter myWriter = new FileWriter("level.txt");
+            FileWriter myWriter = new FileWriter("level0.txt");
             for(Wall wall: panel.walls)
             {
                 myWriter.write(0+"\n");

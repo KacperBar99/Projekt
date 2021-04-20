@@ -13,6 +13,7 @@ public class Player {
     int y;
     int width;
     int height;
+    boolean new_level;
 
     double xspeed;
     double yspeed;
@@ -34,6 +35,7 @@ public class Player {
         this.y=y;
         dash=false;
         gravity=true;
+        new_level=false;
 
         width=64;
         height=64;
@@ -228,8 +230,8 @@ public class Player {
 
         hitBox.x=x;
         hitBox.y=y;
-        if(x<0 || x>1920)System.exit(0);
-        if(y<0 || y>1080)System.exit(0);
+        if(x<0 || x>1920)new_level=true;
+        if(y<0 || y>1080)new_level=true;
     }
     public void change_HitBox_type()
     {

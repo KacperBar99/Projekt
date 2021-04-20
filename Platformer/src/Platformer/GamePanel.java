@@ -6,14 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
-
+    int level_counter=0;
     Player player;
     Timer gameTimer;
     ArrayList <Wall> walls = new ArrayList<>();
@@ -23,7 +20,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     public GamePanel()
     {
         try {
-            File myObj = new File("level.txt");
+            File myObj = new File("level0.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -50,20 +47,72 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
 
         player = new Player(400,300,this);
-       // makeWalls();
-      //  makeChangers();
-      //  makeWallsB();
         gameTimer = new Timer();
 
         gameTimer.schedule(new TimerTask(){
 
             @Override
             public void run() {
+                new_level();
                 player.set();
                 repaint();
 
             }
         },0,17);
+    }
+    public void new_level()
+    {
+        if(player.new_level)
+        {
+            level_counter++;
+            Iterator itr;
+            itr = walls.iterator();
+            while(itr.hasNext())
+            {
+                Wall wall=(Wall) itr.next();
+                itr.remove();
+            }
+            itr = wallsB.iterator();
+            while(itr.hasNext())
+            {
+                WallB wallb=(WallB) itr.next();
+                itr.remove();
+            }
+            itr = changers.iterator();
+            while(itr.hasNext())
+            {
+                Gravity_Changer changer=(Gravity_Changer) itr.next();
+                itr.remove();
+            }
+            try {
+                File myObj = new File("level"+level_counter+".txt");
+                Scanner myReader = new Scanner(myObj);
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+
+                    switch (Integer.valueOf(data))
+                    {
+                        case 0:
+                            walls.add(new Wall(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 1:
+                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 2:
+                            changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                    }
+                }
+                myReader.close();
+                player = new Player(400,300,this);
+            } catch (FileNotFoundException e) {
+                System.exit(0);
+            }
+
+
+
+
+        }
     }
     public void paint(Graphics g)
     {
@@ -74,39 +123,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(WallB wallB:wallsB)wallB.draw(gtd);
         player.draw(gtd);
     }
-    public void makeWalls()
-    {/*
-        for(int i=50;i<600;i+=150)
-        {
-            walls.add(new Wall(i,0,90,50));
-            walls.add(new Wall(i,800,90,50));
-        }
-        for(int i=0;i<=800;i+=50)
-        {
-            walls.add(new Wall(100,i,50,50));
-        }
-*/
-    }
-    public void makeChangers()
-    {/*
-        for(int i=0;i<600;i+=150)
-        {
-            changers.add(new Gravity_Changer(i,800));
-            changers.add(new Gravity_Changer(i,0));
-        }*/
-    }
-    public void makeWallsB()
-    {/*
-        for(int i=600;i<1000;i+=50)
-        {
-            wallsB.add(new WallB(i,800,50,50));
-            wallsB.add(new WallB(i,0,50,50));
-        }
-        for(int i=0;i<=800;i+=50)
-        {
-            wallsB.add(new WallB(600,i,50,50));
-        }*/
-    }
+
 
 
     public void keyPressed(KeyEvent e) {
