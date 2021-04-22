@@ -72,6 +72,8 @@ public class Player {
     }
     public void set()
     {
+        //horizontal movement of a character
+        //registering key inputs
         if(!keyLeft && !keyRight)xspeed=0;
         else if(keyRight)
         {
@@ -84,10 +86,14 @@ public class Player {
                 xspeed--;
             }
 
-
+        //stopping a character movement if the speed is low
+        //this is to avoid sliding
         if(xspeed > 0 && xspeed < 0.75)xspeed=0;
         if(xspeed < 0 && xspeed >-0.75)xspeed=0;
 
+
+        //speed limit is dependant on dash being on
+        //counter makes sure that dash is only applied for a brief moment
         if(dash)
         {
             counter++;
@@ -102,7 +108,7 @@ public class Player {
         }
 
 
-        //jumping
+        //Jumping requires asking surfaces valid for jump if there is a collision
         if(keyUP)
         {
             if(gravity) hitBox.y+=2;
@@ -129,11 +135,17 @@ public class Player {
             if(gravity)hitBox.y-=2;
             else hitBox.y+=2;
         }
+
+        //gravitation acceleration
         if(gravity) yspeed+=0.3;
         else yspeed-=0.3;
-        //horizontal movement
 
 
+        //All the collision tests for the horizontal movement
+        //It is necessary to ask all valid block types if hitboxes intersect
+
+
+        //tests for white and black walls with collision depending on type
         hitBox.x+=xspeed;
         if(hitBox_type)
         {
@@ -170,7 +182,7 @@ public class Player {
             }
         }
 
-
+        //test for blocks changing gravity
         for(Gravity_Changer changer:panel.changers)
         {
             if(hitBox.intersects(changer.hitBox))
@@ -186,10 +198,12 @@ public class Player {
             }
         }
 
-        //vert
+        //Collision tests for blocks
+        //It is a different thing then jumping
 
         hitBox.y+=yspeed;
 
+        //Test for walls
         if(hitBox_type)
         {
             for(Wall wall: panel.walls)
@@ -225,7 +239,7 @@ public class Player {
             }
         }
 
-
+        //Test for blocks changing gravity
         for(Gravity_Changer changer:panel.changers)
         {
             if(hitBox.intersects(changer.hitBox))
@@ -243,10 +257,32 @@ public class Player {
                 y = hitBox.y;
             }
         }
+        for(Wall_Jump Wjump:panel.jumps)
+        {
+            if(gravity) hitBox.y+=2;
+            else hitBox.y-=2;
+            if(looking_left)hitBox.x-=2;
+            else hitBox.x+=2;
 
+
+
+
+            if(hitBox.intersects(Wjump.hitBox))
+            {
+                if(looking_left) xspeed=10;
+                else xspeed=-10;
+                yspeed=-10;
+            }
+            if(gravity)hitBox.y-=2;
+            else hitBox.y+=2;
+            if(looking_left)hitBox.x+=2;
+            else hitBox.x-=2;
+        }
+
+
+        //Changes applied here
         x+=xspeed;
         y+=yspeed;
-
         hitBox.x=x;
         hitBox.y=y;
         if(x<0 || x>1920)new_level=true;

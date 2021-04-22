@@ -16,6 +16,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Wall> walls = new ArrayList<>();
     ArrayList <Gravity_Changer> changers = new ArrayList<>();
     ArrayList <WallB> wallsB = new ArrayList<>();
+    ArrayList <Wall_Jump> jumps = new ArrayList<>();
 
     public GamePanel()
     {
@@ -36,6 +37,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     case 2:
                         changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
+                    case 3:
+                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
                 }
             }
             myReader.close();
@@ -46,7 +50,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
 
 
-        player = new Player(400,300,this);
+        player = new Player(200,300,this);
         gameTimer = new Timer();
 
         gameTimer.schedule(new TimerTask(){
@@ -60,10 +64,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             }
         },0,17);
     }
+    //Deleting objects from level and loading new ones
     public void new_level()
     {
         if(player.new_level)
         {
+
+
             level_counter++;
             Iterator itr;
             itr = walls.iterator();
@@ -84,6 +91,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 Gravity_Changer changer=(Gravity_Changer) itr.next();
                 itr.remove();
             }
+            itr=jumps.iterator();
+            while(itr.hasNext())
+            {
+                Wall_Jump Wjump=(Wall_Jump) itr.next();
+                itr.remove();
+            }
             try {
                 File myObj = new File("level"+level_counter+".txt");
                 Scanner myReader = new Scanner(myObj);
@@ -100,6 +113,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             break;
                         case 2:
                             changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 3:
+                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
                     }
                 }
@@ -121,6 +137,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Wall wall:walls)wall.draw(gtd);
         for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
         for(WallB wallB:wallsB)wallB.draw(gtd);
+        for(Wall_Jump Wjump:jumps)Wjump.draw(gtd);
         player.draw(gtd);
     }
 

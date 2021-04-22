@@ -50,9 +50,9 @@ public class Cursor {
         {
             Taken[changer.getX()/64][changer.getY()/64]=2;
         }
-        for(KillBox box:panel.boxes)
+        for(Wall_Jump Wjump:panel.jumps)
         {
-            Taken[box.getX()/64][box.getY()/64]=3;
+            Taken[Wjump.getX()/64][Wjump.getY()/64]=3;
         }
 
 
@@ -82,7 +82,7 @@ public class Cursor {
 
                     break;
                 case 3:
-                    panel.boxes.add(new KillBox(x, y));
+                    panel.jumps.add(new Wall_Jump(x, y));
                     Taken[x/64][y/64] = Id;
 
                     break;
@@ -125,11 +125,11 @@ public class Cursor {
                 }
                 break;
             case 3:
-                 itr = panel.boxes.iterator();
+                 itr = panel.jumps.iterator();
                 while(itr.hasNext())
                 {
-                    KillBox box=(KillBox) itr.next();
-                    if(box.getX()==x && box.getY()==y)itr.remove();
+                    Wall_Jump Wjump=(Wall_Jump) itr.next();
+                    if(Wjump.getX()==x && Wjump.getY()==y)itr.remove();
                 }
                 break;
 
@@ -187,11 +187,11 @@ public class Cursor {
                 myWriter.write(changer.getX()+"\n");
                 myWriter.write(changer.getY()+"\n");
             }
-            for(KillBox box:panel.boxes)
+            for(Wall_Jump Wjump:panel.jumps)
             {
                 myWriter.write(3+"\n");
-                myWriter.write(box.getX()+"\n");
-                myWriter.write(box.getY()+"\n");
+                myWriter.write(Wjump.getX()+"\n");
+                myWriter.write(Wjump.getY()+"\n");
             }
             myWriter.close();
         }catch (IOException e){
@@ -219,7 +219,7 @@ public class Cursor {
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 3:
-               gtd.setColor(Color.red);
+               gtd.setColor(Color.green);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:

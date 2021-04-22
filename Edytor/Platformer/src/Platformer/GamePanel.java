@@ -13,7 +13,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Wall> walls = new ArrayList<>();
     ArrayList <Gravity_Changer> changers = new ArrayList<>();
     ArrayList <WallB> wallsB = new ArrayList<>();
-    ArrayList <KillBox> boxes = new ArrayList<>();
+    ArrayList <Wall_Jump> jumps = new ArrayList<>();
 
     public GamePanel()
     {
@@ -33,6 +33,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         break;
                     case 2:
                         changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 3:
+                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
                 }
             }
@@ -81,7 +84,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Wall wall:walls)wall.draw(gtd);
         for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
         for(WallB wallB:wallsB)wallB.draw(gtd);
-        for(KillBox box:boxes)box.draw(gtd);
+        for(Wall_Jump Wjump:jumps)Wjump.draw(gtd);
         cursor.draw(gtd);
 
         int gridSize=64;
