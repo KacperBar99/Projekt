@@ -10,7 +10,6 @@ public class Wall {
 
     Rectangle hitBox;
 
-
     public Wall(int x,int y)
     {
         this.x=x;

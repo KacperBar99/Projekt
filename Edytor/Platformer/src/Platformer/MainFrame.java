@@ -1,6 +1,10 @@
 package Platformer;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MainFrame extends javax.swing.JFrame {
     public MainFrame()
@@ -11,11 +15,8 @@ public class MainFrame extends javax.swing.JFrame {
         panel.setBackground(Color.DARK_GRAY);
         panel.setVisible(true);
         this.add(panel);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         addKeyListener(new KeyCheck(panel));
     }
-
-
-
-
 }
