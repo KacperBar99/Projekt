@@ -14,6 +14,8 @@ public class Player {
     int width;
     int height;
     boolean new_level;
+    boolean looking_left;
+    Image i[];
 
     double xspeed;
     double yspeed;
@@ -28,6 +30,7 @@ public class Player {
 
     public Player(int x, int y, GamePanel panel)
     {
+        looking_left=false;
         hitBox_type=true;
         counter=0;
         this.panel=panel;
@@ -36,6 +39,14 @@ public class Player {
         dash=false;
         gravity=true;
         new_level=false;
+        i = new Image[6];
+        Toolkit t=Toolkit.getDefaultToolkit();
+        i[0]=t.getImage("files/yusmini.gif");
+        i[1]=t.getImage("files/yusminiflipped.gif");
+        i[2]=t.getImage("files/yusminiinvertflipped.gif");
+        i[3]=t.getImage("files/yusminiinvert.gif");
+        i[4]=t.getImage("files/yusdark.gif");
+        i[5]=t.getImage("files/yusdarkflipped.gif");
 
         width=64;
         height=64;
@@ -62,8 +73,16 @@ public class Player {
     public void set()
     {
         if(!keyLeft && !keyRight)xspeed=0;
-        else if(keyRight) xspeed++;
-        else xspeed--;
+        else if(keyRight)
+        {
+            looking_left=false;
+            xspeed++;
+        }
+        else
+            {
+                looking_left=true;
+                xspeed--;
+            }
 
 
         if(xspeed > 0 && xspeed < 0.75)xspeed=0;
@@ -239,8 +258,25 @@ public class Player {
     }
     public void draw(Graphics2D gtd)
     {
-        if(hitBox_type) gtd.setColor(Color.white);
-        else gtd.setColor(Color.black);
-        gtd.fillRect(x,y,width,height);
+        int tmp=0;
+        if(gravity)
+        {
+            if(looking_left)
+            {
+                tmp=1;
+            }
+        }
+        else
+        {
+            if(looking_left)tmp=2;
+            else tmp=3;
+        }
+        if(!hitBox_type)
+        {
+            if(looking_left)tmp=5;
+            else tmp=4;
+        }
+
+        gtd.drawImage(i[tmp], x, y, null);
     }
 }

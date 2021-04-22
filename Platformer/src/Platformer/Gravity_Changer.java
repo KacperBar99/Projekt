@@ -8,9 +8,12 @@ public class Gravity_Changer {
     int width;
     int height;
     Rectangle hitBox;
+    Image g;
 
     public Gravity_Changer(int x,int y)
     {
+        Toolkit t=Toolkit.getDefaultToolkit();
+        g=t.getImage("files/gravity.png");
         this.x=x;
         this.y=y;
         width=64;
@@ -18,7 +21,6 @@ public class Gravity_Changer {
         hitBox = new Rectangle(x,y,width,height);
     }
     public void draw(Graphics2D gtd){
-        gtd.setColor(Color.BLUE);
-        gtd.fillRect(x,y,width,height);
+        gtd.drawImage(g, x, y, null);
     }
 }
