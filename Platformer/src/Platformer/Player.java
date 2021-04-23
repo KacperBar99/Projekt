@@ -16,6 +16,7 @@ public class Player {
     boolean new_level;
     boolean looking_left;
     Image i[];
+    boolean debug1;
 
     double xspeed;
     double yspeed;
@@ -30,6 +31,7 @@ public class Player {
 
     public Player(int x, int y, GamePanel panel)
     {
+        debug1=true;
         looking_left=false;
         hitBox_type=true;
         counter=0;
@@ -119,8 +121,8 @@ public class Player {
                 for(Wall wall: panel.walls)
                     if(wall.hitBox.intersects(hitBox) )
                     {
-                        if(gravity)yspeed=-6;
-                        else yspeed=6;
+                        if(gravity)yspeed=-12;
+                        else yspeed=12;
                     }
             }
             else
@@ -128,8 +130,8 @@ public class Player {
                 for(WallB wallB:panel.wallsB)
                     if(wallB.hitBox.intersects(hitBox))
                     {
-                        if(gravity)yspeed-=6;
-                        else yspeed=6;
+                        if(gravity)yspeed-=12;
+                        else yspeed=12;
                     }
             }
             if(gravity)hitBox.y-=2;
@@ -137,8 +139,8 @@ public class Player {
         }
 
         //gravitation acceleration
-        if(gravity) yspeed+=0.3;
-        else yspeed-=0.3;
+        if(gravity) yspeed+=.6;
+        else yspeed-=.6;
 
 
         //All the collision tests for the horizontal movement
@@ -257,10 +259,12 @@ public class Player {
                 y = hitBox.y;
             }
         }
+
+
+        //Testing for wall jump
         for(Wall_Jump Wjump:panel.jumps)
         {
-            if(gravity) hitBox.y+=2;
-            else hitBox.y-=2;
+
             if(looking_left)hitBox.x-=2;
             else hitBox.x+=2;
 
@@ -269,12 +273,17 @@ public class Player {
 
             if(hitBox.intersects(Wjump.hitBox))
             {
-                if(looking_left) xspeed=10;
-                else xspeed=-10;
-                yspeed=-10;
+                yspeed=0;
+                xspeed=0;
+                if(keyUP)
+                {
+                    if(looking_left) xspeed=80;
+                    else xspeed=-80;
+                    yspeed=-10;
+                }
+
             }
-            if(gravity)hitBox.y-=2;
-            else hitBox.y+=2;
+
             if(looking_left)hitBox.x+=2;
             else hitBox.x-=2;
         }
@@ -313,6 +322,15 @@ public class Player {
             else tmp=4;
         }
 
-        gtd.drawImage(i[tmp], x, y, null);
+        if(debug1) gtd.drawImage(i[tmp], x, y, null);
+        else
+        {
+            gtd.setColor(Color.gray);
+            gtd.drawRect(x,y,width,height);
+            gtd.setColor(Color.gray);
+            gtd.fillRect(x+1,y+1,width-2,height-2);
+        }
+
     }
+
 }

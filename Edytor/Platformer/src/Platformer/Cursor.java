@@ -1,6 +1,8 @@
 package Platformer;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InaccessibleObjectException;
@@ -18,6 +20,7 @@ public class Cursor {
     int width;
     int height;
     int Taken[][];
+
 
     Rectangle hitBox;
 
@@ -152,10 +155,14 @@ public class Cursor {
     }
     public void set()
     {
-        PointerInfo a = MouseInfo.getPointerInfo();
-        Point b = a.getLocation();
-        x = (int) b.getX();
-        y = (int) b.getY();
+
+        panel.addMouseMotionListener(new MouseAdapter() {
+            public void mouseMoved(MouseEvent e) {
+
+                x = e.getX();
+                y = e.getY();
+            }
+        });
         x=(x/64)*64;
         y=(y/64)*64;
     }

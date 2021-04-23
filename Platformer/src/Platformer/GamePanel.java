@@ -152,6 +152,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar()== 'g')player.change_Gravity();
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)System.exit(0);
         if(e.getKeyChar() == 'f')player.change_HitBox_type();
+        if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
     }
 
     public void keyReleased(KeyEvent e) {
