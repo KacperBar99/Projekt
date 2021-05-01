@@ -1,8 +1,10 @@
 package Platformer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InaccessibleObjectException;
@@ -172,40 +174,45 @@ public class Cursor {
         change_type(gtd);
         gtd.fillRect(x,y,width,height);
     }
-    public void exit()
-    {
-        try{
-            FileWriter myWriter = new FileWriter("level0.txt");
-            for(Wall wall: panel.walls)
-            {
-                myWriter.write(0+"\n");
-                myWriter.write(wall.getX()+"\n");
-                myWriter.write(wall.getY()+"\n");
+    public void exit() {
+        String username = System.getProperty("user.name");
+        JFileChooser fs = new JFileChooser(new File("C:\\Users\\" + username + "\\OneDrive\\Pulpit"));
+
+        fs.setDialogTitle("Zapisz jako...");
+        int result = fs.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fs.getSelectedFile();
+            try {
+                FileWriter myWriter = new FileWriter(file.getPath() + ".txt");
+
+                for (Wall wall : panel.walls) {
+                    myWriter.write(0 + "\n");
+                    myWriter.write(wall.getX() + "\n");
+                    myWriter.write(wall.getY() + "\n");
+                }
+                for (WallB wallB : panel.wallsB) {
+                    myWriter.write(1 + "\n");
+                    myWriter.write(wallB.getX() + "\n");
+                    myWriter.write(wallB.getY() + "\n");
+                }
+                for (Gravity_Changer changer : panel.changers) {
+                    myWriter.write(2 + "\n");
+                    myWriter.write(changer.getX() + "\n");
+                    myWriter.write(changer.getY() + "\n");
+                }
+                for (Wall_Jump jump : panel.jumps) {
+                    myWriter.write(3 + "\n");
+                    myWriter.write(jump.getX() + "\n");
+                    myWriter.write(jump.getY() + "\n");
+                }
+                myWriter.flush();
+                myWriter.close();
+            } catch (IOException e) {
+                System.out.println("Error");
+                e.printStackTrace();
             }
-            for(WallB wallB: panel.wallsB)
-            {
-                myWriter.write(1+"\n");
-                myWriter.write(wallB.getX()+"\n");
-                myWriter.write(wallB.getY()+"\n");
-            }
-            for(Gravity_Changer changer: panel.changers)
-            {
-                myWriter.write(2+"\n");
-                myWriter.write(changer.getX()+"\n");
-                myWriter.write(changer.getY()+"\n");
-            }
-            for(Wall_Jump Wjump:panel.jumps)
-            {
-                myWriter.write(3+"\n");
-                myWriter.write(Wjump.getX()+"\n");
-                myWriter.write(Wjump.getY()+"\n");
-            }
-            myWriter.close();
-        }catch (IOException e){
-            System.out.println("Error");
-            e.printStackTrace();
+            System.exit(0);
         }
-        System.exit(0);
     }
     public void change_type(Graphics2D gtd)
     {

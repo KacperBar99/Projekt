@@ -159,7 +159,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'a')player.keyLeft = false;
         if(e.getKeyChar() == 's' )player.keyDown = false;
         if(e.getKeyChar() == 'd' )player.keyRight = false;
-        if(e.getKeyChar() == 'w' )player.keyUP = false;
+        if(e.getKeyChar() == 'w' )
+        {
+            player.jump_down=true;
+            player.keyUP = false;
+        }
     }
 
     @Override

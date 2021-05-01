@@ -2,7 +2,30 @@ package Platformer;
 
 import java.awt.*;
 
+
 public class Player {
+
+    public enum Images
+    {
+
+
+        NORMAL_RIGHT(0),
+        NORMAL_LEFT(1),
+        INVERTED_RIGHT(3),
+        INVERTED_LEFT(2),
+        DARK_RIGHT(4),
+        DARK_LEFT(5);
+
+        int Id;
+        private Images(int I)
+        {
+            Id=I;
+        }
+        private int give_Id()
+        {
+            return Id;
+        }
+    }
 
     boolean hitBox_type;
     GamePanel panel;
@@ -17,6 +40,8 @@ public class Player {
     boolean looking_left;
     Image i[];
     boolean debug1;
+    int jump;
+    boolean jump_down;
 
     double xspeed;
     double yspeed;
@@ -31,6 +56,8 @@ public class Player {
 
     public Player(int x, int y, GamePanel panel)
     {
+        jump_down=true;
+        jump=1;
         debug1=true;
         looking_left=false;
         hitBox_type=true;
@@ -70,10 +97,17 @@ public class Player {
     }
     public void change_Gravity()
     {
+        set_double_jump();
+        jump_down=true;
         gravity=!gravity;
     }
     public void set()
     {
+        //gravitation acceleration
+        if(gravity) yspeed+=.6;
+        else yspeed-=.6;
+
+
         //horizontal movement of a character
         //registering key inputs
         if(!keyLeft && !keyRight)xspeed=0;
@@ -110,6 +144,8 @@ public class Player {
         }
 
 
+
+
         //Jumping requires asking surfaces valid for jump if there is a collision
         if(keyUP)
         {
@@ -119,8 +155,9 @@ public class Player {
             if(hitBox_type)
             {
                 for(Wall wall: panel.walls)
-                    if(wall.hitBox.intersects(hitBox) )
+                    if(wall.hitBox.intersects(hitBox) && jump_down)
                     {
+                        set_double_jump();
                         if(gravity)yspeed=-12;
                         else yspeed=12;
                     }
@@ -128,8 +165,9 @@ public class Player {
             else
             {
                 for(WallB wallB:panel.wallsB)
-                    if(wallB.hitBox.intersects(hitBox))
+                    if(wallB.hitBox.intersects(hitBox) && jump_down)
                     {
+                        set_double_jump();
                         if(gravity)yspeed-=12;
                         else yspeed=12;
                     }
@@ -137,10 +175,17 @@ public class Player {
             if(gravity)hitBox.y-=2;
             else hitBox.y+=2;
         }
+        //bonus jump a.k.a. double jump
 
-        //gravitation acceleration
-        if(gravity) yspeed+=.6;
-        else yspeed-=.6;
+        if(keyUP && jump>0 && jump_down)
+        {
+            jump=0;
+            jump_down=true;
+            if(gravity)yspeed=-12;
+            else yspeed=12;
+        }
+
+
 
 
         //All the collision tests for the horizontal movement
@@ -246,8 +291,8 @@ public class Player {
         {
             if(hitBox.intersects(changer.hitBox))
             {
-                if(gravity)gravity=false;
-                else gravity=true;
+                gravity=!gravity;
+                set_double_jump();
 
                 hitBox.y-=yspeed;
                 while(!changer.hitBox.intersects(hitBox))
@@ -264,32 +309,30 @@ public class Player {
         //Testing for wall jump
         for(Wall_Jump Wjump:panel.jumps)
         {
-
             if(looking_left)hitBox.x-=2;
             else hitBox.x+=2;
-
-
-
-
             if(hitBox.intersects(Wjump.hitBox))
             {
                 yspeed=0;
                 xspeed=0;
                 if(keyUP)
                 {
+                    set_double_jump();
+
                     if(looking_left) xspeed=80;
                     else xspeed=-80;
-                    yspeed=-10;
+                    if(gravity)yspeed=-10;
+                    else yspeed=10;
                 }
-
             }
-
             if(looking_left)hitBox.x+=2;
             else hitBox.x-=2;
         }
 
 
+
         //Changes applied here
+
         x+=xspeed;
         y+=yspeed;
         hitBox.x=x;
@@ -303,26 +346,26 @@ public class Player {
     }
     public void draw(Graphics2D gtd)
     {
-        int tmp=0;
+        Images tmp=Images.NORMAL_RIGHT;
         if(gravity)
         {
             if(looking_left)
             {
-                tmp=1;
+                tmp=Images.NORMAL_LEFT;
             }
         }
         else
         {
-            if(looking_left)tmp=2;
-            else tmp=3;
+            if(looking_left)tmp=Images.INVERTED_LEFT;
+            else tmp=Images.INVERTED_RIGHT;
         }
         if(!hitBox_type)
         {
-            if(looking_left)tmp=5;
-            else tmp=4;
+            if(looking_left)tmp=Images.DARK_LEFT;
+            else tmp=Images.DARK_RIGHT;
         }
 
-        if(debug1) gtd.drawImage(i[tmp], x, y, null);
+        if(debug1) gtd.drawImage(i[tmp.give_Id()], x, y, null);
         else
         {
             gtd.setColor(Color.gray);
@@ -331,6 +374,11 @@ public class Player {
             gtd.fillRect(x+1,y+1,width-2,height-2);
         }
 
+    }
+    void set_double_jump()
+    {
+            jump=1;
+            jump_down=false;
     }
 
 }

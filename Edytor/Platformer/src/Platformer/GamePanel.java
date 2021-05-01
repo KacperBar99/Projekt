@@ -1,10 +1,12 @@
 package Platformer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.Timer;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
@@ -17,32 +19,35 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     public GamePanel()
     {
-        try {
-            File myObj = new File("level.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
+        String username = System.getProperty("user.name");
+        JFileChooser fs = new JFileChooser(new File("C:\\Users\\" + username + "\\OneDrive\\Pulpit"));
 
-                switch (Integer.valueOf(data))
-                {
-                    case 0:
-                        walls.add(new Wall(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
-                        break;
-                    case 1:
-                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
-                        break;
-                    case 2:
-                        changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
-                        break;
-                    case 3:
-                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
-                        break;
+        fs.setDialogTitle("Otwórz...");
+        int result = fs.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                File myObj = new File(String.valueOf(fs.getSelectedFile()));
+                Scanner myReader = new Scanner(myObj);
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+
+                    switch (Integer.valueOf(data)) {
+                        case 0:
+                            walls.add(new Wall(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 1:
+                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 2:
+                            changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                    }
                 }
+                myReader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
             }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
         }
 
         cursor = new Cursor(400,300,this);
