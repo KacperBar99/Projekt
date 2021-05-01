@@ -16,6 +16,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Gravity_Changer> changers = new ArrayList<>();
     ArrayList <WallB> wallsB = new ArrayList<>();
     ArrayList <Wall_Jump> jumps = new ArrayList<>();
+    ArrayList <Spike> spikes = new ArrayList<>();
+    ArrayList <Mine> mines = new ArrayList<>();
 
     public GamePanel()
     {
@@ -40,6 +42,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             break;
                         case 2:
                             changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 3:
+                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 4:
+                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 5:
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
                             break;
                     }
                 }
@@ -90,6 +101,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
         for(WallB wallB:wallsB)wallB.draw(gtd);
         for(Wall_Jump Wjump:jumps)Wjump.draw(gtd);
+        for(Spike spike:spikes)spike.draw(gtd);
+        for(Mine mine:mines)mine.draw(gtd);
         cursor.draw(gtd);
 
         int gridSize=64;

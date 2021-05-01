@@ -29,7 +29,7 @@ public class Cursor {
     public Cursor(int x, int y, GamePanel panel)
     {
         Id=0;
-        Id_max=4;
+        Id_max=7;
 
         this.panel=panel;
         this.x=x;
@@ -58,6 +58,14 @@ public class Cursor {
         for(Wall_Jump Wjump:panel.jumps)
         {
             Taken[Wjump.getX()/64][Wjump.getY()/64]=3;
+        }
+        for(Spike spike:panel.spikes)
+        {
+            Taken[spike.getX()/64][spike.getY()/64]=4;
+        }
+        for(Mine mine:panel.mines)
+        {
+            Taken[mine.getX()/64][mine.getY()/64]=5;
         }
 
 
@@ -91,9 +99,13 @@ public class Cursor {
                     Taken[x/64][y/64] = Id;
 
                     break;
-                default:
-                    x = 0;
-                    y = 0;
+                case 4:
+                    panel.spikes.add(new Spike(x,y));
+                    Taken[x/64][y/64]=Id;
+                    break;
+                case 5:
+                    panel.mines.add(new Mine(x,y));
+                    Taken[x/64][y/64]=Id;
                     break;
             }
         }
@@ -135,6 +147,22 @@ public class Cursor {
                 {
                     Wall_Jump Wjump=(Wall_Jump) itr.next();
                     if(Wjump.getX()==x && Wjump.getY()==y)itr.remove();
+                }
+                break;
+            case 4:
+                itr=panel.spikes.iterator();
+                while(itr.hasNext())
+                {
+                    Spike spike=(Spike) itr.next();
+                    if(spike.getX()==x && spike.getY()==y)itr.remove();
+                }
+                break;
+            case 5:
+                itr=panel.mines.iterator();
+                while(itr.hasNext())
+                {
+                    Mine mine = (Mine) itr.next();
+                    if(mine.getX()==x && mine.getY()==y)itr.remove();
                 }
                 break;
 
@@ -205,6 +233,18 @@ public class Cursor {
                     myWriter.write(jump.getX() + "\n");
                     myWriter.write(jump.getY() + "\n");
                 }
+                for (Spike spike : panel.spikes)
+                {
+                    myWriter.write(4+"\n");
+                    myWriter.write(spike.getX() + "\n");
+                    myWriter.write(spike.getY() + "\n");
+                }
+                for(Mine mine : panel.mines)
+                {
+                    myWriter.write(5+"\n");
+                    myWriter.write(mine.getX() + "\n");
+                    myWriter.write(mine.getY() + "\n");
+                }
                 myWriter.flush();
                 myWriter.close();
             } catch (IOException e) {
@@ -219,9 +259,7 @@ public class Cursor {
         switch (Id)
         {
             case 0:
-
                 hitBox=new Rectangle(x,y,width,height);
-
                 gtd.setColor(Color.WHITE);
                 break;
             case 1:
@@ -234,6 +272,14 @@ public class Cursor {
                 break;
             case 3:
                gtd.setColor(Color.green);
+                hitBox=new Rectangle(x,y,width,height);
+                break;
+            case 4:
+                gtd.setColor(Color.cyan);
+                hitBox=new Rectangle(x,y,width,height);
+                break;
+            case 5:
+                gtd.setColor(Color.red);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:

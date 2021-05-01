@@ -17,6 +17,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Gravity_Changer> changers = new ArrayList<>();
     ArrayList <WallB> wallsB = new ArrayList<>();
     ArrayList <Wall_Jump> jumps = new ArrayList<>();
+    ArrayList <Spike> spikes = new ArrayList<>();
+    ArrayList <Mine> mines = new ArrayList<>();
 
     public GamePanel()
     {
@@ -40,6 +42,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     case 3:
                         jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
+                    case 4:
+                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 5:
+                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
                 }
             }
             myReader.close();
@@ -52,6 +60,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
         player = new Player(200,300,this);
         gameTimer = new Timer();
+        GamePanel copy=this;
 
         gameTimer.schedule(new TimerTask(){
 
@@ -59,6 +68,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             public void run() {
                 new_level();
                 player.set();
+                for(Mine mine:mines)
+                {
+                    mine.set();
+                    mine.check(copy);
+                }
                 repaint();
 
             }
@@ -82,7 +96,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             itr = wallsB.iterator();
             while(itr.hasNext())
             {
-                WallB wallb=(WallB) itr.next();
+               WallB wallb=(WallB) itr.next();
                 itr.remove();
             }
             itr = changers.iterator();
@@ -95,6 +109,18 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             while(itr.hasNext())
             {
                 Wall_Jump Wjump=(Wall_Jump) itr.next();
+                itr.remove();
+            }
+            itr=spikes.iterator();
+            while(itr.hasNext())
+            {
+                Spike spike = (Spike)itr.next();
+                itr.remove();
+            }
+            itr=mines.iterator();
+            while(itr.hasNext())
+            {
+                Mine mine = (Mine)itr.next();
                 itr.remove();
             }
             try {
@@ -117,6 +143,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         case 3:
                             jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
+                        case 4:
+                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 5:
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
                     }
                 }
                 myReader.close();
@@ -138,6 +170,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
         for(WallB wallB:wallsB)wallB.draw(gtd);
         for(Wall_Jump Wjump:jumps)Wjump.draw(gtd);
+        for(Spike spike:spikes)spike.draw(gtd);
+        for(Mine mine:mines)mine.draw(gtd);
         player.draw(gtd);
     }
 

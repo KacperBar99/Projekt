@@ -339,6 +339,24 @@ public class Player {
             if(looking_left)hitBox.x+=2;
             else hitBox.x-=2;
         }
+        //Collision tests for spikes
+        for(Spike spike:panel.spikes)
+        {
+            if(hitBox.intersects(spike.hitBox))
+            {
+                x=100;
+                y=100;
+            }
+        }
+        //Collision tests for mines
+        for(Mine mine:panel.mines)
+        {
+            if(hitBox.intersects(mine.hitBox))
+            {
+                x=100;
+                y=100;
+            }
+        }
 
 
 
