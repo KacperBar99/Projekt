@@ -147,7 +147,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'a' )player.keyLeft = true;
         if(e.getKeyChar() == 's' )player.keyDown = true;
         if(e.getKeyChar() == 'd' )player.keyRight = true;
-        if(e.getKeyChar() == 'w' )player.keyUP = true;
+        if(e.getKeyChar() == 'w' )
+        {
+            if(player.keyUP==false && player.jump>0 && player.jumped==true) player.jump();
+            player.keyUP = true;
+        }
         if(e.getKeyChar() == ' ')player.dash();
         if(e.getKeyChar()== 'g')player.change_Gravity();
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)System.exit(0);
@@ -161,7 +165,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'd' )player.keyRight = false;
         if(e.getKeyChar() == 'w' )
         {
-            player.jump_down=true;
+           // player.jump_down=true;
             player.keyUP = false;
         }
     }

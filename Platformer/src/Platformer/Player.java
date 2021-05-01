@@ -41,7 +41,7 @@ public class Player {
     Image i[];
     boolean debug1;
     int jump;
-    boolean jump_down;
+    boolean jumped;
 
     double xspeed;
     double yspeed;
@@ -56,7 +56,7 @@ public class Player {
 
     public Player(int x, int y, GamePanel panel)
     {
-        jump_down=true;
+        jumped=false;
         jump=1;
         debug1=true;
         looking_left=false;
@@ -82,6 +82,12 @@ public class Player {
         hitBox = new Rectangle(x,y,width,height);
 
     }
+    public void jump()
+    {
+        jump--;
+        if(gravity)yspeed=-12;
+        else yspeed=12;
+    }
     public void dash()
     {
         if(dash)
@@ -97,8 +103,8 @@ public class Player {
     }
     public void change_Gravity()
     {
-        set_double_jump();
-        jump_down=true;
+        //set_double_jump();
+        //jump_down=true;
         gravity=!gravity;
     }
     public void set()
@@ -147,6 +153,7 @@ public class Player {
 
 
         //Jumping requires asking surfaces valid for jump if there is a collision
+
         if(keyUP)
         {
             if(gravity) hitBox.y+=2;
@@ -155,36 +162,35 @@ public class Player {
             if(hitBox_type)
             {
                 for(Wall wall: panel.walls)
-                    if(wall.hitBox.intersects(hitBox) && jump_down)
+                    if(wall.hitBox.intersects(hitBox))
                     {
-                        set_double_jump();
+                        jumped=true;
                         if(gravity)yspeed=-12;
                         else yspeed=12;
                     }
+                //double jump?
+
+                if(!jumped && jump>0) {
+                    jump();
+                }
             }
             else
             {
                 for(WallB wallB:panel.wallsB)
-                    if(wallB.hitBox.intersects(hitBox) && jump_down)
+                    if(wallB.hitBox.intersects(hitBox))
                     {
-                        set_double_jump();
+                        jumped=true;
                         if(gravity)yspeed-=12;
                         else yspeed=12;
                     }
+                if(!jumped && jump>0) {
+                    jump();
+                }
             }
+
             if(gravity)hitBox.y-=2;
             else hitBox.y+=2;
         }
-        //bonus jump a.k.a. double jump
-
-        if(keyUP && jump>0 && jump_down)
-        {
-            jump=0;
-            jump_down=true;
-            if(gravity)yspeed=-12;
-            else yspeed=12;
-        }
-
 
 
 
@@ -257,6 +263,8 @@ public class Player {
             {
                 if(hitBox.intersects(wall.hitBox))
                 {
+                    jump=1;
+                    jumped=false;
                     hitBox.y-=yspeed;
                     while(!wall.hitBox.intersects(hitBox))
                     {
@@ -274,6 +282,8 @@ public class Player {
             {
                 if(hitBox.intersects((wallB.hitBox)))
                 {
+                    jump=1;
+                    jumped=false;
                     hitBox.y-=yspeed;
                     while(!wallB.hitBox.intersects((hitBox)))
                     {
@@ -292,7 +302,8 @@ public class Player {
             if(hitBox.intersects(changer.hitBox))
             {
                 gravity=!gravity;
-                set_double_jump();
+                jump=1;
+                //set_double_jump();
 
                 hitBox.y-=yspeed;
                 while(!changer.hitBox.intersects(hitBox))
@@ -317,7 +328,7 @@ public class Player {
                 xspeed=0;
                 if(keyUP)
                 {
-                    set_double_jump();
+                    jump=1;
 
                     if(looking_left) xspeed=80;
                     else xspeed=-80;
@@ -375,10 +386,6 @@ public class Player {
         }
 
     }
-    void set_double_jump()
-    {
-            jump=1;
-            jump_down=false;
-    }
+
 
 }
