@@ -70,9 +70,17 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 player.set();
                 for(Mine mine:mines)
                 {
-                    mine.set();
+                    mine.set(player);
                     mine.check(copy);
                 }
+                Iterator itr;
+                itr=mines.iterator();
+                while(itr.hasNext())
+                {
+                    Mine mine = (Mine) itr.next();
+                    if(mine.remove)itr.remove();
+                }
+
                 repaint();
 
             }
@@ -191,6 +199,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)System.exit(0);
         if(e.getKeyChar() == 'f')player.change_HitBox_type();
         if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
+        if(e.getKeyChar() == 't')for(Mine mine:mines)
+        {
+            mine.follow=!mine.follow;
+        }
     }
 
     public void keyReleased(KeyEvent e) {

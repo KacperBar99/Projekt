@@ -16,7 +16,7 @@ public class Player {
         DARK_RIGHT(4),
         DARK_LEFT(5);
 
-        int Id;
+        private int Id;
         private Images(int I)
         {
             Id=I;
@@ -70,12 +70,12 @@ public class Player {
         new_level=false;
         i = new Image[6];
         Toolkit t=Toolkit.getDefaultToolkit();
-        i[0]=t.getImage("files/yusmini.gif");
-        i[1]=t.getImage("files/yusminiflipped.gif");
-        i[2]=t.getImage("files/yusminiinvertflipped.gif");
-        i[3]=t.getImage("files/yusminiinvert.gif");
-        i[4]=t.getImage("files/yusdark.gif");
-        i[5]=t.getImage("files/yusdarkflipped.gif");
+        i[Images.NORMAL_RIGHT.give_Id()]=t.getImage("files/yusmini.gif");
+        i[Images.NORMAL_LEFT.give_Id()]=t.getImage("files/yusminiflipped.gif");
+        i[Images.INVERTED_LEFT.give_Id()]=t.getImage("files/yusminiinvertflipped.gif");
+        i[Images.INVERTED_RIGHT.give_Id()]=t.getImage("files/yusminiinvert.gif");
+        i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
+        i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
         width=64;
         height=64;
@@ -346,6 +346,8 @@ public class Player {
             {
                 x=100;
                 y=100;
+                yspeed=0;
+                xspeed=0;
             }
         }
         //Collision tests for mines
@@ -355,6 +357,8 @@ public class Player {
             {
                 x=100;
                 y=100;
+                yspeed=0;
+                xspeed=0;
             }
         }
 

@@ -7,11 +7,15 @@ public class Mine {
     int y;
     int width;
     int height;
+    boolean horizontal;
+    boolean increase;
 
     Rectangle hitBox;
 
     public Mine(int x,int y)
     {
+        horizontal=true;
+        increase=true;
         this.x=x;
         this.y=y;
         this.width=64;
