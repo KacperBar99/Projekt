@@ -18,6 +18,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Wall_Jump> jumps = new ArrayList<>();
     ArrayList <Spike> spikes = new ArrayList<>();
     ArrayList <Mine> mines = new ArrayList<>();
+    ArrayList <Turret> turrets = new ArrayList<>();
 
     public GamePanel()
     {
@@ -51,6 +52,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             break;
                         case 5:
                             mines.add(new Mine(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 6:
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
                             break;
                     }
                 }
@@ -103,6 +107,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Wall_Jump Wjump:jumps)Wjump.draw(gtd);
         for(Spike spike:spikes)spike.draw(gtd);
         for(Mine mine:mines)mine.draw(gtd);
+        for(Turret turret:turrets)turret.draw(gtd);
         cursor.draw(gtd);
 
         int gridSize=64;

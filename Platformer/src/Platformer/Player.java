@@ -5,6 +5,39 @@ import java.awt.*;
 
 public class Player {
 
+    class New_level
+    {
+        boolean left;
+        boolean right;
+        boolean up;
+        boolean down;
+        New_level()
+        {
+            down=false;
+            up=false;
+            right=false;
+            left=false;
+        }
+        boolean is_true()
+        {
+            if(up || down || left || right)
+                return true;
+            else return false;
+        }
+        int changex(int x)
+        {
+            if(right)return x+1;
+            else if(left)return x-1;
+            else return x;
+        }
+        int changey(int y)
+        {
+            if(up)return y+1;
+            else if(down)return y-1;
+            else return y;
+        }
+
+    }
     public enum Images
     {
 
@@ -36,7 +69,7 @@ public class Player {
     int y;
     int width;
     int height;
-    boolean new_level;
+    New_level where;
     boolean looking_left;
     Image i[];
     boolean debug1;
@@ -69,7 +102,7 @@ public class Player {
         this.y=y;
         dash=false;
         gravity=true;
-        new_level=false;
+        where = new New_level();
         i = new Image[6];
         Toolkit t=Toolkit.getDefaultToolkit();
         i[Images.NORMAL_RIGHT.give_Id()]=t.getImage("files/yusmini.gif");
@@ -367,6 +400,26 @@ public class Player {
                 xspeed=0;
             }
         }
+        for(Bullet bullet:panel.bullets)
+        {
+            if(hitBox.intersects(bullet.hitBox))
+            {
+                x=100;
+                y=100;
+                yspeed=0;
+                xspeed=0;
+            }
+        }
+        for(Turret turret:panel.turrets)
+        {
+            if(hitBox.intersects(turret.hitBox))
+            {
+                x=100;
+                y=100;
+                yspeed=0;
+                xspeed=0;
+            }
+        }
 
 
 
@@ -376,8 +429,12 @@ public class Player {
         y+=yspeed;
         hitBox.x=x;
         hitBox.y=y;
-        if(x<0 || x>1920)new_level=true;
-        if(y<0 || y>1080)new_level=true;
+
+
+        if(x<0)where.left=true;
+        else if(x>1920)where.right=true;
+        else if(y<0)where.up=true;
+        else if(y>1080)where.down=true;
     }
     public void change_HitBox_type()
     {
@@ -415,7 +472,6 @@ public class Player {
             gtd.setColor(C);
             gtd.fillRect(x+1,y+1,width-2,height-2);
         }
-
     }
 
 

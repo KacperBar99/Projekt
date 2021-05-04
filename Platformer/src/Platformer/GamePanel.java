@@ -10,6 +10,8 @@ import java.util.*;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
+    int xlevel=0;
+    int ylevel=0;
     int level_counter=0;
     Player player;
     Timer gameTimer;
@@ -19,12 +21,14 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Wall_Jump> jumps = new ArrayList<>();
     ArrayList <Spike> spikes = new ArrayList<>();
     ArrayList <Mine> mines = new ArrayList<>();
+    ArrayList <Bullet> bullets = new ArrayList<>();
+    ArrayList <Turret> turrets = new ArrayList<>();
 
     public GamePanel()
     {
         player = new Player(200,300,this);
         try {
-            File myObj = new File("level0.txt");
+            File myObj = new File(xlevel+""+ylevel+".txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -47,7 +51,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
                     case 5:
-                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),player));
+                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 6:
+                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
                 }
             }
@@ -74,18 +81,22 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     mine.set();
                     mine.check(copy);
                 }
-                for(Spike spike:spikes)
+                for(Bullet bullet:bullets)
                 {
-                    spike.set(copy);
+                    bullet.set();
+                    bullet.check(copy);
+                }
+                for(Turret turret:turrets)
+                {
+                    turret.set(copy);
                 }
                 Iterator itr;
-                itr=mines.iterator();
-                while(itr.hasNext())
+                itr=bullets.iterator();
+                while ((itr.hasNext()))
                 {
-                    Mine mine = (Mine) itr.next();
-                    if(mine.remove)itr.remove();
+                    Bullet bullet = (Bullet) itr.next();
+                    if(bullet.remove)itr.remove();
                 }
-
                 repaint();
 
             }
@@ -94,10 +105,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     //Deleting objects from level and loading new ones
     public void new_level()
     {
-        if(player.new_level)
+        if(player.where.is_true())
         {
-
-
+            xlevel=player.where.changex(xlevel);
+            ylevel=player.where.changey(ylevel);
             level_counter++;
             Iterator itr;
             itr = walls.iterator();
@@ -136,8 +147,20 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 Mine mine = (Mine)itr.next();
                 itr.remove();
             }
+            itr=bullets.iterator();
+            while(itr.hasNext())
+            {
+                Bullet bullet = (Bullet)itr.next();
+                itr.remove();
+            }
+            itr=turrets.iterator();
+            while (itr.hasNext())
+            {
+                Turret turret = (Turret) itr.next();
+                itr.remove();
+            }
             try {
-                File myObj = new File("level"+level_counter+".txt");
+                File myObj = new File(xlevel+""+ylevel+".txt");
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
@@ -160,12 +183,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),player));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 6:
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
                     }
                 }
                 myReader.close();
-                player = new Player(400,300,this);
+                player = new Player(200,300,this);
             } catch (FileNotFoundException e) {
                 System.exit(0);
             }
@@ -185,6 +211,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Wall_Jump Wjump:jumps)Wjump.draw(gtd);
         for(Spike spike:spikes)spike.draw(gtd);
         for(Mine mine:mines)mine.draw(gtd);
+        for(Bullet bullet:bullets)bullet.draw(gtd);
+        for(Turret turret:turrets)turret.draw(gtd);
         player.draw(gtd);
     }
 
@@ -205,10 +233,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE)System.exit(0);
         if(e.getKeyChar() == 'f')player.change_HitBox_type();
         if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
-        if(e.getKeyChar() == 't')for(Mine mine:mines)
-        {
-            mine.follow=!mine.follow;
-        }
     }
 
     public void keyReleased(KeyEvent e) {

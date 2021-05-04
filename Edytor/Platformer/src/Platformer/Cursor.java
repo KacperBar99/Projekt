@@ -67,6 +67,10 @@ public class Cursor {
         {
             Taken[mine.getX()/64][mine.getY()/64]=5;
         }
+        for(Turret turret:panel.turrets)
+        {
+            Taken[turret.getX()/64][turret.getY()/64]=6;
+        }
 
 
         width=64;
@@ -105,6 +109,10 @@ public class Cursor {
                     break;
                 case 5:
                     panel.mines.add(new Mine(x,y));
+                    Taken[x/64][y/64]=Id;
+                    break;
+                case 6:
+                    panel.turrets.add(new Turret(x,y));
                     Taken[x/64][y/64]=Id;
                     break;
             }
@@ -165,6 +173,13 @@ public class Cursor {
                     if(mine.getX()==x && mine.getY()==y)itr.remove();
                 }
                 break;
+            case 6:
+                itr=panel.turrets.iterator();
+                while (itr.hasNext())
+                {
+                    Turret turret = (Turret) itr.next();
+                    if(turret.getX()==x && turret.getY()==y)itr.remove();
+                }
 
         }
        Taken[x/64][y/64]=-1;
@@ -245,6 +260,12 @@ public class Cursor {
                     myWriter.write(mine.getX() + "\n");
                     myWriter.write(mine.getY() + "\n");
                 }
+                for(Turret turret:panel.turrets)
+                {
+                    myWriter.write(6+"\n");
+                    myWriter.write(turret.getX() + "\n");
+                    myWriter.write(turret.getY() + "\n");
+                }
                 myWriter.flush();
                 myWriter.close();
             } catch (IOException e) {
@@ -280,6 +301,10 @@ public class Cursor {
                 break;
             case 5:
                 gtd.setColor(Color.red);
+                hitBox=new Rectangle(x,y,width,height);
+                break;
+            case 6:
+                gtd.setColor(Color.magenta);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:
