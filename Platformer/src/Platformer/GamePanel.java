@@ -22,6 +22,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     public GamePanel()
     {
+        player = new Player(200,300,this);
         try {
             File myObj = new File("level0.txt");
             Scanner myReader = new Scanner(myObj);
@@ -46,7 +47,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
                     case 5:
-                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),player));
                         break;
                 }
             }
@@ -58,7 +59,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
 
 
-        player = new Player(200,300,this);
+
         gameTimer = new Timer();
         GamePanel copy=this;
 
@@ -70,8 +71,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 player.set();
                 for(Mine mine:mines)
                 {
-                    mine.set(player);
+                    mine.set();
                     mine.check(copy);
+                }
+                for(Spike spike:spikes)
+                {
+                    spike.set(copy);
                 }
                 Iterator itr;
                 itr=mines.iterator();
@@ -155,7 +160,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),player));
                             break;
                     }
                 }
@@ -191,6 +196,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'd' )player.keyRight = true;
         if(e.getKeyChar() == 'w' )
         {
+            player.test=false;
             if(player.keyUP==false && player.jump>0 && player.jumped==true) player.jump();
             player.keyUP = true;
         }
@@ -211,7 +217,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'd' )player.keyRight = false;
         if(e.getKeyChar() == 'w' )
         {
-           // player.jump_down=true;
             player.keyUP = false;
         }
     }

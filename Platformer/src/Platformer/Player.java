@@ -42,6 +42,7 @@ public class Player {
     boolean debug1;
     int jump;
     boolean jumped;
+    boolean test;
 
     double xspeed;
     double yspeed;
@@ -56,6 +57,7 @@ public class Player {
 
     public Player(int x, int y, GamePanel panel)
     {
+        test=false;
         jumped=false;
         jump=1;
         debug1=true;
@@ -84,6 +86,7 @@ public class Player {
     }
     public void jump()
     {
+        test=true;
         jump--;
         if(gravity)yspeed=-12;
         else yspeed=12;
@@ -103,8 +106,6 @@ public class Player {
     }
     public void change_Gravity()
     {
-        //set_double_jump();
-        //jump_down=true;
         gravity=!gravity;
     }
     public void set()
@@ -261,8 +262,10 @@ public class Player {
         {
             for(Wall wall: panel.walls)
             {
+
                 if(hitBox.intersects(wall.hitBox))
                 {
+                    test=false;
                     jump=1;
                     jumped=false;
                     hitBox.y-=yspeed;
@@ -282,6 +285,7 @@ public class Player {
             {
                 if(hitBox.intersects((wallB.hitBox)))
                 {
+                    test=false;
                     jump=1;
                     jumped=false;
                     hitBox.y-=yspeed;
@@ -324,11 +328,13 @@ public class Player {
             else hitBox.x+=2;
             if(hitBox.intersects(Wjump.hitBox))
             {
+                test=false;
                 yspeed=0;
                 xspeed=0;
+                jump=1;
                 if(keyUP)
                 {
-                    jump=1;
+
 
                     if(looking_left) xspeed=80;
                     else xspeed=-80;
@@ -401,9 +407,12 @@ public class Player {
         if(debug1) gtd.drawImage(i[tmp.give_Id()], x, y, null);
         else
         {
-            gtd.setColor(Color.gray);
+            Color C=Color.gray;
+            if(test)C=Color.ORANGE;
+
+            gtd.setColor(C);
             gtd.drawRect(x,y,width,height);
-            gtd.setColor(Color.gray);
+            gtd.setColor(C);
             gtd.fillRect(x+1,y+1,width-2,height-2);
         }
 

@@ -7,11 +7,13 @@ public class Spike {
     int y;
     int width;
     int height;
+    int count;
 
     Rectangle hitBox;
 
     public Spike(int x,int y)
     {
+        count=0;
         this.x=x;
         this.y=y;
         this.width=64;
@@ -25,6 +27,20 @@ public class Spike {
         gtd.setColor(Color.cyan);
         gtd.fillRect(x+1,y+1,width-2,height-2);
     }
+    public void set(GamePanel panel)
+    {
+        if(count==50)
+        {
+            Mine tmp=new Mine(x,y+90,panel.player);
+            tmp.follow=true;
+            panel.mines.add(tmp);
+            count=0;
+        }
+        else
+        {
+            count++;
+        }
 
+    }
 
 }
