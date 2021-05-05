@@ -23,12 +23,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Mine> mines = new ArrayList<>();
     ArrayList <Bullet> bullets = new ArrayList<>();
     ArrayList <Turret> turrets = new ArrayList<>();
+    ArrayList <Spawn> spawns = new ArrayList<>();
 
     public GamePanel()
     {
         player = new Player(200,300,this);
         try {
-            File myObj = new File(xlevel+""+ylevel+".txt");
+            File myObj = new File(xlevel+"_"+ylevel+".txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -55,6 +56,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         break;
                     case 6:
                         turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 7:
+                        level_counter++;
+                        spawns.add(new Spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                         break;
                 }
             }
@@ -107,9 +112,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     {
         if(player.where.is_true())
         {
-            xlevel=player.where.changex(xlevel);
-            ylevel=player.where.changey(ylevel);
-            level_counter++;
+            level_counter=0;
+            xlevel+=player.where.changex(xlevel);
+            ylevel+=player.where.changey(ylevel);
             Iterator itr;
             itr = walls.iterator();
             while(itr.hasNext())
@@ -159,8 +164,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 Turret turret = (Turret) itr.next();
                 itr.remove();
             }
+            itr=spawns.iterator();
+            while(itr.hasNext())
+            {
+                Spawn spawn = (Spawn) itr.next();
+                itr.remove();
+            }
             try {
-                File myObj = new File(xlevel+""+ylevel+".txt");
+                System.out.println(xlevel+"_"+ylevel+".txt");
+                File myObj = new File(xlevel+"_"+ylevel+".txt");
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
@@ -188,10 +200,38 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         case 6:
                             turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
+                        case 7:
+                            level_counter++;
+                            spawns.add(new Spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
                     }
                 }
                 myReader.close();
-                player = new Player(200,300,this);
+                if(player.where.up)
+                {
+                    System.out.println("up");
+                    level_counter=3;
+                }
+                else if(player.where.right)
+                {
+                    System.out.println("right");
+                    level_counter=4;
+                }
+                else if (player.where.down)
+                {
+                    System.out.println("down");
+                    level_counter=1;
+                }
+                else if (player.where.left)
+                {
+                    System.out.println("left");
+                    level_counter=2;
+                }
+                for(Spawn spawn:spawns)
+                {
+                    if(spawn.getIndex()==level_counter)player = new Player(spawn.getX(),spawn.getY(),this);
+                }
+               // player = new Player(200,300,this);
             } catch (FileNotFoundException e) {
                 System.exit(0);
             }

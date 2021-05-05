@@ -1,5 +1,6 @@
 package Platformer;
 
+import javax.lang.model.type.NullType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -71,6 +72,11 @@ public class Cursor {
         {
             Taken[turret.getX()/64][turret.getY()/64]=6;
         }
+        for(Player_spawn spawn:panel.spawns)
+        {
+            Taken[spawn.getX()/64][spawn.getY()/64]=7;
+        }
+
 
 
         width=64;
@@ -113,6 +119,10 @@ public class Cursor {
                     break;
                 case 6:
                     panel.turrets.add(new Turret(x,y));
+                    Taken[x/64][y/64]=Id;
+                    break;
+                case 7:
+                    panel.spawns.add(new Player_spawn(x,y));
                     Taken[x/64][y/64]=Id;
                     break;
             }
@@ -180,6 +190,15 @@ public class Cursor {
                     Turret turret = (Turret) itr.next();
                     if(turret.getX()==x && turret.getY()==y)itr.remove();
                 }
+                break;
+            case 7:
+                itr=panel.spawns.iterator();
+                while (itr.hasNext())
+                {
+                    Player_spawn spawn = (Player_spawn) itr.next();
+                    if(spawn.getX()==x && spawn.getY()==y)itr.remove();
+                }
+                break;
 
         }
        Taken[x/64][y/64]=-1;
@@ -266,6 +285,15 @@ public class Cursor {
                     myWriter.write(turret.getX() + "\n");
                     myWriter.write(turret.getY() + "\n");
                 }
+                int tmp=0;
+                for(Player_spawn spawn:panel.spawns)
+                {
+                    myWriter.write(7+"\n");
+                    myWriter.write(spawn.getX() + "\n");
+                    myWriter.write(spawn.getY() + "\n");
+                    tmp++;
+                    myWriter.write(tmp+"\n");
+                }
                 myWriter.flush();
                 myWriter.close();
             } catch (IOException e) {
@@ -307,8 +335,12 @@ public class Cursor {
                 gtd.setColor(Color.magenta);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
-            default:
+            case 7:
                 gtd.setColor(Color.gray);
+                hitBox=new Rectangle(x,y,width,height);
+                break;
+            default:
+                gtd.setColor(Color.DARK_GRAY);
                 hitBox=new Rectangle(x,y,width,height);
         }
     }

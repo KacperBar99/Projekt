@@ -26,15 +26,15 @@ public class Player {
         }
         int changex(int x)
         {
-            if(right)return x+1;
-            else if(left)return x-1;
-            else return x;
+            if(right)return 1;
+            else if(left)return -1;
+            else return 0;
         }
         int changey(int y)
         {
-            if(up)return y+1;
-            else if(down)return y-1;
-            else return y;
+            if(up)return 1;
+            else if(down)return -1;
+            else return 0;
         }
 
     }

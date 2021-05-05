@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.PKCS12Attribute;
 import java.util.*;
 import java.util.Timer;
 
@@ -19,6 +20,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Spike> spikes = new ArrayList<>();
     ArrayList <Mine> mines = new ArrayList<>();
     ArrayList <Turret> turrets = new ArrayList<>();
+    ArrayList <Player_spawn> spawns =new ArrayList<>();
 
     public GamePanel()
     {
@@ -55,6 +57,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             break;
                         case 6:
                             turrets.add(new Turret(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 7:
+                            spawns.add(new Player_spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
                             break;
                     }
                 }
@@ -108,6 +113,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Spike spike:spikes)spike.draw(gtd);
         for(Mine mine:mines)mine.draw(gtd);
         for(Turret turret:turrets)turret.draw(gtd);
+        for(Player_spawn spawn:spawns)spawn.draw(gtd);
         cursor.draw(gtd);
 
         int gridSize=64;
