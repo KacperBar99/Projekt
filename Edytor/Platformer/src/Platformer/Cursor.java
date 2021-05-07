@@ -23,12 +23,16 @@ public class Cursor {
     int width;
     int height;
     int Taken[][];
+    int Id2;
+    int Id2_max;
 
 
     Rectangle hitBox;
 
     public Cursor(int x, int y, GamePanel panel)
     {
+        Id2=0;
+        Id2_max=10;
         Id=0;
         Id_max=7;
 
@@ -90,39 +94,39 @@ public class Cursor {
         if(Taken[x/64][y/64]==-1 ) {
             switch (Id) {
                 case 0:
-                    panel.walls.add(new Wall(x, y));
+                    panel.walls.add(new Wall(x,y,panel.wallI[Id2]));
                     Taken[x/64][y/64] = Id;
 
                     break;
                 case 1:
-                    panel.wallsB.add(new WallB(x, y));
+                    panel.wallsB.add(new WallB(x,y,panel.grav));
                     Taken[x/64][y/64] = Id;
 
                     break;
                 case 2:
-                    panel.changers.add(new Gravity_Changer(x, y));
+                    panel.changers.add(new Gravity_Changer(x,y,panel.grav));
                     Taken[x/64][y/64] = Id;
 
                     break;
                 case 3:
-                    panel.jumps.add(new Wall_Jump(x, y));
+                    panel.jumps.add(new Wall_Jump(x,y,panel.grav));
                     Taken[x/64][y/64] = Id;
 
                     break;
                 case 4:
-                    panel.spikes.add(new Spike(x,y));
+                    panel.spikes.add(new Spike(x,y,panel.grav));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 5:
-                    panel.mines.add(new Mine(x,y));
+                    panel.mines.add(new Mine(x,y,panel.grav));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 6:
-                    panel.turrets.add(new Turret(x,y));
+                    panel.turrets.add(new Turret(x,y,panel.grav));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 7:
-                    panel.spawns.add(new Player_spawn(x,y));
+                    panel.spawns.add(new Player_spawn(x,y,panel.spawns.size()+1));
                     Taken[x/64][y/64]=Id;
                     break;
             }
@@ -217,6 +221,19 @@ public class Cursor {
             else Id--;
         }
     }
+    public void change_ID(boolean up)
+    {
+        if(up)
+        {
+            if(Id2==Id2_max)Id2=0;
+            else Id2++;
+        }
+        else
+        {
+            if(Id2==0)Id2=Id2_max;
+            else Id2--;
+        }
+    }
     public void set()
     {
 
@@ -251,6 +268,7 @@ public class Cursor {
                     myWriter.write(0 + "\n");
                     myWriter.write(wall.getX() + "\n");
                     myWriter.write(wall.getY() + "\n");
+                    myWriter.write(wall.getGraphic()+"\n");
                 }
                 for (WallB wallB : panel.wallsB) {
                     myWriter.write(1 + "\n");
@@ -291,8 +309,7 @@ public class Cursor {
                     myWriter.write(7+"\n");
                     myWriter.write(spawn.getX() + "\n");
                     myWriter.write(spawn.getY() + "\n");
-                    tmp++;
-                    myWriter.write(tmp+"\n");
+                    myWriter.write(spawn.getN()+"\n");
                 }
                 myWriter.flush();
                 myWriter.close();

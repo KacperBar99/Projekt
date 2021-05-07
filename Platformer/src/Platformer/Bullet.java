@@ -16,10 +16,12 @@ public class Bullet {
     boolean yincrease;
     int xspeed;
     int yspeed;
+    Image g;
 
 
-    public Bullet(int x,int y,int PX, int PY)
+    public Bullet(int x,int y,int PX, int PY,Image I)
     {
+        g=I;
         xspeed=1;
         yspeed=10;
         this.x=x;
@@ -39,10 +41,14 @@ public class Bullet {
         hitBox = new Rectangle(x,y,width,height);
     }
     public void draw(Graphics2D gtd){
+        gtd.drawImage(g, x, y, null);
+        /*
         gtd.setColor(Color.pink);
         gtd.drawRect(x,y,width,height);
         gtd.setColor(Color.pink);
         gtd.fillRect(x+1,y+1,width-2,height-2);
+
+         */
     }
     public void set()
     {

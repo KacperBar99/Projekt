@@ -9,11 +9,14 @@ public class Mine {
     int height;
     boolean horizontal;
     boolean increase;
+    Image g;
 
     Rectangle hitBox;
 
-    public Mine(int x,int y)
+    public Mine(int x,int y,Image i)
     {
+        Toolkit t=Toolkit.getDefaultToolkit();
+        g=i;
         horizontal=true;
         increase=true;
         this.x=x;
@@ -24,10 +27,14 @@ public class Mine {
         hitBox = new Rectangle(x,y,width,height);
     }
     public void draw(Graphics2D gtd){
+        gtd.drawImage(g, x, y, null);
+        /*
         gtd.setColor(Color.RED);
         gtd.drawRect(x,y,width,height);
         gtd.setColor(Color.red);
         gtd.fillRect(x+1,y+1,width-2,height-2);
+
+         */
     }
 
     public int getX(){return x;}

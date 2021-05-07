@@ -24,12 +24,20 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Bullet> bullets = new ArrayList<>();
     ArrayList <Turret> turrets = new ArrayList<>();
     ArrayList <Spawn> spawns = new ArrayList<>();
+    Toolkit t=Toolkit.getDefaultToolkit();
+    Image grav = t.getImage("files/Tiles/gravity.png");
+    Image wallI[] = new Image[10];
+
 
     public GamePanel()
     {
+        for(int i=0;i<10;i++)
+        {
+            wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
+        }
         player = new Player(200,300,this);
         try {
-            File myObj = new File(xlevel+"_"+ylevel+".txt");
+            File myObj = new File("levels/"+xlevel+"_"+ylevel+".txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -37,25 +45,28 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 switch (Integer.valueOf(data))
                 {
                     case 0:
-                        walls.add(new Wall(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
-                        break;
+                        int tmp1=Integer.valueOf(myReader.nextLine());
+                        int tmp2=Integer.valueOf(myReader.nextLine());
+                        int tmp3=Integer.valueOf(myReader.nextLine());
+                    walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
+                    break;
                     case 1:
-                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 2:
-                        changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 3:
-                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 4:
-                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 5:
-                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 6:
-                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav,grav));
                         break;
                     case 7:
                         level_counter++;
@@ -172,7 +183,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             }
             try {
                 System.out.println(xlevel+"_"+ylevel+".txt");
-                File myObj = new File(xlevel+"_"+ylevel+".txt");
+                File myObj = new File("levels/"+xlevel+"_"+ylevel+".txt");
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
@@ -180,25 +191,28 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     switch (Integer.valueOf(data))
                     {
                         case 0:
-                            walls.add(new Wall(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            int tmp1=Integer.valueOf(myReader.nextLine());
+                            int tmp2=Integer.valueOf(myReader.nextLine());
+                            int tmp3=Integer.valueOf(myReader.nextLine());
+                            walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
                             break;
                         case 1:
-                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 2:
-                            changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 3:
-                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 4:
-                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 6:
-                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav,grav));
                             break;
                         case 7:
                             level_counter++;
@@ -209,22 +223,22 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 myReader.close();
                 if(player.where.up)
                 {
-                    System.out.println("up");
+
                     level_counter=3;
                 }
                 else if(player.where.right)
                 {
-                    System.out.println("right");
+
                     level_counter=4;
                 }
                 else if (player.where.down)
                 {
-                    System.out.println("down");
+
                     level_counter=1;
                 }
                 else if (player.where.left)
                 {
-                    System.out.println("left");
+
                     level_counter=2;
                 }
                 for(Spawn spawn:spawns)

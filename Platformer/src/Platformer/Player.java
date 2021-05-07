@@ -367,10 +367,8 @@ public class Player {
                 jump=1;
                 if(keyUP)
                 {
-
-
-                    if(looking_left) xspeed=80;
-                    else xspeed=-80;
+                    if(looking_left) xspeed=30;
+                    else xspeed=-30;
                     if(gravity)yspeed=-10;
                     else yspeed=10;
                 }

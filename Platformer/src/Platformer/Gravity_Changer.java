@@ -10,10 +10,9 @@ public class Gravity_Changer {
     Rectangle hitBox;
     Image g;
 
-    public Gravity_Changer(int x,int y)
+    public Gravity_Changer(int x, int y,Image I)
     {
-        Toolkit t=Toolkit.getDefaultToolkit();
-        g=t.getImage("files/gravity.png");
+        g=I;
         this.x=x;
         this.y=y;
         width=64;

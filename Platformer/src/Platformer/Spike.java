@@ -8,10 +8,11 @@ public class Spike {
     int width;
     int height;
     int count;
+    Image g;
 
     Rectangle hitBox;
 
-    public Spike(int x,int y)
+    public Spike(int x,int y,Image I)
     {
         count=0;
         this.x=x;
@@ -22,10 +23,14 @@ public class Spike {
         hitBox = new Rectangle(x,y,width,height);
     }
     public void draw(Graphics2D gtd){
+        gtd.drawImage(g, x, y, null);
+        /*
         gtd.setColor(Color.cyan);
         gtd.drawRect(x,y,width,height);
         gtd.setColor(Color.cyan);
         gtd.fillRect(x+1,y+1,width-2,height-2);
+
+         */
     }
 
 }

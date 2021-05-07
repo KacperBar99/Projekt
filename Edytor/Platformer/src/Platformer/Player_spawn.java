@@ -5,13 +5,15 @@ import java.awt.*;
 public class Player_spawn {
     int x;
     int y;
+    int N;
     int width;
     int height;
 
     Rectangle hitBox;
 
-    public Player_spawn(int x,int y)
+    public Player_spawn(int x,int y,int number)
     {
+        N=number;
         this.x=x;
         this.y=y;
         this.width=64;
@@ -28,4 +30,5 @@ public class Player_spawn {
 
     public int getX(){return x;}
     public int getY(){return y;}
+    public  int getN(){return N;}
 }

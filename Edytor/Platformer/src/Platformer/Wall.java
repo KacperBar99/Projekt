@@ -7,11 +7,14 @@ public class Wall {
     int y;
     int width;
     int height;
+    Image g;
+    int graphic;
 
     Rectangle hitBox;
 
-    public Wall(int x,int y)
+    public Wall(int x,int y,Image i)
     {
+        g=i;
         this.x=x;
         this.y=y;
         this.width=64;
@@ -20,12 +23,17 @@ public class Wall {
         hitBox = new Rectangle(x,y,width,height);
     }
     public void draw(Graphics2D gtd){
+        gtd.drawImage(g, x, y, null);
+        /*
         gtd.setColor(Color.black);
         gtd.drawRect(x,y,width,height);
         gtd.setColor(Color.white);
         gtd.fillRect(x+1,y+1,width-2,height-2);
+
+         */
     }
 
     public int getX(){return x;}
     public int getY(){return y;}
+    public  int getGraphic(){return graphic;}
 }
