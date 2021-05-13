@@ -11,12 +11,12 @@ public class Wall {
     Rectangle hitBox;
 
 
-    public Wall(int x,int y, int width, int height)
+    public Wall(int x,int y)
     {
         this.x=x;
         this.y=y;
-        this.width=width;
-        this.height=height;
+        this.width=64;
+        this.height=64;
 
         hitBox = new Rectangle(x,y,width,height);
     }
