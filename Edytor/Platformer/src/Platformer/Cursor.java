@@ -34,7 +34,7 @@ public class Cursor {
         Id2=0;
         Id2_max=10;
         Id=0;
-        Id_max=7;
+        Id_max=8;
 
         this.panel=panel;
         this.x=x;
@@ -79,6 +79,10 @@ public class Cursor {
         for(Player_spawn spawn:panel.spawns)
         {
             Taken[spawn.getX()/64][spawn.getY()/64]=7;
+        }
+        for(Tile tile:panel.tiles)
+        {
+            Taken[tile.getX()/64][tile.getY()/64]=8;
         }
 
 
@@ -128,6 +132,10 @@ public class Cursor {
                 case 7:
                     panel.spawns.add(new Player_spawn(x,y,panel.spawns.size()+1));
                     Taken[x/64][y/64]=Id;
+                    break;
+                case 8:
+                    panel.tiles.add(new Tile(x,y,panel.tileset[Id2]));
+                    Taken[x/64][y/64] = Id;
                     break;
             }
         }
@@ -203,6 +211,14 @@ public class Cursor {
                     if(spawn.getX()==x && spawn.getY()==y)itr.remove();
                 }
                 break;
+            case 8:
+                itr=panel.tiles.iterator();
+                while (itr.hasNext())
+                {
+                    Tile tile = (Tile) itr.next();
+                    if(tile.getX()==x && tile.getY()==y)itr.remove();
+                }
+                break;
 
         }
        Taken[x/64][y/64]=-1;
@@ -268,7 +284,12 @@ public class Cursor {
                     myWriter.write(0 + "\n");
                     myWriter.write(wall.getX() + "\n");
                     myWriter.write(wall.getY() + "\n");
-                    myWriter.write(wall.getGraphic()+"\n");
+                    for(int i=0;i<10;i++)
+                    {
+                        if(wall.getGraphic(panel.wallI[i]))
+                            myWriter.write(i+"\n");
+                        break;
+                    }
                 }
                 for (WallB wallB : panel.wallsB) {
                     myWriter.write(1 + "\n");
@@ -303,13 +324,24 @@ public class Cursor {
                     myWriter.write(turret.getX() + "\n");
                     myWriter.write(turret.getY() + "\n");
                 }
-                int tmp=0;
                 for(Player_spawn spawn:panel.spawns)
                 {
                     myWriter.write(7+"\n");
                     myWriter.write(spawn.getX() + "\n");
                     myWriter.write(spawn.getY() + "\n");
                     myWriter.write(spawn.getN()+"\n");
+                }
+                for(Tile tile:panel.tiles)
+                {
+                    myWriter.write(8 + "\n");
+                    myWriter.write(tile.getX() + "\n");
+                    myWriter.write(tile.getY() + "\n");
+                    for(int i=0;i<10;i++)
+                    {
+                        if(tile.getGraphic(panel.wallI[i]))
+                            myWriter.write(i+"\n");
+                        break;
+                    }
                 }
                 myWriter.flush();
                 myWriter.close();

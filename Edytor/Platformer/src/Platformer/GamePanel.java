@@ -21,15 +21,19 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Mine> mines = new ArrayList<>();
     ArrayList <Turret> turrets = new ArrayList<>();
     ArrayList <Player_spawn> spawns =new ArrayList<>();
+    ArrayList <Tile> tiles =new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
     Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallI[] = new Image[10];
+    Image tileset[] = new Image[10];
+
 
     public GamePanel()
     {
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
+            tileset[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
         }
         String username = System.getProperty("user.name");
         JFileChooser fs = new JFileChooser(new File("C:\\Users\\" + username + "\\OneDrive\\Pulpit"));
@@ -38,6 +42,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         int result = fs.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             try {
+                int tmp1;
+                int tmp2;
+                int tmp3;
                 File myObj = new File(String.valueOf(fs.getSelectedFile()));
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
@@ -45,9 +52,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
                     switch (Integer.valueOf(data)) {
                         case 0:
-                            int tmp1=Integer.valueOf(myReader.nextLine());
-                            int tmp2=Integer.valueOf(myReader.nextLine());
-                            int tmp3=Integer.valueOf(myReader.nextLine());
+                             tmp1=Integer.valueOf(myReader.nextLine());
+                             tmp2=Integer.valueOf(myReader.nextLine());
+                             tmp3=Integer.valueOf(myReader.nextLine());
                             walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
                             break;
                         case 1:
@@ -70,6 +77,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             break;
                         case 7:
                             spawns.add(new Player_spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 8:
+                            tmp1=Integer.valueOf(myReader.nextLine());
+                            tmp2=Integer.valueOf(myReader.nextLine());
+                            tmp3=Integer.valueOf(myReader.nextLine());
+                            tiles.add(new Tile(tmp1,tmp2,tileset[tmp3]));
                             break;
                     }
                 }
@@ -114,8 +127,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     public void paint(Graphics g)
     {
+
         super.paint(g);
         Graphics2D gtd = (Graphics2D) g;
+        for(Tile tile:tiles)tile.draw(gtd);
         for(Wall wall:walls)wall.draw(gtd);
         for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
         for(WallB wallB:wallsB)wallB.draw(gtd);
@@ -124,6 +139,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Mine mine:mines)mine.draw(gtd);
         for(Turret turret:turrets)turret.draw(gtd);
         for(Player_spawn spawn:spawns)spawn.draw(gtd);
+
         cursor.draw(gtd);
 
         int gridSize=64;
