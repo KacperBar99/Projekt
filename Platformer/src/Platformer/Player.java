@@ -63,8 +63,7 @@ public class Player {
     boolean hitBox_type;
     GamePanel panel;
     int counter;
-    boolean dash;
-    boolean gravity;
+
     int x;
     int y;
     int width;
@@ -72,27 +71,35 @@ public class Player {
     New_level where;
     boolean looking_left;
     Image i[];
-    boolean debug1;
-    int jump;
-    boolean jumped;
+    boolean debug1; //przelacza na widok klocka
+
     boolean test;
 
-    double xspeed;
-    double yspeed;
-
-    Rectangle hitBox;
-
+    //poruszanie
     boolean keyLeft;
     boolean keyRight;
     boolean keyUP;
     boolean keyDown;
 
+    double xspeed;
+    double yspeed;
+    static int maxspeed;
+    static double frc; //tarcie
+
+    boolean gravity_switch;
+    static double grav;
+
+    boolean dash;
+
+    boolean can_jump;
+    boolean djump;
+    int jumpforce;
+
+    Rectangle hitBox;
 
     public Player(int x, int y, GamePanel panel)
     {
         test=false;
-        jumped=false;
-        jump=1;
         debug1=true;
         looking_left=false;
         hitBox_type=true;
@@ -101,7 +108,11 @@ public class Player {
         this.x=x;
         this.y=y;
         dash=false;
-        gravity=true;
+        gravity_switch=true;
+        maxspeed=12;
+        frc=1.3;
+        grav=1.6;
+        jumpforce=20;
         where = new New_level();
         i = new Image[6];
         Toolkit t=Toolkit.getDefaultToolkit();
@@ -113,17 +124,19 @@ public class Player {
         i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
         width=64;
-        height=64;
+        height=96;
         hitBox = new Rectangle(x,y,width,height);
 
     }
+
     public void jump()
     {
         test=true;
-        jump--;
-        if(gravity)yspeed=-12;
-        else yspeed=12;
+        can_jump=false;
+        if(!gravity_switch)yspeed=jumpforce;
+        else yspeed=-jumpforce;
     }
+
     public void dash()
     {
         if(dash)
@@ -137,103 +150,58 @@ public class Player {
             dash=true;
         }
     }
+
     public void change_Gravity()
     {
-        gravity=!gravity;
+        gravity_switch=!gravity_switch;
     }
+
     public void set()
     {
-        //gravitation acceleration
-        if(gravity) yspeed+=.6;
-        else yspeed-=.6;
 
+
+        //gravitation acceleration
+        if(gravity_switch) yspeed+=grav;
+        else yspeed-=grav;
 
         //horizontal movement of a character
-        //registering key inputs
-        if(!keyLeft && !keyRight)xspeed=0;
-        else if(keyRight)
+        if(keyRight && xspeed<maxspeed)
         {
+            xspeed=7;
             looking_left=false;
-            xspeed++;
         }
-        else
-            {
-                looking_left=true;
-                xspeed--;
-            }
 
-        //stopping a character movement if the speed is low
-        //this is to avoid sliding
-        if(xspeed > 0 && xspeed < 0.75)xspeed=0;
-        if(xspeed < 0 && xspeed >-0.75)xspeed=0;
+        if(keyLeft && xspeed>-maxspeed)
+        {
+            xspeed=-7;
+            looking_left=true;
+        }
 
+        if (xspeed>0 && !keyRight) xspeed-=frc;
+        if (xspeed<0 && !keyLeft) xspeed+=frc;
 
-        //speed limit is dependant on dash being on
         //counter makes sure that dash is only applied for a brief moment
         if(dash)
         {
             counter++;
-            if(xspeed>0)xspeed=30;
-            else if(xspeed<0)xspeed=-30;
+            if(!looking_left) xspeed=30;
+            else xspeed=-30;
             if(counter>=10) dash=false;
         }
         else
         {
-            if(xspeed>7)xspeed=7;
-            if(xspeed<-7)xspeed=-7;
+            if(xspeed>maxspeed) xspeed=maxspeed;
+            if(xspeed<-maxspeed) xspeed=-maxspeed;
         }
 
-
-
-
-        //Jumping requires asking surfaces valid for jump if there is a collision
-
-        if(keyUP)
-        {
-            if(gravity) hitBox.y+=2;
-            else hitBox.y-=2;
-
-            if(hitBox_type)
-            {
-                for(Wall wall: panel.walls)
-                    if(wall.hitBox.intersects(hitBox))
-                    {
-                        jumped=true;
-                        if(gravity)yspeed=-12;
-                        else yspeed=12;
-                    }
-                //double jump?
-
-                if(!jumped && jump>0) {
-                    jump();
-                }
-            }
-            else
-            {
-                for(WallB wallB:panel.wallsB)
-                    if(wallB.hitBox.intersects(hitBox))
-                    {
-                        jumped=true;
-                        if(gravity)yspeed-=12;
-                        else yspeed=12;
-                    }
-                if(!jumped && jump>0) {
-                    jump();
-                }
-            }
-
-            if(gravity)hitBox.y-=2;
-            else hitBox.y+=2;
-        }
-
-
+        if(keyUP && can_jump) { jump(); }
 
         //All the collision tests for the horizontal movement
         //It is necessary to ask all valid block types if hitboxes intersect
 
-
         //tests for white and black walls with collision depending on type
         hitBox.x+=xspeed;
+
         if(hitBox_type)
         {
             for(Wall wall: panel.walls)
@@ -241,13 +209,14 @@ public class Player {
                 if(hitBox.intersects(wall.hitBox))
                 {
                     hitBox.x-=xspeed;
+
                     while(!wall.hitBox.intersects(hitBox))
                     {
-                        hitBox.x += Math.signum(xspeed);
+                        hitBox.x+=Math.signum(xspeed);
                     }
                     hitBox.x-=Math.signum(xspeed);
-                    xspeed = 0;
-                    x = hitBox.x;
+                    xspeed=0;
+                    x=hitBox.x;
                 }
             }
         }
@@ -263,8 +232,8 @@ public class Player {
                         hitBox.x+=Math.signum(xspeed);
                     }
                     hitBox.x-=Math.signum(xspeed);
-                    xspeed = 0;
-                    x = hitBox.x;
+                    xspeed=0;
+                    x=hitBox.x;
                 }
             }
         }
@@ -280,7 +249,7 @@ public class Player {
                     hitBox.x+=Math.signum(xspeed);
                 }
                 hitBox.x-=Math.signum(xspeed);
-                xspeed = 0;
+                xspeed=0;
                 x=hitBox.x;
             }
         }
@@ -295,20 +264,31 @@ public class Player {
         {
             for(Wall wall: panel.walls)
             {
-
                 if(hitBox.intersects(wall.hitBox))
                 {
-                    test=false;
-                    jump=1;
-                    jumped=false;
+                    if (gravity_switch)
+                    {
+                        if (hitBox.y<=wall.hitBox.y) {
+                            test=false;
+                            can_jump=true;
+                            djump=true;
+                        }
+                    } else {
+                        if (hitBox.y>=wall.hitBox.y) {
+                            test=false;
+                            can_jump=true;
+                            djump=true;
+                        }
+                    }
+
                     hitBox.y-=yspeed;
                     while(!wall.hitBox.intersects(hitBox))
                     {
-                        hitBox.y += Math.signum(yspeed);
+                        hitBox.y+=Math.signum(yspeed);
                     }
                     hitBox.y-=Math.signum(yspeed);
-                    yspeed = 0;
-                    y = hitBox.y;
+                    yspeed=0;
+                    y=hitBox.y;
                 }
             }
         }
@@ -318,9 +298,21 @@ public class Player {
             {
                 if(hitBox.intersects((wallB.hitBox)))
                 {
-                    test=false;
-                    jump=1;
-                    jumped=false;
+                    if (gravity_switch)
+                    {
+                        if (hitBox.y<=wallB.hitBox.y) {
+                            test=false;
+                            can_jump=true;
+                            djump=true;
+                        }
+                    } else {
+                        if (hitBox.y>=wallB.hitBox.y) {
+                            test=false;
+                            can_jump=true;
+                            djump=true;
+                        }
+                    }
+
                     hitBox.y-=yspeed;
                     while(!wallB.hitBox.intersects((hitBox)))
                     {
@@ -338,9 +330,9 @@ public class Player {
         {
             if(hitBox.intersects(changer.hitBox))
             {
-                gravity=!gravity;
-                jump=1;
-                //set_double_jump();
+                gravity_switch=!gravity_switch;
+                can_jump=true;
+                djump=true;
 
                 hitBox.y-=yspeed;
                 while(!changer.hitBox.intersects(hitBox))
@@ -349,10 +341,9 @@ public class Player {
                 }
                 hitBox.y-=Math.signum(yspeed);
                 yspeed=0;
-                y = hitBox.y;
+                y=hitBox.y;
             }
         }
-
 
         //Testing for wall jump
         for(Wall_Jump Wjump:panel.jumps)
@@ -364,12 +355,15 @@ public class Player {
                 test=false;
                 yspeed=0;
                 xspeed=0;
-                jump=1;
+                can_jump=true;
+                djump=true;
+
                 if(keyUP)
                 {
-                    if(looking_left) xspeed=30;
-                    else xspeed=-30;
-                    if(gravity)yspeed=-10;
+                    if(looking_left) xspeed=80;
+                    else xspeed=-80;
+
+                    if(gravity_switch) yspeed=-10;
                     else yspeed=10;
                 }
             }
@@ -419,20 +413,18 @@ public class Player {
             }
         }
 
-
-
         //Changes applied here
-
-        x+=xspeed;
-        y+=yspeed;
         hitBox.x=x;
         hitBox.y=y;
-
+        x+=xspeed;
+        y+=yspeed;
 
         if(x<0)where.left=true;
         else if(x>1920)where.right=true;
         else if(y<0)where.up=true;
         else if(y>1080)where.down=true;
+
+        if(keyLeft && keyRight) xspeed=0;
     }
     public void change_HitBox_type()
     {
@@ -441,7 +433,7 @@ public class Player {
     public void draw(Graphics2D gtd)
     {
         Images tmp=Images.NORMAL_RIGHT;
-        if(gravity)
+        if(gravity_switch)
         {
             if(looking_left)
             {

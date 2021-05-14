@@ -14,6 +14,7 @@ public class Spike {
 
     public Spike(int x,int y,Image I)
     {
+        g=I;
         count=0;
         this.x=x;
         this.y=y;

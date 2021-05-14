@@ -24,9 +24,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Bullet> bullets = new ArrayList<>();
     ArrayList <Turret> turrets = new ArrayList<>();
     ArrayList <Spawn> spawns = new ArrayList<>();
+    ArrayList <Tile> tiles =new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
     Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallI[] = new Image[10];
+    Image tileset[] = new Image[10];
 
 
     public GamePanel()
@@ -34,6 +36,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
+            tileset[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
         }
         player = new Player(200,300,this);
         try {
@@ -41,36 +44,44 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-
+                int tmp1;
+                int tmp2;
+                int tmp3;
                 switch (Integer.valueOf(data))
                 {
                     case 0:
-                        int tmp1=Integer.valueOf(myReader.nextLine());
-                        int tmp2=Integer.valueOf(myReader.nextLine());
-                        int tmp3=Integer.valueOf(myReader.nextLine());
+                         tmp1=Integer.valueOf(myReader.nextLine());
+                         tmp2=Integer.valueOf(myReader.nextLine());
+                         tmp3=Integer.valueOf(myReader.nextLine());
                     walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
                     break;
                     case 1:
-                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[5]));
                         break;
                     case 2:
                         changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 3:
-                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
                         break;
                     case 4:
-                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[1]));
                         break;
                     case 5:
-                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
                         break;
                     case 6:
-                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav,grav));
+                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],wallI[7]));
                         break;
                     case 7:
                         level_counter++;
                         spawns.add(new Spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                        break;
+                    case 8:
+                        tmp1=Integer.valueOf(myReader.nextLine());
+                        tmp2=Integer.valueOf(myReader.nextLine());
+                        tmp3=Integer.valueOf(myReader.nextLine());
+                        tiles.add(new Tile(tmp1,tmp2,tileset[tmp3]));
                         break;
                 }
             }
@@ -181,8 +192,17 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 Spawn spawn = (Spawn) itr.next();
                 itr.remove();
             }
+            itr=tiles.iterator();
+            while (itr.hasNext())
+            {
+                Tile tile = (Tile) itr.next();
+                itr.remove();
+            }
             try {
-                System.out.println(xlevel+"_"+ylevel+".txt");
+                int tmp1;
+                int tmp2;
+                int tmp3;
+                System.out.println(xlevel+"_"+ylevel);
                 File myObj = new File("levels/"+xlevel+"_"+ylevel+".txt");
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
@@ -191,61 +211,62 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     switch (Integer.valueOf(data))
                     {
                         case 0:
-                            int tmp1=Integer.valueOf(myReader.nextLine());
-                            int tmp2=Integer.valueOf(myReader.nextLine());
-                            int tmp3=Integer.valueOf(myReader.nextLine());
+                          tmp1=Integer.valueOf(myReader.nextLine());
+                            tmp2=Integer.valueOf(myReader.nextLine());
+                           tmp3=Integer.valueOf(myReader.nextLine());
                             walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
                             break;
                         case 1:
-                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[5]));
                             break;
                         case 2:
                             changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 3:
-                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
                             break;
                         case 4:
-                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[1]));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
                             break;
                         case 6:
-                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav,grav));
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],wallI[7]));
                             break;
                         case 7:
                             level_counter++;
                             spawns.add(new Spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
+                            break;
+                        case 8:
+                            tmp1=Integer.valueOf(myReader.nextLine());
+                            tmp2=Integer.valueOf(myReader.nextLine());
+                            tmp3=Integer.valueOf(myReader.nextLine());
+                            tiles.add(new Tile(tmp1,tmp2,tileset[tmp3]));
                             break;
                     }
                 }
                 myReader.close();
                 if(player.where.up)
                 {
-
                     level_counter=3;
                 }
                 else if(player.where.right)
                 {
-
                     level_counter=4;
                 }
                 else if (player.where.down)
                 {
-
                     level_counter=1;
                 }
                 else if (player.where.left)
                 {
-
                     level_counter=2;
                 }
                 for(Spawn spawn:spawns)
                 {
                     if(spawn.getIndex()==level_counter)player = new Player(spawn.getX(),spawn.getY(),this);
                 }
-               // player = new Player(200,300,this);
             } catch (FileNotFoundException e) {
                 System.exit(0);
             }
@@ -267,6 +288,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Mine mine:mines)mine.draw(gtd);
         for(Bullet bullet:bullets)bullet.draw(gtd);
         for(Turret turret:turrets)turret.draw(gtd);
+        for(Tile tile:tiles)tile.draw(gtd);
         player.draw(gtd);
     }
 
@@ -279,7 +301,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'w' )
         {
             player.test=false;
-            if(player.keyUP==false && player.jump>0 && player.jumped==true) player.jump();
+            if(!player.keyUP && !player.can_jump && player.djump) //tu wywolywany jest doublejump
+            {
+                player.jump();
+                player.djump=false;
+            }
             player.keyUP = true;
         }
         if(e.getKeyChar() == ' ')player.dash();
