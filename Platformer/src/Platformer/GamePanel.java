@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
@@ -29,10 +33,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallI[] = new Image[10];
     Image tileset[] = new Image[10];
+    Image mine_png=t.getImage("files/Tiles/mine.png");
+    Image bullet_png=t.getImage("files/Bullet.png");
+    Instant start = Instant.now();
 
 
     public GamePanel()
     {
+
+
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
@@ -68,10 +77,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[1]));
                         break;
                     case 5:
-                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
+                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));
                         break;
                     case 6:
-                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],wallI[7]));
+                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],bullet_png));
                         break;
                     case 7:
                         level_counter++;
@@ -229,10 +238,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[1]));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));
                             break;
                         case 6:
-                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],wallI[7]));
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],bullet_png));
                             break;
                         case 7:
                             level_counter++;
@@ -280,6 +289,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     {
         super.paint(g);
         Graphics2D gtd = (Graphics2D) g;
+        for(Tile tile:tiles)tile.draw(gtd);
         for(Wall wall:walls)wall.draw(gtd);
         for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
         for(WallB wallB:wallsB)wallB.draw(gtd);
@@ -288,7 +298,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Mine mine:mines)mine.draw(gtd);
         for(Bullet bullet:bullets)bullet.draw(gtd);
         for(Turret turret:turrets)turret.draw(gtd);
-        for(Tile tile:tiles)tile.draw(gtd);
+
         player.draw(gtd);
     }
 
@@ -310,7 +320,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         }
         if(e.getKeyChar() == ' ')player.dash();
         if(e.getKeyChar()== 'g')player.change_Gravity();
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)System.exit(0);
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+        {
+            Instant end = Instant.now();
+            Duration timeElapsed = Duration.between(start, end);
+            System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
+            System.exit(0);
+        }
         if(e.getKeyChar() == 'f')player.change_HitBox_type();
         if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
     }

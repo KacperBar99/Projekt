@@ -116,15 +116,15 @@ public class Player {
         where = new New_level();
         i = new Image[6];
         Toolkit t=Toolkit.getDefaultToolkit();
-        i[Images.NORMAL_RIGHT.give_Id()]=t.getImage("files/yusmini.gif");
-        i[Images.NORMAL_LEFT.give_Id()]=t.getImage("files/yusminiflipped.gif");
+        i[Images.NORMAL_RIGHT.give_Id()]=t.getImage("files/player.gif");
+        i[Images.NORMAL_LEFT.give_Id()]=t.getImage("files/player_left.gif");
         i[Images.INVERTED_LEFT.give_Id()]=t.getImage("files/yusminiinvertflipped.gif");
         i[Images.INVERTED_RIGHT.give_Id()]=t.getImage("files/yusminiinvert.gif");
         i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
         i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
-        width=64;
-        height=96;
+        width=57;
+        height=64;
         hitBox = new Rectangle(x,y,width,height);
 
     }

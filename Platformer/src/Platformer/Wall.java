@@ -23,11 +23,6 @@ public class Wall {
     }
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
-        /*
-        gtd.setColor(Color.white);
-        gtd.drawRect(x,y,width,height);
-        gtd.setColor(Color.white);
-        gtd.fillRect(x+1,y+1,width-2,height-2);
-        */
+
     }
 }

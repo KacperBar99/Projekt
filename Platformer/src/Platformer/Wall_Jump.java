@@ -23,12 +23,7 @@ public class Wall_Jump {
     }
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
-        /*
-        gtd.setColor(Color.green);
-        gtd.drawRect(x,y,width,height);
-        gtd.setColor(Color.green);
-        gtd.fillRect(x+1,y+1,width-2,height-2);
-        */
+
     }
 
 }

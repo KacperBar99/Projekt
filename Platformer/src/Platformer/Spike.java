@@ -25,13 +25,7 @@ public class Spike {
     }
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
-        /*
-        gtd.setColor(Color.cyan);
-        gtd.drawRect(x,y,width,height);
-        gtd.setColor(Color.cyan);
-        gtd.fillRect(x+1,y+1,width-2,height-2);
 
-         */
     }
 
 }

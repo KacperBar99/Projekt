@@ -28,13 +28,7 @@ public class Mine {
     }
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
-        /*
-        gtd.setColor(Color.red);
-        gtd.drawRect(x,y,width,height);
-        gtd.setColor(Color.red);
-        gtd.fillRect(x+1,y+1,width-2,height-2);
 
-         */
     }
     public void set()
     {

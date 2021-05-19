@@ -26,8 +26,8 @@ public class Bullet {
         yspeed=10;
         this.x=x;
         this.y=y;
-        this.width=8;
-        this.height=8;
+        this.width=9;
+        this.height=9;
         remove=false;
         Px=PX;
         Py=PY;
@@ -113,13 +113,14 @@ public class Bullet {
                 remove=true;
             }
         }
+        /*
         for(Turret turret:panel.turrets)
         {
             if(hitBox.intersects(turret.hitBox))
             {
                 remove=true;
             }
-        }
+        }*/
         hitBox=new Rectangle(x,y,width,height);
     }
 

@@ -38,7 +38,7 @@ public class Turret {
     {
         if(count==50)
         {
-            Bullet tmp=new Bullet(x,y+90,panel.player.x,panel.player.y,b);
+            Bullet tmp=new Bullet(x+32,y+32,panel.player.x,panel.player.y,b);
             panel.bullets.add(tmp);
             count=0;
         }
