@@ -375,10 +375,7 @@ public class Player {
         {
             if(hitBox.intersects(spike.hitBox))
             {
-                x=100;
-                y=100;
-                yspeed=0;
-                xspeed=0;
+                panel.exit_failure();
             }
         }
         //Collision tests for mines
@@ -386,30 +383,21 @@ public class Player {
         {
             if(hitBox.intersects(mine.hitBox))
             {
-                x=100;
-                y=100;
-                yspeed=0;
-                xspeed=0;
+                panel.exit_failure();
             }
         }
         for(Bullet bullet:panel.bullets)
         {
             if(hitBox.intersects(bullet.hitBox))
             {
-                x=100;
-                y=100;
-                yspeed=0;
-                xspeed=0;
+                panel.exit_failure();
             }
         }
         for(Turret turret:panel.turrets)
         {
             if(hitBox.intersects(turret.hitBox))
             {
-                x=100;
-                y=100;
-                yspeed=0;
-                xspeed=0;
+                panel.exit_failure();
             }
         }
 

@@ -11,15 +11,29 @@ public class Tile {
 
 
 
-    public Tile(int x,int y,Image I)
+    public Tile(int x,int y,int w,int h,Image I)
     {
         this.x=x;
         this.y=y;
-        this.width=64;
-        this.height=64;
+        this.width=w;
+        this.height=h;
         g=I;
     }
-    public void draw(Graphics2D gtd){
-        gtd.drawImage(g, x, y, null);
+    public void draw(Graphics2D gtd,boolean Simple){
+        if(!Simple)
+        {
+            gtd.drawImage(g, x, y, null);
+        }
+        else
+        {
+            gtd.setColor(Color.darkGray);
+            gtd.drawRect(x,y,width,height);
+            gtd.setColor(Color.GRAY);
+            gtd.fillRect(x+1,y+1,width-2,height-2);
+
+        }
+
+
+
     }
 }
