@@ -1,5 +1,6 @@
 package Platformer;
 
+import javax.lang.model.type.NullType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,11 @@ import java.util.Timer;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
-    int win_counter=0;
+    int name_iterator;
+    int max_nickname_length=10;
+    Letter enter_name[];
+    char nickname[];
+    int Place_in_results;
     String[] listN;
     long listT[];
     int universal_64=64;
@@ -255,7 +260,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(!win)
         {
 
-            for(Tile tile:tiles)tile.draw(gtd,false);
+            for(Tile tile:tiles)tile.draw(gtd);
             for(Wall wall:walls)wall.draw(gtd);
             for(Gravity_Changer gravity_changer:changers)gravity_changer.draw(gtd);
             for(WallB wallB:wallsB)wallB.draw(gtd);
@@ -268,39 +273,212 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         }
         else
         {
-            for(Tile tile:tiles)tile.draw(gtd,true);
+
+            for(Tile tile:tiles)tile.draw_C(gtd);
             for(Letter letter:letters)letter.draw(gtd);
+            for(int i=0;i<10;i++)
+            {
+                if(enter_name[i]!=null)enter_name[i].draw(gtd);
+            }
         }
     }
 
 
 
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyChar() == 'a' )player.keyLeft = true;
-        if(e.getKeyChar() == 's' )player.keyDown = true;
-        if(e.getKeyChar() == 'd' )player.keyRight = true;
-        if(e.getKeyChar() == 'w' )
+        if(!win)
         {
-            player.test=false;
-            if(!player.keyUP && !player.can_jump && player.djump) //tu wywolywany jest doublejump
+            if(e.getKeyChar() == 'a' )player.keyLeft = true;
+            if(e.getKeyChar() == 's' )player.keyDown = true;
+            if(e.getKeyChar() == 'd' )player.keyRight = true;
+            if(e.getKeyChar() == 'w' )
             {
-                player.jump();
-                player.djump=false;
+                player.test=false;
+                if(!player.keyUP && !player.can_jump && player.djump) //tu wywolywany jest doublejump
+                {
+                    player.jump();
+                    player.djump=false;
+                }
+                player.keyUP = true;
             }
-            player.keyUP = true;
+            if(e.getKeyChar() == ' ')player.dash();
+            if(e.getKeyChar()== 'g')player.change_Gravity();
+            if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+            {
+                exit_success();
+            }
+            if(e.getKeyChar() == 'f')player.change_HitBox_type();
+            if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
         }
-        if(e.getKeyChar() == ' ')player.dash();
-        if(e.getKeyChar()== 'g')player.change_Gravity();
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+        else
         {
-            exit_success();
-        }
-        if(e.getKeyChar() == 'f')player.change_HitBox_type();
-        if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && win)
-        {
+            if(name_iterator<10)
+            {
+                if(e.getKeyChar()=='q')
+                {
+                    nickname[name_iterator]='q';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['q'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='w'){
+                    nickname[name_iterator]='w';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['w'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='e'){
+                    nickname[name_iterator]='e';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['e'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='r'){
+                    nickname[name_iterator]='r';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['r'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='t'){
+                    nickname[name_iterator]='t';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['t'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='y'){
+                    nickname[name_iterator]='y';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['y'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='u'){
+                    nickname[name_iterator]='u';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['u'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='i'){
+                    nickname[name_iterator]='i';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['i'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='o'){
+                    nickname[name_iterator]='o';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['o'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='p'){
+                    nickname[name_iterator]='p';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['p'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='a'){
+                    nickname[name_iterator]='a';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['a'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='s'){
+                    nickname[name_iterator]='s';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['s'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='d'){
+                    nickname[name_iterator]='d';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['d'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='f'){
+                    nickname[name_iterator]='f';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['f'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='g'){
+                    nickname[name_iterator]='g';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['g'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='h'){
+                    nickname[name_iterator]='h';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['h'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='j'){
+                    nickname[name_iterator]='j';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['j'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='k'){
+                    nickname[name_iterator]='k';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['k'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='l'){
+                    nickname[name_iterator]='l';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['l'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='z'){
+                    nickname[name_iterator]='z';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['z'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='x'){
+                    nickname[name_iterator]='x';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['x'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='c'){
+                    nickname[name_iterator]='c';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['c'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='v'){
+                    nickname[name_iterator]='v';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['v'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='b'){
+                    nickname[name_iterator]='b';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['b'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='n'){
+                    nickname[name_iterator]='n';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['n'-'a']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='m'){
+                    nickname[name_iterator]='m';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['m'-'a']);
+                    name_iterator++;
+                }
+            }
 
+
+            if(e.getKeyChar()=='1');
+            if(e.getKeyChar()=='2');
+            if(e.getKeyChar()=='3');
+            if(e.getKeyChar()=='4');
+            if(e.getKeyChar()=='5');
+            if(e.getKeyChar()=='6');
+            if(e.getKeyChar()=='7');
+            if(e.getKeyChar()=='8');
+            if(e.getKeyChar()=='9');
+            if(e.getKeyChar()=='0');
+            if(e.getKeyChar()==' ');
+            if(e.getKeyCode() == KeyEvent.VK_ENTER)
+            {
+                //String tmp = JOptionPane.showInputDialog("You won! Please enter your name:");
+                String tmp="";
+                for(int i=0;i<10;i++)
+                {
+                    if(nickname[i]==0)break;
+                    tmp=tmp+nickname[i];
+                }
+                Result(tmp);
+                System.exit(0);
+            }
+            if(e.getKeyCode() ==KeyEvent.VK_BACK_SPACE)
+            {
+                if(name_iterator>0) name_iterator--;
+                enter_name[name_iterator]= null;
+                nickname[name_iterator]=0;
+            }
         }
+
     }
 
     public void keyReleased(KeyEvent e) {
@@ -324,6 +502,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         long Input_time=(long)timeElapsed.toMillis();
         win=true;
         clear();
+
         listN = new String[10];
         listT = new long[10];
 
@@ -343,12 +522,21 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        for(int i=0;i<10;i++)
+        {
+            if(Input_time>=listT[i])
+            {
+                Place_in_results=i;
+                break;
+            }
+        }
+        listT[Place_in_results]=Input_time;
         create_End();
+        nickname=new char[max_nickname_length];
+        enter_name = new Letter[max_nickname_length];
+        name_iterator=0;
 
 
-        String tmp = JOptionPane.showInputDialog("You won! Please enter your name:");
-        Result(tmp,Input_time);
-        System.exit(0);
     }
     public void exit_failure()
     {
@@ -358,30 +546,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         System.out.println("Sorry "+timeElapsed.toMillis());
         System.exit(1);
     }
-    public void Result(String N,long time)
+    public void Result(String N)
     {
 
-
-
-
-
-
-
-
-
         //Changing best record possible
-        for(int i=0;i<10;i++)
-        {
-            if(time>=listT[i])
-            {
-                Scanner scan=new Scanner(N);
-                listN[i]=N;
-                listT[i]=time;
-                break;
-            }
-        }
 
-
+        listN[Place_in_results]=N;
 
 
         //saving new data from file
@@ -465,10 +635,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     public void create_End()
     {
+        listN[Place_in_results]="";
         for(int j=0;j<10;j++)
         {
             for (int i = 0; i < listN[j].length(); i++) {
-                letters.add(new Letter(i*77,j*102,77,137,A_letter[listN[j].charAt(i)-'A']));
+                letters.add(new Letter(i*77,j*102,77,137,A_letter[listN[j].charAt(i)-'a']));
             }
             String tmp=(listT[j]+"");
             for (int i = 0; i < tmp.length(); i++) {
@@ -482,8 +653,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
         for(int i=0;i<10;i++)
         {
-            tiles.add(new Tile(0,i*102,960,102,tileset[0]));
-            tiles.add(new Tile(960,i*102,960,102,tileset[0]));
+            Tile tmp1=new Tile(0,i*102,960,102,tileset[0]);
+            Tile tmp2=new Tile(960,i*102,960,102,tileset[0]);
+            if(i==Place_in_results)
+            {
+                tmp1.change_special();
+                tmp2.change_special();
+            }
+            tiles.add(tmp1);
+            tiles.add(tmp2);
         }
 
 
