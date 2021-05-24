@@ -17,6 +17,10 @@ import java.util.Timer;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
+
+    int StartX=200;
+    int StartY=300;
+    int Points=1000;
     int name_iterator;
     int max_nickname_length=10;
     Letter enter_name[];
@@ -24,7 +28,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     int Place_in_results;
     String[] listN;
     long listT[];
-    int universal_64=64;
+    int universal_value=64;
     boolean win=false;
     int xlevel=0;
     int ylevel=0;
@@ -71,7 +75,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
             tileset[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
         }
-        player = new Player(200,300,this);
+        player = new Player(StartX,StartY,this);
         try {
             File myObj = new File("levels/"+xlevel+"_"+ylevel+".txt");
             Scanner myReader = new Scanner(myObj);
@@ -114,7 +118,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         tmp1=Integer.valueOf(myReader.nextLine());
                         tmp2=Integer.valueOf(myReader.nextLine());
                         tmp3=Integer.valueOf(myReader.nextLine());
-                        tiles.add(new Tile(tmp1,tmp2,universal_64,universal_64,tileset[tmp3]));
+                        tiles.add(new Tile(tmp1,tmp2,universal_value,universal_value,tileset[tmp3]));
                         break;
                 }
             }
@@ -217,7 +221,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             tmp1=Integer.valueOf(myReader.nextLine());
                             tmp2=Integer.valueOf(myReader.nextLine());
                             tmp3=Integer.valueOf(myReader.nextLine());
-                            tiles.add(new Tile(tmp1,tmp2,universal_64,universal_64,tileset[tmp3]));
+                            tiles.add(new Tile(tmp1,tmp2,universal_value,universal_value,tileset[tmp3]));
                             break;
                     }
                 }
@@ -242,6 +246,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 {
                     if(spawn.getIndex()==level_counter)player = new Player(spawn.getX(),spawn.getY(),this);
                 }
+                player.Restart=level_counter;
             } catch (FileNotFoundException e) {
                xlevel=0;
                ylevel=0;
@@ -445,19 +450,61 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,A_letter['m'-'a']);
                     name_iterator++;
                 }
+                if(e.getKeyChar()=='1'){
+                    nickname[name_iterator]='1';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['1'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='2'){
+                    nickname[name_iterator]='2';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['2'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='3'){
+                    nickname[name_iterator]='3';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['3'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='4'){
+                    nickname[name_iterator]='4';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['4'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='5'){
+                    nickname[name_iterator]='5';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['5'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='6'){
+                    nickname[name_iterator]='6';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['6'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='7'){
+                    nickname[name_iterator]='7';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['7'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='8'){
+                    nickname[name_iterator]='8';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['8'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='9'){
+                    nickname[name_iterator]='9';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['9'-'0']);
+                    name_iterator++;
+                }
+                if(e.getKeyChar()=='0')
+                {
+                    nickname[name_iterator]='0';
+                    enter_name[name_iterator]=new Letter(name_iterator*77,Place_in_results*102,77,137,Letter_0['0'-'0']);
+                    name_iterator++;
+                }
             }
 
 
-            if(e.getKeyChar()=='1');
-            if(e.getKeyChar()=='2');
-            if(e.getKeyChar()=='3');
-            if(e.getKeyChar()=='4');
-            if(e.getKeyChar()=='5');
-            if(e.getKeyChar()=='6');
-            if(e.getKeyChar()=='7');
-            if(e.getKeyChar()=='8');
-            if(e.getKeyChar()=='9');
-            if(e.getKeyChar()=='0');
+
             if(e.getKeyChar()==' ');
             if(e.getKeyCode() == KeyEvent.VK_ENTER)
             {
@@ -530,7 +577,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 break;
             }
         }
-        listT[Place_in_results]=Input_time;
+        listT[Place_in_results]=Points-(Input_time%1000);
         create_End();
         nickname=new char[max_nickname_length];
         enter_name = new Letter[max_nickname_length];
@@ -639,7 +686,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int j=0;j<10;j++)
         {
             for (int i = 0; i < listN[j].length(); i++) {
-                letters.add(new Letter(i*77,j*102,77,137,A_letter[listN[j].charAt(i)-'a']));
+                if(listN[j].charAt(i)<'a' || listN[j].charAt(i)>'z')
+                {
+                    letters.add(new Letter(i*77,j*102,77,137,Letter_0[listN[j].charAt(i)-'0']));
+                }
+                else
+                {
+                    letters.add(new Letter(i*77,j*102,77,137,A_letter[listN[j].charAt(i)-'a']));
+                }
+
             }
             String tmp=(listT[j]+"");
             for (int i = 0; i < tmp.length(); i++) {

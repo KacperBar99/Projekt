@@ -60,6 +60,8 @@ public class Player {
         }
     }
 
+    int Penalty=100;
+    int Restart=0;
     boolean hitBox_type;
     GamePanel panel;
     int counter;
@@ -375,7 +377,13 @@ public class Player {
         {
             if(hitBox.intersects(spike.hitBox))
             {
+                if(panel.Points<=0)
                 panel.exit_failure();
+                else
+                {
+                    Player_restart();
+                    panel.Points-=Penalty;
+                }
             }
         }
         //Collision tests for mines
@@ -383,21 +391,39 @@ public class Player {
         {
             if(hitBox.intersects(mine.hitBox))
             {
-                panel.exit_failure();
+                if(panel.Points<=0)
+                    panel.exit_failure();
+                else
+                {
+                    Player_restart();
+                    panel.Points-=Penalty;
+                }
             }
         }
         for(Bullet bullet:panel.bullets)
         {
             if(hitBox.intersects(bullet.hitBox))
             {
-                panel.exit_failure();
+                if(panel.Points<=0)
+                    panel.exit_failure();
+                else
+                {
+                    Player_restart();
+                    panel.Points-=Penalty;
+                }
             }
         }
         for(Turret turret:panel.turrets)
         {
             if(hitBox.intersects(turret.hitBox))
             {
-                panel.exit_failure();
+                if(panel.Points<=0)
+                    panel.exit_failure();
+                else
+                {
+                    Player_restart();
+                    panel.Points-=Penalty;
+                }
             }
         }
 
@@ -451,6 +477,25 @@ public class Player {
             gtd.fillRect(x+1,y+1,width-2,height-2);
         }
     }
+    void Player_restart()
+    {
+        if(Restart==0)
+        {
+            x= panel.StartX;
+            y= panel.StartY;
+        }
+        else
+        {
+            for(Spawn spawn:panel.spawns)
+            {
+                if(spawn.getIndex()==Restart)
+                {
+                    x=spawn.getX();
+                    y=spawn.getY();
+                }
+            }
+        }
 
+    }
 
 }
