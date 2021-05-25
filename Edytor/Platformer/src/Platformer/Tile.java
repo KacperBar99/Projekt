@@ -8,8 +8,9 @@ public class Tile {
     int width;
     int height;
     Image g;
+    int i;
 
-    public Tile(int x,int y,Image I)
+    public Tile(int x,int y,Image I,int i)
     {
         this.x=x;
         this.y=y;
@@ -22,6 +23,7 @@ public class Tile {
     }
     public int getX(){return x;}
     public int getY(){return y;}
+    public int geti(){return i;}
     public  boolean getGraphic(Image I){
         if(I==g) return true;
         else return false;

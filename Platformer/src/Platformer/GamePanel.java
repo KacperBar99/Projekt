@@ -54,6 +54,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image tileset[] = new Image[10];
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image bullet_png=t.getImage("files/Bullet.png");
+    Image turret_png=t.getImage("files/Tiles/turret.png");
     Instant start = Instant.now();
 
 
@@ -73,7 +74,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
-            tileset[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
+            tileset[i]=t.getImage("files/Tiles/background/"+(i+1)+".png");
         }
         player = new Player(StartX,StartY,this);
         try {
@@ -108,7 +109,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));
                         break;
                     case 6:
-                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],bullet_png));
+                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),turret_png,bullet_png));
                         break;
                     case 7:
                         level_counter++;
@@ -208,7 +209,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));
                             break;
                         case 6:
-                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6],bullet_png));
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),turret_png,bullet_png));
                             break;
                         case 7:
                             level_counter++;
@@ -566,7 +567,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        Points= (int) (Points-(Input_time%1000));
+        Points= (int) (Points-(Input_time/1000));
+        if(Points<0)Points=0;
         for(int i=0;i<10;i++)
         {
             if(Points>=listT[i])

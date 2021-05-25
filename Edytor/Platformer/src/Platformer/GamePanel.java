@@ -33,7 +33,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
-            tileset[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
+            tileset[i]=t.getImage("files/Tiles/background/"+(i+1)+".png");
         }
         String username = System.getProperty("user.name");
         JFileChooser fs = new JFileChooser(new File("C:\\Users\\" + username + "\\OneDrive\\Pulpit"));
@@ -82,7 +82,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             tmp1=Integer.valueOf(myReader.nextLine());
                             tmp2=Integer.valueOf(myReader.nextLine());
                             tmp3=Integer.valueOf(myReader.nextLine());
-                            tiles.add(new Tile(tmp1,tmp2,tileset[tmp3]));
+                            tiles.add(new Tile(tmp1,tmp2,tileset[tmp3],tmp3));
                             break;
                     }
                 }

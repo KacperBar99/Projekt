@@ -134,7 +134,7 @@ public class Cursor {
                     Taken[x/64][y/64]=Id;
                     break;
                 case 8:
-                    panel.tiles.add(new Tile(x,y,panel.tileset[Id2]));
+                    panel.tiles.add(new Tile(x,y,panel.tileset[Id2],Id2));
                     Taken[x/64][y/64] = Id;
                     break;
             }
@@ -386,6 +386,10 @@ public class Cursor {
                 break;
             case 7:
                 gtd.setColor(Color.gray);
+                hitBox=new Rectangle(x,y,width,height);
+                break;
+            case 8:
+                gtd.setColor(Color.yellow);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:
