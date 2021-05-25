@@ -40,14 +40,16 @@ public class Player {
     }
     public enum Images
     {
-
-
-        NORMAL_RIGHT(0),
-        NORMAL_LEFT(1),
-        INVERTED_RIGHT(3),
-        INVERTED_LEFT(2),
-        DARK_RIGHT(4),
-        DARK_LEFT(5);
+        IDLE_LEFT(0),
+        IDLE_RIGHT(1),
+        RUNNING_RIGHT(2),
+        RUNNING_LEFT(3),
+        JUMPING_RIGHT(4),
+        JUMPING_LEFT(5),
+        INVERTED_RIGHT(6),
+        INVERTED_LEFT(7),
+        DARK_RIGHT(9),
+        DARK_LEFT(10);
 
         private int Id;
         private Images(int I)
@@ -116,17 +118,23 @@ public class Player {
         grav=1.6;
         jumpforce=20;
         where = new New_level();
-        i = new Image[6];
+        i = new Image[11];
         Toolkit t=Toolkit.getDefaultToolkit();
-        i[Images.NORMAL_RIGHT.give_Id()]=t.getImage("files/player.gif");
-        i[Images.NORMAL_LEFT.give_Id()]=t.getImage("files/player_left.gif");
+
+        i[Images.IDLE_RIGHT.give_Id()]=t.getImage("files/character/idle_right.gif");
+        i[Images.IDLE_LEFT.give_Id()]=t.getImage("files/character/idle_left.gif");
+        i[Images.RUNNING_RIGHT.give_Id()]=t.getImage("files/character/running_right.gif");
+        i[Images.RUNNING_LEFT.give_Id()]=t.getImage("files/character/running_left.gif");
+        i[Images.JUMPING_RIGHT.give_Id()]=t.getImage("files/character/jumping_right.gif");
+        i[Images.JUMPING_LEFT.give_Id()]=t.getImage("files/character/jumping_left.gif");
+
         i[Images.INVERTED_LEFT.give_Id()]=t.getImage("files/yusminiinvertflipped.gif");
         i[Images.INVERTED_RIGHT.give_Id()]=t.getImage("files/yusminiinvert.gif");
         i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
         i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
-        width=57;
-        height=64;
+        width=63;
+        height=96;
         hitBox = new Rectangle(x,y,width,height);
 
     }
@@ -160,7 +168,8 @@ public class Player {
 
     public void set()
     {
-
+        x+=xspeed;
+        y+=yspeed;
 
         //gravitation acceleration
         if(gravity_switch) yspeed+=grav;
@@ -430,8 +439,7 @@ public class Player {
         //Changes applied here
         hitBox.x=x;
         hitBox.y=y;
-        x+=xspeed;
-        y+=yspeed;
+
 
         if(x<0)where.left=true;
         else if(x>1920)where.right=true;
@@ -440,18 +448,34 @@ public class Player {
 
         if(keyLeft && keyRight) xspeed=0;
     }
+
     public void change_HitBox_type()
     {
         hitBox_type=!hitBox_type;
     }
     public void draw(Graphics2D gtd)
     {
-        Images tmp=Images.NORMAL_RIGHT;
+        Images tmp=Images.IDLE_RIGHT;
         if(gravity_switch)
         {
-            if(looking_left)
-            {
-                tmp=Images.NORMAL_LEFT;
+            if (!test) {
+                if(looking_left)
+                {
+                    if (keyLeft)
+                        tmp=Images.RUNNING_LEFT;
+                    else
+                        tmp=Images.IDLE_LEFT;
+                } else {
+                    if (keyRight)
+                        tmp=Images.RUNNING_RIGHT;
+                    else
+                        tmp=Images.IDLE_RIGHT;
+                }
+            } else {
+                if (looking_left)
+                    tmp=Images.JUMPING_LEFT;
+                else
+                    tmp=Images.JUMPING_RIGHT;
             }
         }
         else
@@ -477,6 +501,7 @@ public class Player {
             gtd.fillRect(x+1,y+1,width-2,height-2);
         }
     }
+
     void Player_restart()
     {
         if(Restart==0)

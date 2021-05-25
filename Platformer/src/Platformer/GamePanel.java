@@ -128,9 +128,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             e.printStackTrace();
         }
 
-
-
-
         gameTimer = new Timer();
         GamePanel copy=this;
 
@@ -569,15 +566,17 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        Points= (int) (Points-(Input_time%1000));
         for(int i=0;i<10;i++)
         {
-            if(Input_time>=listT[i])
+            if(Points>=listT[i])
             {
                 Place_in_results=i;
                 break;
             }
         }
-        listT[Place_in_results]=Points-(Input_time%1000);
+        listT[Place_in_results]=Points;
+
         create_End();
         nickname=new char[max_nickname_length];
         enter_name = new Letter[max_nickname_length];
