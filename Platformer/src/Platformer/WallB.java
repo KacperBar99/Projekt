@@ -9,7 +9,6 @@ public class WallB {
     int width;
     int height;
     Image g;
-
     Rectangle hitBox;
 
 

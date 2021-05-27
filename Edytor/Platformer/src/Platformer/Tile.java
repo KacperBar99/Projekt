@@ -24,8 +24,5 @@ public class Tile {
     public int getX(){return x;}
     public int getY(){return y;}
     public int geti(){return i;}
-    public  boolean getGraphic(Image I){
-        if(I==g) return true;
-        else return false;
-    }
+
 }

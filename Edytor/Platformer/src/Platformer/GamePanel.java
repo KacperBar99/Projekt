@@ -23,8 +23,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Player_spawn> spawns =new ArrayList<>();
     ArrayList <Tile> tiles =new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
-    Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallI[] = new Image[10];
+    Image grav = t.getImage("files/Tiles/gravity.png");
+    Image wallBI[] = new Image[10];
+    Image wallJI=t.getImage("files/Tiles/gravity.png");
+    Image spikeI=t.getImage("files/Tiles/gravity.png");
+    Image mine_png=t.getImage("files/Tiles/mine.png");
+    Image turret_png =t.getImage("files/Tiles/turret.png");
     Image tileset[] = new Image[10];
 
 
@@ -33,6 +38,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
+            wallBI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
             tileset[i]=t.getImage("files/Tiles/background/"+(i+1)+".png");
         }
         String username = System.getProperty("user.name");
@@ -55,25 +61,28 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                              tmp1=Integer.valueOf(myReader.nextLine());
                              tmp2=Integer.valueOf(myReader.nextLine());
                              tmp3=Integer.valueOf(myReader.nextLine());
-                            walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
+                            walls.add(new Wall(tmp1,tmp2,wallI[tmp3],tmp3));
                             break;
                         case 1:
-                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),grav));
+                            tmp1=Integer.valueOf(myReader.nextLine());
+                            tmp2=Integer.valueOf(myReader.nextLine());
+                            tmp3=Integer.valueOf(myReader.nextLine());
+                            wallsB.add(new WallB(tmp1,tmp2,wallBI[tmp3],tmp3));
                             break;
                         case 2:
                             changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),grav));
                             break;
                         case 3:
-                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),grav));
+                            jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),wallJI));
                             break;
                         case 4:
-                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),grav));
+                            spikes.add(new Spike(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),spikeI));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),grav));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),mine_png));
                             break;
                         case 6:
-                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),grav));
+                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()), Integer.valueOf(myReader.nextLine()),turret_png));
                             break;
                         case 7:
                             spawns.add(new Player_spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
@@ -161,6 +170,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'l')cursor.change_Id(false);
         if(e.getKeyChar() == 'u')cursor.change_ID(true);
         if(e.getKeyChar() == 'h')cursor.change_ID(false);
+        if(e.getKeyChar() == 'c')cursor.clear();
     }
 
     public void keyReleased(KeyEvent e) {

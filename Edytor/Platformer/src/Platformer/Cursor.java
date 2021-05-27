@@ -25,6 +25,7 @@ public class Cursor {
     int Taken[][];
     int Id2;
     int Id2_max;
+    Image show;
 
 
     Rectangle hitBox;
@@ -98,24 +99,20 @@ public class Cursor {
         if(Taken[x/64][y/64]==-1 ) {
             switch (Id) {
                 case 0:
-                    panel.walls.add(new Wall(x,y,panel.wallI[Id2]));
+                    panel.walls.add(new Wall(x,y,panel.wallI[Id2],Id2));
                     Taken[x/64][y/64] = Id;
-
                     break;
                 case 1:
-                    panel.wallsB.add(new WallB(x,y,panel.grav));
+                    panel.wallsB.add(new WallB(x,y,panel.wallBI[Id2],Id2));
                     Taken[x/64][y/64] = Id;
-
                     break;
                 case 2:
                     panel.changers.add(new Gravity_Changer(x,y,panel.grav));
                     Taken[x/64][y/64] = Id;
-
                     break;
                 case 3:
                     panel.jumps.add(new Wall_Jump(x,y,panel.grav));
                     Taken[x/64][y/64] = Id;
-
                     break;
                 case 4:
                     panel.spikes.add(new Spike(x,y,panel.grav));
@@ -267,7 +264,9 @@ public class Cursor {
     public void draw(Graphics2D gtd)
     {
         change_type(gtd);
-        gtd.fillRect(x,y,width,height);
+        if(Id==7)gtd.fillRect(x,y,width,height);
+        else
+        gtd.drawImage(show,x,y,null);
     }
     public void exit() {
         String username = System.getProperty("user.name");
@@ -284,17 +283,13 @@ public class Cursor {
                     myWriter.write(0 + "\n");
                     myWriter.write(wall.getX() + "\n");
                     myWriter.write(wall.getY() + "\n");
-                    for(int i=0;i<10;i++)
-                    {
-                        if(wall.getGraphic(panel.wallI[i]))
-                            myWriter.write(i+"\n");
-                        break;
-                    }
+                    myWriter.write(wall.getId()+"\n");
                 }
                 for (WallB wallB : panel.wallsB) {
                     myWriter.write(1 + "\n");
                     myWriter.write(wallB.getX() + "\n");
                     myWriter.write(wallB.getY() + "\n");
+                    myWriter.write(wallB.getid()+"\n");
                 }
                 for (Gravity_Changer changer : panel.changers) {
                     myWriter.write(2 + "\n");
@@ -336,12 +331,7 @@ public class Cursor {
                     myWriter.write(8 + "\n");
                     myWriter.write(tile.getX() + "\n");
                     myWriter.write(tile.getY() + "\n");
-                    for(int i=0;i<10;i++)
-                    {
-                        if(tile.getGraphic(panel.wallI[i]))
-                            myWriter.write(i+"\n");
-                        break;
-                    }
+                    myWriter.write(tile.geti()+"\n");
                 }
                 myWriter.flush();
                 myWriter.close();
@@ -357,30 +347,37 @@ public class Cursor {
         switch (Id)
         {
             case 0:
-                hitBox=new Rectangle(x,y,width,height);
+                show=panel.wallI[Id2];
                 gtd.setColor(Color.WHITE);
+                hitBox=new Rectangle(x,y,width,height);
                 break;
             case 1:
+                show=panel.wallBI[Id2];
                 gtd.setColor(Color.black);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 2:
+                show=panel.grav;
                 gtd.setColor(Color.blue);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 3:
+                show=panel.wallJI;
                gtd.setColor(Color.green);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 4:
+                show=panel.spikeI;
                 gtd.setColor(Color.cyan);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 5:
+                show=panel.mine_png;
                 gtd.setColor(Color.red);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 6:
+                show=panel.turret_png;
                 gtd.setColor(Color.magenta);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
@@ -389,12 +386,71 @@ public class Cursor {
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 8:
+                show=panel.tileset[Id2];
                 gtd.setColor(Color.yellow);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:
                 gtd.setColor(Color.DARK_GRAY);
                 hitBox=new Rectangle(x,y,width,height);
+        }
+    }
+    void clear()
+    {
+        Iterator itr;
+        itr = panel.walls.iterator();
+        while(itr.hasNext())
+        {
+            Wall wall=(Wall) itr.next();
+            itr.remove();
+        }
+        itr = panel.wallsB.iterator();
+        while(itr.hasNext())
+        {
+            WallB wallb=(WallB) itr.next();
+            itr.remove();
+        }
+        itr = panel.changers.iterator();
+        while(itr.hasNext())
+        {
+            Gravity_Changer changer=(Gravity_Changer) itr.next();
+            itr.remove();
+        }
+        itr = panel.jumps.iterator();
+        while(itr.hasNext())
+        {
+            Wall_Jump Wjump=(Wall_Jump) itr.next();
+            itr.remove();
+        }
+        itr=panel.spikes.iterator();
+        while(itr.hasNext())
+        {
+            Spike spike=(Spike) itr.next();
+            itr.remove();
+        }
+        itr=panel.mines.iterator();
+        while(itr.hasNext())
+        {
+            Mine mine = (Mine) itr.next();
+            itr.remove();
+        }
+        itr=panel.turrets.iterator();
+        while (itr.hasNext())
+        {
+            Turret turret = (Turret) itr.next();
+            itr.remove();
+        }
+        itr=panel.spawns.iterator();
+        while (itr.hasNext())
+        {
+            Player_spawn spawn = (Player_spawn) itr.next();
+            itr.remove();
+        }
+        itr=panel.tiles.iterator();
+        while (itr.hasNext())
+        {
+            Tile tile = (Tile) itr.next();
+            itr.remove();
         }
     }
 }

@@ -49,12 +49,17 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Toolkit t=Toolkit.getDefaultToolkit();
     Image A_letter [] = new Image[26];
     Image Letter_0 [] = new Image[10];
-    Image grav = t.getImage("files/Tiles/gravity.png");
-    Image wallI[] = new Image[10];
-    Image tileset[] = new Image[10];
-    Image mine_png=t.getImage("files/Tiles/mine.png");
     Image bullet_png=t.getImage("files/Bullet.png");
-    Image turret_png=t.getImage("files/Tiles/turret.png");
+    Image wallI[] = new Image[10];
+    Image grav = t.getImage("files/Tiles/gravity.png");
+    Image wallBI[] = new Image[10];
+    Image wallJI=t.getImage("files/Tiles/gravity.png");
+    Image spikeI=t.getImage("files/Tiles/gravity.png");
+    Image mine_png=t.getImage("files/Tiles/mine.png");
+    Image turret_png =t.getImage("files/Tiles/turret.png");
+    Image tileset[] = new Image[10];
+
+
     Instant start = Instant.now();
 
 
@@ -94,16 +99,19 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
                     break;
                     case 1:
-                        wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[5]));
+                        tmp1=Integer.valueOf(myReader.nextLine());
+                        tmp2=Integer.valueOf(myReader.nextLine());
+                        tmp3=Integer.valueOf(myReader.nextLine());
+                        wallsB.add(new WallB(tmp1,tmp2,wallBI[tmp3]));
                         break;
                     case 2:
                         changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
                         break;
                     case 3:
-                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[6]));
+                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallJI));
                         break;
                     case 4:
-                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[1]));
+                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),spikeI));
                         break;
                     case 5:
                         mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));

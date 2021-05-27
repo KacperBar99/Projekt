@@ -9,13 +9,13 @@ public class WallB {
     int width;
     int height;
     Image g;
-
+    int id;
     Rectangle hitBox;
 
 
-    public WallB(int x,int y,Image i)
+    public WallB(int x,int y,Image i,int ID)
     {
-        Toolkit t=Toolkit.getDefaultToolkit();
+        id=ID;
         g=i;
         this.x=x;
         this.y=y;
@@ -26,14 +26,9 @@ public class WallB {
     }
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
-        /*
-        gtd.setColor(Color.white);
-        gtd.drawRect(x,y,width,height);
-        gtd.setColor(Color.black);
-        gtd.fillRect(x+1,y+1,width-2,height-2);
-         */
     }
     public int getX(){return x;}
     public int getY(){return y;}
+    public int getid(){return id;}
 
 }

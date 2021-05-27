@@ -8,13 +8,14 @@ public class Wall {
     int width;
     int height;
     Image g;
-
+    int id;
 
     Rectangle hitBox;
 
-    public Wall(int x,int y,Image i)
+    public Wall(int x,int y,Image i,int N)
     {
         g=i;
+        id=N;
         this.x=x;
         this.y=y;
         this.width=64;
@@ -24,19 +25,11 @@ public class Wall {
     }
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
-        /*
-        gtd.setColor(Color.black);
-        gtd.drawRect(x,y,width,height);
-        gtd.setColor(Color.white);
-        gtd.fillRect(x+1,y+1,width-2,height-2);
-
-         */
     }
 
     public int getX(){return x;}
     public int getY(){return y;}
-    public  boolean getGraphic(Image I){
-        if(I==g) return true;
-        else return false;
-    }
+    public int getId(){return id;}
+
+
 }
