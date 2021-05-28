@@ -1,6 +1,7 @@
 package Platformer;
 
 import java.awt.*;
+import java.awt.desktop.AboutEvent;
 
 
 public class Player {
@@ -11,6 +12,7 @@ public class Player {
         boolean right;
         boolean up;
         boolean down;
+        boolean start;
         New_level()
         {
             down=false;
@@ -18,8 +20,18 @@ public class Player {
             right=false;
             left=false;
         }
+        void set_start()
+        {
+            start=true;
+        }
         boolean is_true()
         {
+            if(start)
+            {
+                start=false;
+                return true;
+            }
+
             if(up || down || left || right)
                 return true;
             else return false;
@@ -387,7 +399,10 @@ public class Player {
             if(hitBox.intersects(spike.hitBox))
             {
                 if(panel.Points<=0)
-                panel.exit_failure();
+                {
+                    panel.exit_failure();
+                    break;
+                }
                 else
                 {
                     Player_restart();
@@ -401,7 +416,10 @@ public class Player {
             if(hitBox.intersects(mine.hitBox))
             {
                 if(panel.Points<=0)
+                {
                     panel.exit_failure();
+                    break;
+                }
                 else
                 {
                     Player_restart();
@@ -414,7 +432,11 @@ public class Player {
             if(hitBox.intersects(bullet.hitBox))
             {
                 if(panel.Points<=0)
+                {
                     panel.exit_failure();
+                    break;
+                }
+
                 else
                 {
                     Player_restart();
@@ -427,7 +449,10 @@ public class Player {
             if(hitBox.intersects(turret.hitBox))
             {
                 if(panel.Points<=0)
+                {
                     panel.exit_failure();
+                    break;
+                }
                 else
                 {
                     Player_restart();

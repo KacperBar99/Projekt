@@ -111,19 +111,19 @@ public class Cursor {
                     Taken[x/64][y/64] = Id;
                     break;
                 case 3:
-                    panel.jumps.add(new Wall_Jump(x,y,panel.grav));
+                    panel.jumps.add(new Wall_Jump(x,y, panel.wallJI));
                     Taken[x/64][y/64] = Id;
                     break;
                 case 4:
-                    panel.spikes.add(new Spike(x,y,panel.grav));
+                    panel.spikes.add(new Spike(x,y, panel.spikeI));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 5:
-                    panel.mines.add(new Mine(x,y,panel.grav));
+                    panel.mines.add(new Mine(x,y,panel.mine_png));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 6:
-                    panel.turrets.add(new Turret(x,y,panel.grav));
+                    panel.turrets.add(new Turret(x,y,panel.turret_png));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 7:

@@ -32,4 +32,6 @@ public class Tile {
         gtd.fillRect(x+1,y+1,width-2,height-2);
     }
     public void change_special(){special=!special;}
+    public void set_special(boolean S){special=S;}
+    public void set_graphic(Image i){g=i;}
 }
