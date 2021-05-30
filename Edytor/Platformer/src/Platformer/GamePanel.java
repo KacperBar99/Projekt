@@ -176,6 +176,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         if(e.getKeyChar() == 'u')cursor.change_ID(true);
         if(e.getKeyChar() == 'h')cursor.change_ID(false);
         if(e.getKeyChar() == 'c')cursor.clear();
+        if(e.getKeyChar() == 'f')cursor.fill();
     }
 
     public void keyReleased(KeyEvent e) {

@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -228,7 +230,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
                             break;
                         case 1:
-                            wallsB.add(new WallB(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallI[5]));
+                            tmp1=Integer.valueOf(myReader.nextLine());
+                            tmp2=Integer.valueOf(myReader.nextLine());
+                            tmp3=Integer.valueOf(myReader.nextLine());
+                            wallsB.add(new WallB(tmp1,tmp2,wallI[tmp3]));
                             break;
                         case 2:
                             changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
@@ -370,6 +375,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     player.test=false;
                     if(!player.keyUP && !player.can_jump && player.djump) //tu wywolywany jest doublejump
                     {
+                        Sound_Play("files/sounds/jump.wav");
                         player.jump();
                         player.djump=false;
                     }
@@ -851,6 +857,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     public void menu_update()
     {
+        Sound_Play("files/sounds/tmp.wav");
         if(menu_handler>2)menu_handler=0;
         if(menu_handler<0)menu_handler=2;
 
@@ -895,4 +902,19 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         clear();
     }
 
+    void Sound_Play(String S)
+    {
+        URL soundbyte = null;
+
+        {
+            try {
+                soundbyte = new File(S).toURI().toURL();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        java.applet.AudioClip clip = java.applet.Applet.newAudioClip(soundbyte);
+        clip.play();
+    }
 }

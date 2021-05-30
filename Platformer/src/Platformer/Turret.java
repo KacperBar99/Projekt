@@ -38,6 +38,7 @@ public class Turret {
     {
         if(count==50)
         {
+            panel.Sound_Play("files/sounds/shoot.wav");
             Bullet tmp=new Bullet(x+32,y+32,panel.player.x,panel.player.y,b);
             panel.bullets.add(tmp);
             count=0;

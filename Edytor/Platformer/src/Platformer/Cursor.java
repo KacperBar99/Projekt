@@ -467,5 +467,26 @@ public class Cursor {
             Tile tile = (Tile) itr.next();
             itr.remove();
         }
+        for(int i=0;i<30;i++)
+        {
+            for(int j=0;j<20;j++)
+            {
+                Taken[i][j]=-1;
+            }
+        }
+    }
+    void fill()
+    {
+        for(int i=0;i<30;i++)
+        {
+            for(int j=0;j<20;j++)
+            {
+                if(Taken[i][j]==-1)
+                {
+                    Taken[i][j]=8;
+                    panel.tiles.add(new Tile(i*64,j*64,panel.tileset[Id2],Id2));
+                }
+            }
+        }
     }
 }

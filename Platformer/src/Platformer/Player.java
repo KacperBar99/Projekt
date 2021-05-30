@@ -217,7 +217,7 @@ public class Player {
             if(xspeed<-maxspeed) xspeed=-maxspeed;
         }
 
-        if(keyUP && can_jump) { jump(); }
+        if(keyUP && can_jump) { panel.Sound_Play("files/sounds/jump.wav");jump(); }
 
         //All the collision tests for the horizontal movement
         //It is necessary to ask all valid block types if hitboxes intersect
@@ -433,6 +433,7 @@ public class Player {
             {
                 if(panel.Points<=0)
                 {
+                    bullet.remove=true;
                     panel.exit_failure();
                     break;
                 }
