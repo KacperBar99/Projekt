@@ -33,7 +33,7 @@ public class Cursor {
     public Cursor(int x, int y, GamePanel panel)
     {
         Id2=0;
-        Id2_max=10;
+        Id2_max=panel.tileset_size-1;
         Id=0;
         Id_max=8;
 
@@ -181,7 +181,7 @@ public class Cursor {
                 while(itr.hasNext())
                 {
                     Spike spike=(Spike) itr.next();
-                    if(spike.getX()==x && spike.getY()==y)itr.remove();
+                    if(spike.getX()==x && spike.getY()==y) itr.remove();
                 }
                 break;
             case 5:
@@ -230,7 +230,7 @@ public class Cursor {
         }
         else
         {
-            if(Id==0)Id=Id_max;
+            if(Id==0) Id=Id_max;
             else Id--;
         }
     }
@@ -238,13 +238,28 @@ public class Cursor {
     {
         if(up)
         {
-            if(Id2==Id2_max)Id2=0;
-            else Id2++;
+            if(Id==0) {
+                if (Id2 >= Id2_max) Id2 = 0;
+                else Id2++;
+            }
+            else if (Id==8)
+            {
+                if (Id2 >= panel.background_size-1) Id2 = 0;
+                else Id2++;
+            }
         }
         else
         {
-            if(Id2==0)Id2=Id2_max;
-            else Id2--;
+            System.out.println(Id);
+            if(Id==0) {
+                if (Id2 <= 0) Id2 = Id2_max;
+                else Id2--;
+            }
+            else if (Id==8)
+            {
+                if (Id2 <= 0) Id2 = panel.background_size-1;
+                else Id2--;
+            }
         }
     }
     public void set()
@@ -353,7 +368,7 @@ public class Cursor {
                 break;
             case 1:
                 show=panel.wallBI[Id2];
-                gtd.setColor(Color.black);
+                gtd.setColor(Color.red);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 2:
@@ -381,11 +396,11 @@ public class Cursor {
                 gtd.setColor(Color.magenta);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
-            case 7:
+            case 7: //spawn
                 gtd.setColor(Color.gray);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
-            case 8:
+            case 8: //background
                 show=panel.tileset[Id2];
                 gtd.setColor(Color.yellow);
                 hitBox=new Rectangle(x,y,width,height);

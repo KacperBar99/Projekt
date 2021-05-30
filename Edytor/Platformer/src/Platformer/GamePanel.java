@@ -23,23 +23,30 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Player_spawn> spawns =new ArrayList<>();
     ArrayList <Tile> tiles =new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
-    Image wallI[] = new Image[10];
+
+    int tileset_size = 26;
+    int background_size = 3;
+    Image wallI[] = new Image[tileset_size];
     Image grav = t.getImage("files/Tiles/gravity.png");
-    Image wallBI[] = new Image[10];
+    Image wallBI[] = new Image[tileset_size];
     Image wallJI=t.getImage("files/Tiles/gravity.png");
     Image spikeI=t.getImage("files/Tiles/gravity.png");
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image turret_png =t.getImage("files/Tiles/turret.png");
-    Image tileset[] = new Image[10];
+    Image tileset[] = new Image[tileset_size];
 
 
     public GamePanel()
     {
-        for(int i=0;i<10;i++)
+        for(int i=0;i<tileset_size;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
             wallBI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
-            tileset[i]=t.getImage("files/Tiles/background/"+(i+1)+".png");
+
+        }
+
+        for(int i=0;i<background_size;i++) {
+            tileset[i] = t.getImage("files/Tiles/background/" + (i + 1) + ".png");
         }
         String username = System.getProperty("user.name");
         JFileChooser fs = new JFileChooser(new File("C:\\Users\\" + username + "\\OneDrive\\Pulpit"));
@@ -118,8 +125,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
             }
         });
-
-
 
         gameTimer.schedule(new TimerTask(){
 
