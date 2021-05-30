@@ -21,9 +21,8 @@ public class Wall_Jump {
 
         hitBox = new Rectangle(x,y,width,height);
     }
-    public void draw(Graphics2D gtd){
+    public void draw(Graphics2D gtd) {
         gtd.drawImage(g, x, y, null);
-
     }
 
 }

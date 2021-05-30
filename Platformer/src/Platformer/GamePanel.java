@@ -83,11 +83,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         {
             Letter_0[i]=t.getImage("literki/"+i+".png");
         }
+
         for(int i=0;i<26;i++)
         {
             char tmp= (char) ('A'+i);
             A_letter[i]=t.getImage("literki/"+tmp+".png");
         }
+
         for(int i=0;i<10;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");

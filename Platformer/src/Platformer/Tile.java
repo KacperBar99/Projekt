@@ -20,6 +20,7 @@ public class Tile {
         this.height=h;
         g=I;
     }
+
     public void draw(Graphics2D gtd){
             gtd.drawImage(g, x, y, null);
     }

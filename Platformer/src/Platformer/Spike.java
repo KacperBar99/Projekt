@@ -23,6 +23,7 @@ public class Spike {
 
         hitBox = new Rectangle(x,y,width,height);
     }
+
     public void draw(Graphics2D gtd){
         gtd.drawImage(g, x, y, null);
 
