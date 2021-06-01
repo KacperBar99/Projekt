@@ -66,16 +66,18 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image tileset[] = new Image[background_size];
     Image menuN[] = new Image[3];
     Image menuS[]= new Image[3];
+    Image hp_numbers[]=new Image[10];
+    ArrayList <Letter> Points_Show = new ArrayList<>();
 
     Instant start;
 
-    JLabel label = new JLabel("Text inside");
 
     public GamePanel()
     {
-        add(label,BorderLayout.NORTH);
-        label.setForeground(Color.red);
-        label.setFont(new Font("Serif",Font.PLAIN,30));
+        for(int i=0;i<10;i++)
+        {
+            hp_numbers[i]=t.getImage("literki/hp/"+i+".png");
+        }
 
         for(int i=0;i<3;i++)
         {
@@ -174,10 +176,17 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
             @Override
             public void run() {
-                //label.setText(""+Points);
 
                 if(state==1)
                 {
+                    Instant sec=Instant.now();
+                    Duration timeElapsed = Duration.between(start, sec);
+                    int tmp = (int) timeElapsed.toMillis();
+                    if(tmp>=1000)
+                    {
+                        Points--;
+                        start=Instant.now();
+                    }
                     new_level();
                     player.set();
                     for(Mine mine:mines)
@@ -306,7 +315,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     public void paint(Graphics g)
     {
-        label.setText(""+Points);
+        hp_update();
         super.paint(g);
 
         Graphics2D gtd = (Graphics2D) g;
@@ -330,6 +339,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 for(Mine mine:mines)mine.draw(gtd);
                 for(Bullet bullet:bullets)bullet.draw(gtd);
                 for(Turret turret:turrets)turret.draw(gtd);
+                for(Letter show:Points_Show)show.draw(gtd);
                 player.draw(gtd);
                 break;
             case 2:
@@ -399,186 +409,186 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 break;
             }
             case 2: {
-
+                    int y_shift=15;
                 if (name_iterator < 10) {
                     if (e.getKeyChar() == 'q') {
                         nickname[name_iterator] = 'q';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['q' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift , 77, 137, A_letter['q' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'w') {
                         nickname[name_iterator] = 'w';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['w' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['w' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'e') {
                         nickname[name_iterator] = 'e';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['e' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['e' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'r') {
                         nickname[name_iterator] = 'r';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['r' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['r' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 't') {
                         nickname[name_iterator] = 't';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['t' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['t' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'y') {
                         nickname[name_iterator] = 'y';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['y' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['y' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'u') {
                         nickname[name_iterator] = 'u';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['u' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['u' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'i') {
                         nickname[name_iterator] = 'i';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['i' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['i' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'o') {
                         nickname[name_iterator] = 'o';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['o' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['o' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'p') {
                         nickname[name_iterator] = 'p';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['p' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['p' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'a') {
                         nickname[name_iterator] = 'a';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['a' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['a' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 's') {
                         nickname[name_iterator] = 's';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['s' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['s' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'd') {
                         nickname[name_iterator] = 'd';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['d' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['d' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'f') {
                         nickname[name_iterator] = 'f';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['f' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['f' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'g') {
                         nickname[name_iterator] = 'g';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['g' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['g' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'h') {
                         nickname[name_iterator] = 'h';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['h' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['h' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'j') {
                         nickname[name_iterator] = 'j';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['j' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['j' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'k') {
                         nickname[name_iterator] = 'k';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['k' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['k' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'l') {
                         nickname[name_iterator] = 'l';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['l' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['l' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'z') {
                         nickname[name_iterator] = 'z';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['z' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['z' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'x') {
                         nickname[name_iterator] = 'x';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['x' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['x' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'c') {
                         nickname[name_iterator] = 'c';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['c' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['c' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'v') {
                         nickname[name_iterator] = 'v';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['v' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['v' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'b') {
                         nickname[name_iterator] = 'b';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['b' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['b' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'n') {
                         nickname[name_iterator] = 'n';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['n' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['n' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == 'm') {
                         nickname[name_iterator] = 'm';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, A_letter['m' - 'a']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['m' - 'a']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '1') {
                         nickname[name_iterator] = '1';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['1' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['1' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '2') {
                         nickname[name_iterator] = '2';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['2' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['2' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '3') {
                         nickname[name_iterator] = '3';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['3' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['3' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '4') {
                         nickname[name_iterator] = '4';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['4' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['4' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '5') {
                         nickname[name_iterator] = '5';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['5' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['5' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '6') {
                         nickname[name_iterator] = '6';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['6' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['6' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '7') {
                         nickname[name_iterator] = '7';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['7' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['7' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '8') {
                         nickname[name_iterator] = '8';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['8' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['8' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '9') {
                         nickname[name_iterator] = '9';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['9' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['9' - '0']);
                         name_iterator++;
                     }
                     if (e.getKeyChar() == '0') {
                         nickname[name_iterator] = '0';
-                        enter_name[name_iterator] = new Letter(name_iterator * 77, Place_in_results * 102, 77, 137, Letter_0['0' - '0']);
+                        enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, Letter_0['0' - '0']);
                         name_iterator++;
                     }
                 }
@@ -774,26 +784,33 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             Letter letter=(Letter) itr.next();
             itr.remove();
         }
+        itr=Points_Show.iterator();
+        while(itr.hasNext())
+        {
+            Letter letter=(Letter) itr.next();
+            itr.remove();
+        }
     }
     public void create_End()
     {
+        int y_shift=15;
         listN[Place_in_results]="";
         for(int j=0;j<10;j++)
         {
             for (int i = 0; i < listN[j].length(); i++) {
                 if(listN[j].charAt(i)<'a' || listN[j].charAt(i)>'z')
                 {
-                    letters.add(new Letter(i*77,j*102,77,137,Letter_0[listN[j].charAt(i)-'0']));
+                    letters.add(new Letter(i*universal_value,y_shift+j*102,universal_value,universal_value,Letter_0[listN[j].charAt(i)-'0']));
                 }
                 else
                 {
-                    letters.add(new Letter(i*77,j*102,77,137,A_letter[listN[j].charAt(i)-'a']));
+                    letters.add(new Letter(i*universal_value,j*102+y_shift,universal_value,universal_value,A_letter[listN[j].charAt(i)-'a']));
                 }
 
             }
             String tmp=(listT[j]+"");
             for (int i = 0; i < tmp.length(); i++) {
-                letters.add(new Letter(960 + i * 77, j * 102, 77, 137,Letter_0[tmp.charAt(i) - '0']));
+                letters.add(new Letter(960 + i * universal_value, j * 102+y_shift, universal_value, universal_value,Letter_0[tmp.charAt(i) - '0']));
             }
         }
 
@@ -828,21 +845,22 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        int y_shift=15;
         for(int j=0;j<10;j++)
         {
             for (int i = 0; i < listN[j].length(); i++) {
                 if(listN[j].charAt(i)<'a' || listN[j].charAt(i)>'z')
                 {
-                    letters.add(new Letter(i*77,j*102,77,137,Letter_0[listN[j].charAt(i)-'0']));
+                    letters.add(new Letter(i*universal_value,j*102+y_shift,universal_value,universal_value,Letter_0[listN[j].charAt(i)-'0']));
                 }
                 else
                 {
-                    letters.add(new Letter(i*77,j*102,77,137,A_letter[listN[j].charAt(i)-'a']));
+                    letters.add(new Letter(i*universal_value,j*102+y_shift,universal_value,universal_value,A_letter[listN[j].charAt(i)-'a']));
                 }
             }
             String tmp=(listT[j]+"");
             for (int i = 0; i < tmp.length(); i++) {
-                letters.add(new Letter(960 + i * 77, j * 102, 77, 137,Letter_0[tmp.charAt(i) - '0']));
+                letters.add(new Letter(960 + i * universal_value, j * 102+y_shift, universal_value, universal_value,Letter_0[tmp.charAt(i) - '0']));
             }
         }
         for(int i=0;i<10;i++)
@@ -886,6 +904,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         switch (menu_handler)
         {
             case 0:
+                xlevel=0;
+                ylevel=0;
                 change_state(1);
                 player.where.set_start();
                 start = Instant.now();
@@ -922,5 +942,21 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
         java.applet.AudioClip clip = java.applet.Applet.newAudioClip(soundbyte);
         clip.play();
+    }
+    void hp_update()
+    {
+        Iterator itr;
+        itr=Points_Show.iterator();
+        while(itr.hasNext())
+        {
+            Letter letter=(Letter) itr.next();
+            itr.remove();
+        }
+        String tmp=String.valueOf(Points);
+        for(int i = 0; i<tmp.length(); i++)
+        {
+            Points_Show.add(new Letter(i*universal_value,0,universal_value,universal_value,hp_numbers[tmp.charAt(i)-'0']));
+        }
+
     }
 }
