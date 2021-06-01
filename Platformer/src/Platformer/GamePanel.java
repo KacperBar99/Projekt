@@ -19,6 +19,9 @@ import java.util.Timer;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
+    int tileset_size = 22;
+    int background_size = 8;
+
     int state=0;
     int menu_handler=0;
     int StartX=200;
@@ -53,24 +56,23 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image A_letter [] = new Image[26];
     Image Letter_0 [] = new Image[10];
     Image bullet_png=t.getImage("files/Bullet.png");
-    Image wallI[] = new Image[10];
+    Image wallI[] = new Image[tileset_size];
     Image grav = t.getImage("files/Tiles/gravity.png");
-    Image wallBI[] = new Image[10];
+    Image wallBI[] = new Image[tileset_size];
     Image wallJI=t.getImage("files/Tiles/gravity.png");
     Image spikeI=t.getImage("files/Tiles/gravity.png");
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image turret_png =t.getImage("files/Tiles/turret.png");
-    Image tileset[] = new Image[10];
+    Image tileset[] = new Image[background_size];
     Image menuN[] = new Image[3];
     Image menuS[]= new Image[3];
 
-
     Instant start;
 
+    JLabel label = new JLabel("Text inside");
 
     public GamePanel()
     {
-        JLabel label = new JLabel("Text inside");
         add(label,BorderLayout.NORTH);
         label.setForeground(Color.red);
         label.setFont(new Font("Serif",Font.PLAIN,30));
@@ -92,10 +94,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             A_letter[i]=t.getImage("literki/"+tmp+".png");
         }
 
-        for(int i=0;i<10;i++)
+        for(int i=0;i<tileset_size;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
-            tileset[i]=t.getImage("files/Tiles/background/"+(i+1)+".png");
+
+        }
+
+        for(int i=0;i<background_size;i++)
+        {
+            tileset[i] = t.getImage("files/Tiles/background/" + (i + 1) + ".png");
         }
 
         listN = new String[10];
@@ -167,7 +174,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
             @Override
             public void run() {
-                label.setText(""+Points);
+                //label.setText(""+Points);
 
                 if(state==1)
                 {
@@ -299,7 +306,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     public void paint(Graphics g)
     {
+        label.setText(""+Points);
         super.paint(g);
+
         Graphics2D gtd = (Graphics2D) g;
 
         switch (state)
@@ -340,8 +349,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 break;
         }
     }
-
-
 
     public void keyPressed(KeyEvent e) {
         switch (state)
@@ -575,7 +582,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                         name_iterator++;
                     }
                 }
-
 
                 if (e.getKeyChar() == ' ') ;
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
