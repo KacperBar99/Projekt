@@ -461,6 +461,13 @@ public class Player {
                 }
             }
         }
+        for(Win_block win_block:panel.win_blocks)
+        {
+            if(hitBox.intersects(win_block.hitBox))
+            {
+                panel.exit_success();
+            }
+        }
 
         //Changes applied here
         hitBox.x=x;

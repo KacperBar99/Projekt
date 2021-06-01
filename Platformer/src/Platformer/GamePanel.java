@@ -68,6 +68,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image menuS[]= new Image[3];
     Image hp_numbers[]=new Image[10];
     ArrayList <Letter> Points_Show = new ArrayList<>();
+    ArrayList <Win_block> win_blocks = new ArrayList<>();
+    Image win_blockI=t.getImage("files/Tiles/gravity.png");
 
     Instant start;
 
@@ -113,61 +115,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
         player = new Player(StartX,StartY,this);
 
-        /*
-        try {
-            File myObj = new File("levels/"+xlevel+"_"+ylevel+".txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                int tmp1;
-                int tmp2;
-                int tmp3;
-                switch (Integer.valueOf(data))
-                {
-                    case 0:
-                         tmp1=Integer.valueOf(myReader.nextLine());
-                         tmp2=Integer.valueOf(myReader.nextLine());
-                         tmp3=Integer.valueOf(myReader.nextLine());
-                    walls.add(new Wall(tmp1,tmp2,wallI[tmp3]));
-                    break;
-                    case 1:
-                        tmp1=Integer.valueOf(myReader.nextLine());
-                        tmp2=Integer.valueOf(myReader.nextLine());
-                        tmp3=Integer.valueOf(myReader.nextLine());
-                        wallsB.add(new WallB(tmp1,tmp2,wallBI[tmp3]));
-                        break;
-                    case 2:
-                        changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
-                        break;
-                    case 3:
-                        jumps.add(new Wall_Jump(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),wallJI));
-                        break;
-                    case 4:
-                        spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),spikeI));
-                        break;
-                    case 5:
-                        mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));
-                        break;
-                    case 6:
-                        turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),turret_png,bullet_png));
-                        break;
-                    case 7:
-                        level_counter++;
-                        spawns.add(new Spawn(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine())));
-                        break;
-                    case 8:
-                        tmp1=Integer.valueOf(myReader.nextLine());
-                        tmp2=Integer.valueOf(myReader.nextLine());
-                        tmp3=Integer.valueOf(myReader.nextLine());
-                        tiles.add(new Tile(tmp1,tmp2,universal_value,universal_value,tileset[tmp3]));
-                        break;
-                }
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }*/
+
 
         gameTimer = new Timer();
         GamePanel copy=this;
@@ -276,6 +224,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             tmp3=Integer.valueOf(myReader.nextLine());
                             tiles.add(new Tile(tmp1,tmp2,universal_value,universal_value,tileset[tmp3]));
                             break;
+                        case 9:
+                            win_blocks.add(new Win_block(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),win_blockI));
+                            break;
                     }
                 }
                 myReader.close();
@@ -340,6 +291,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 for(Bullet bullet:bullets)bullet.draw(gtd);
                 for(Turret turret:turrets)turret.draw(gtd);
                 for(Letter show:Points_Show)show.draw(gtd);
+                for(Win_block win_block:win_blocks)win_block.draw(gtd);
                 player.draw(gtd);
                 break;
             case 2:
@@ -365,12 +317,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         {
             case 0:
             {
-                if(e.getKeyChar()=='s' || e.getKeyCode()==KeyEvent.VK_DOWN)
+                if(e.getKeyCode()==KeyEvent.VK_DOWN || e.getKeyCode()== KeyEvent.VK_S)
                 {
                     menu_handler++;
                     menu_update();
                 }
-                if(e.getKeyChar()=='w' || e.getKeyCode()==KeyEvent.VK_UP)
+                if(e.getKeyCode()==KeyEvent.VK_UP|| e.getKeyCode()== KeyEvent.VK_W)
                 {
                     menu_handler--;
                     menu_update();
@@ -384,10 +336,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             }
             case 1:
             {
-                if(e.getKeyChar() == 'a' || e.getKeyCode()==KeyEvent.VK_LEFT)player.keyLeft = true;
-                if(e.getKeyChar() == 's' || e.getKeyCode()==KeyEvent.VK_DOWN)player.keyDown = true;
-                if(e.getKeyChar() == 'd' || e.getKeyCode()==KeyEvent.VK_RIGHT)player.keyRight = true;
-                if(e.getKeyChar() == 'w' || e.getKeyCode()==KeyEvent.VK_UP)
+                if( e.getKeyCode()==KeyEvent.VK_LEFT || e.getKeyCode()== KeyEvent.VK_A)player.keyLeft = true;
+                if(e.getKeyCode()==KeyEvent.VK_DOWN || e.getKeyCode()== KeyEvent.VK_S)player.keyDown = true;
+                if(e.getKeyCode()==KeyEvent.VK_RIGHT || e.getKeyCode()== KeyEvent.VK_D)player.keyRight = true;
+                if(e.getKeyCode()==KeyEvent.VK_UP || e.getKeyCode()== KeyEvent.VK_W)
                 {
                     player.test=false;
                     if(!player.keyUP && !player.can_jump && player.djump) //tu wywolywany jest doublejump
@@ -399,144 +351,144 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     player.keyUP = true;
                 }
                 if(e.getKeyChar() == ' ')player.dash();
-                if(e.getKeyChar()== 'g')player.change_Gravity();
+                if(e.getKeyCode()== KeyEvent.VK_G)player.change_Gravity();
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
                 {
                     exit_success();
                 }
-                if(e.getKeyChar() == 'f')player.change_HitBox_type();
-                if(e.getKeyChar() == 'h')player.debug1=!player.debug1;
+                if(e.getKeyChar() == 'f'  || e.getKeyChar()=='F')player.change_HitBox_type();
+                if(e.getKeyChar() == 'h'  || e.getKeyChar()=='H')player.debug1=!player.debug1;
                 break;
             }
             case 2: {
                     int y_shift=15;
                 if (name_iterator < 10) {
-                    if (e.getKeyChar() == 'q') {
+                    if (e.getKeyCode()== KeyEvent.VK_Q) {
                         nickname[name_iterator] = 'q';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift , 77, 137, A_letter['q' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'w') {
+                    if (e.getKeyCode()== KeyEvent.VK_W) {
                         nickname[name_iterator] = 'w';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['w' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'e') {
+                    if (e.getKeyCode()== KeyEvent.VK_E) {
                         nickname[name_iterator] = 'e';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['e' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'r') {
+                    if (e.getKeyCode()== KeyEvent.VK_R) {
                         nickname[name_iterator] = 'r';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['r' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 't') {
+                    if (e.getKeyCode()== KeyEvent.VK_T) {
                         nickname[name_iterator] = 't';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['t' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'y') {
+                    if (e.getKeyCode()== KeyEvent.VK_Y) {
                         nickname[name_iterator] = 'y';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['y' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'u') {
+                    if (e.getKeyCode()== KeyEvent.VK_U) {
                         nickname[name_iterator] = 'u';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['u' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'i') {
+                    if (e.getKeyCode()== KeyEvent.VK_I) {
                         nickname[name_iterator] = 'i';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['i' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'o') {
+                    if (e.getKeyCode()== KeyEvent.VK_O) {
                         nickname[name_iterator] = 'o';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['o' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'p') {
+                    if (e.getKeyCode()== KeyEvent.VK_P) {
                         nickname[name_iterator] = 'p';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['p' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'a') {
+                    if (e.getKeyCode()== KeyEvent.VK_A) {
                         nickname[name_iterator] = 'a';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['a' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 's') {
+                    if (e.getKeyCode()== KeyEvent.VK_S) {
                         nickname[name_iterator] = 's';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['s' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'd') {
+                    if (e.getKeyCode()== KeyEvent.VK_D) {
                         nickname[name_iterator] = 'd';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['d' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'f') {
+                    if (e.getKeyCode()== KeyEvent.VK_F) {
                         nickname[name_iterator] = 'f';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['f' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'g') {
+                    if (e.getKeyCode()== KeyEvent.VK_G) {
                         nickname[name_iterator] = 'g';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['g' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'h') {
+                    if (e.getKeyCode()==KeyEvent.VK_H) {
                         nickname[name_iterator] = 'h';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['h' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'j') {
+                    if (e.getKeyCode()==KeyEvent.VK_J) {
                         nickname[name_iterator] = 'j';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['j' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'k') {
+                    if (e.getKeyCode()==KeyEvent.VK_K) {
                         nickname[name_iterator] = 'k';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['k' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'l') {
+                    if (e.getKeyCode()==KeyEvent.VK_L) {
                         nickname[name_iterator] = 'l';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['l' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'z') {
+                    if (e.getKeyCode()==KeyEvent.VK_Z) {
                         nickname[name_iterator] = 'z';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['z' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'x') {
+                    if (e.getKeyCode()==KeyEvent.VK_X) {
                         nickname[name_iterator] = 'x';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['x' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'c') {
+                    if (e.getKeyCode()==KeyEvent.VK_C) {
                         nickname[name_iterator] = 'c';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['c' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'v') {
+                    if (e.getKeyCode()==KeyEvent.VK_V) {
                         nickname[name_iterator] = 'v';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['v' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'b') {
+                    if (e.getKeyCode()==KeyEvent.VK_B) {
                         nickname[name_iterator] = 'b';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['b' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'n') {
+                    if (e.getKeyCode()==KeyEvent.VK_N) {
                         nickname[name_iterator] = 'n';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['n' - 'a']);
                         name_iterator++;
                     }
-                    if (e.getKeyChar() == 'm') {
+                    if (e.getKeyCode()==KeyEvent.VK_M) {
                         nickname[name_iterator] = 'm';
                         enter_name[name_iterator] = new Letter(name_iterator * universal_value, Place_in_results * 102+y_shift, 77, 137, A_letter['m' - 'a']);
                         name_iterator++;
@@ -623,10 +575,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
 
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyChar() == 'a' || e.getKeyCode()==KeyEvent.VK_LEFT)player.keyLeft = false;
-        if(e.getKeyChar() == 's' || e.getKeyCode()==KeyEvent.VK_DOWN)player.keyDown = false;
-        if(e.getKeyChar() == 'd' || e.getKeyCode()==KeyEvent.VK_RIGHT)player.keyRight = false;
-        if(e.getKeyChar() == 'w' || e.getKeyCode()==KeyEvent.VK_UP)
+        if(e.getKeyChar() == 'a' || e.getKeyCode()==KeyEvent.VK_LEFT || e.getKeyCode()== KeyEvent.VK_A)player.keyLeft = false;
+        if(e.getKeyChar() == 's' || e.getKeyCode()==KeyEvent.VK_DOWN || e.getKeyCode()== KeyEvent.VK_S)player.keyDown = false;
+        if(e.getKeyChar() == 'd' || e.getKeyCode()==KeyEvent.VK_RIGHT || e.getKeyCode()== KeyEvent.VK_D)player.keyRight = false;
+        if(e.getKeyChar() == 'w' || e.getKeyCode()==KeyEvent.VK_UP || e.getKeyCode()== KeyEvent.VK_W)
         {
             player.keyUP = false;
         }

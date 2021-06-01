@@ -35,7 +35,7 @@ public class Cursor {
         Id2=0;
         Id2_max=panel.tileset_size-1;
         Id=0;
-        Id_max=8;
+        Id_max=10;
 
         this.panel=panel;
         this.x=x;
@@ -85,8 +85,10 @@ public class Cursor {
         {
             Taken[tile.getX()/64][tile.getY()/64]=8;
         }
-
-
+        for(Win_block win_block:panel.win_blocks)
+        {
+            Taken[win_block.getX()/64][win_block.getY()/64]=9;
+        }
 
         width=64;
         height=64;
@@ -133,6 +135,10 @@ public class Cursor {
                 case 8:
                     panel.tiles.add(new Tile(x,y,panel.tileset[Id2],Id2));
                     Taken[x/64][y/64] = Id;
+                    break;
+                case 9:
+                    panel.win_blocks.add(new Win_block(x,y,panel.winblockI));
+                    Taken[x/64][y/64]=Id;
                     break;
             }
         }
@@ -214,6 +220,14 @@ public class Cursor {
                 {
                     Tile tile = (Tile) itr.next();
                     if(tile.getX()==x && tile.getY()==y)itr.remove();
+                }
+                break;
+            case 9:
+                itr=panel.win_blocks.iterator();
+                while(itr.hasNext())
+                {
+                    Win_block win_block = (Win_block) itr.next();
+                    if(win_block.getX()==x && win_block.getY()==y)itr.remove();
                 }
                 break;
 
@@ -348,6 +362,12 @@ public class Cursor {
                     myWriter.write(tile.getY() + "\n");
                     myWriter.write(tile.geti()+"\n");
                 }
+                for(Win_block win_block:panel.win_blocks)
+                {
+                    myWriter.write("9"+"\n");
+                    myWriter.write(win_block.getX()+"\n");
+                    myWriter.write(win_block.getY()+"\n");
+                }
                 myWriter.flush();
                 myWriter.close();
             } catch (IOException e) {
@@ -403,6 +423,11 @@ public class Cursor {
             case 8: //background
                 show=panel.tileset[Id2];
                 gtd.setColor(Color.yellow);
+                hitBox=new Rectangle(x,y,width,height);
+                break;
+            case 9://win block
+                show=panel.winblockI;
+                gtd.setColor(Color.ORANGE);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             default:
@@ -465,6 +490,12 @@ public class Cursor {
         while (itr.hasNext())
         {
             Tile tile = (Tile) itr.next();
+            itr.remove();
+        }
+        itr=panel.win_blocks.iterator();
+        while(itr.hasNext())
+        {
+            Win_block win_block = (Win_block) itr.next();
             itr.remove();
         }
         for(int i=0;i<30;i++)

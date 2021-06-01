@@ -22,6 +22,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Turret> turrets = new ArrayList<>();
     ArrayList <Player_spawn> spawns =new ArrayList<>();
     ArrayList <Tile> tiles =new ArrayList<>();
+    ArrayList <Win_block> win_blocks = new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
 
     int tileset_size = 24;
@@ -34,6 +35,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image turret_png =t.getImage("files/Tiles/turret.png");
     Image tileset[] = new Image[tileset_size];
+    Image winblockI = t.getImage("files/Tiles/gravity.png");
 
 
     public GamePanel()
@@ -100,6 +102,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             tmp3=Integer.valueOf(myReader.nextLine());
                             tiles.add(new Tile(tmp1,tmp2,tileset[tmp3],tmp3));
                             break;
+                        case 9:
+                            win_blocks.add(new Win_block(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),winblockI));
+                            break;
                     }
                 }
                 myReader.close();
@@ -153,6 +158,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(Mine mine:mines)mine.draw(gtd);
         for(Turret turret:turrets)turret.draw(gtd);
         for(Player_spawn spawn:spawns)spawn.draw(gtd);
+        for(Win_block win_block:win_blocks)win_block.draw(gtd);
 
         cursor.draw(gtd);
 
