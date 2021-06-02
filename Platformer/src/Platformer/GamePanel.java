@@ -209,7 +209,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             spikes.add(new Spike(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),spikeI));
                             break;
                         case 5:
-                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png));
+                            mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png,Boolean.valueOf(myReader.nextLine())));
                             break;
                         case 6:
                             turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),turret_png,bullet_png));
@@ -897,18 +897,17 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     void hp_update()
     {
-        Iterator itr;
-        itr=Points_Show.iterator();
-        while(itr.hasNext())
-        {
-            Letter letter=(Letter) itr.next();
-            itr.remove();
+        if(Points>0) {
+            Iterator itr;
+            itr = Points_Show.iterator();
+            while (itr.hasNext()) {
+                Letter letter = (Letter) itr.next();
+                itr.remove();
+            }
+            String tmp = String.valueOf(Points);
+            for (int i = 0; i < tmp.length(); i++) {
+                Points_Show.add(new Letter(i * universal_value, 0, universal_value, universal_value, hp_numbers[tmp.charAt(i) - '0']));
+            }
         }
-        String tmp=String.valueOf(Points);
-        for(int i = 0; i<tmp.length(); i++)
-        {
-            Points_Show.add(new Letter(i*universal_value,0,universal_value,universal_value,hp_numbers[tmp.charAt(i)-'0']));
-        }
-
     }
 }

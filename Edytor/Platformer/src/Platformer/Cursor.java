@@ -35,7 +35,7 @@ public class Cursor {
         Id2=0;
         Id2_max=panel.tileset_size-1;
         Id=0;
-        Id_max=10;
+        Id_max=9;
 
         this.panel=panel;
         this.x=x;
@@ -121,7 +121,10 @@ public class Cursor {
                     Taken[x/64][y/64]=Id;
                     break;
                 case 5:
-                    panel.mines.add(new Mine(x,y,panel.mine_png));
+                    if(Id2==0)
+                        panel.mines.add(new Mine(x,y,panel.mine_png,true));
+                    else
+                        panel.mines.add(new Mine(x,y,panel.mine_png,false));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 6:
@@ -261,10 +264,14 @@ public class Cursor {
                 if (Id2 >= panel.background_size-1) Id2 = 0;
                 else Id2++;
             }
+            else if(Id==5)
+            {
+                if(Id2==0)Id2=1;
+                else Id2=0;
+            }
         }
         else
         {
-            System.out.println(Id);
             if(Id==0) {
                 if (Id2 <= 0) Id2 = Id2_max;
                 else Id2--;
@@ -273,6 +280,11 @@ public class Cursor {
             {
                 if (Id2 <= 0) Id2 = panel.background_size-1;
                 else Id2--;
+            }
+            else if (Id==5)
+            {
+                if(Id2==1)Id2=0;
+                else Id2=1;
             }
         }
     }
@@ -293,7 +305,12 @@ public class Cursor {
     public void draw(Graphics2D gtd)
     {
         change_type(gtd);
-        if(Id==7)gtd.fillRect(x,y,width,height);
+        if(Id==7 || Id==5)
+        {
+            if(Id==5 && Id2==0)gtd.drawImage(show,x,y,null);
+            else
+            gtd.fillRect(x,y,width,height);
+        }
         else
         gtd.drawImage(show,x,y,null);
     }
@@ -341,6 +358,7 @@ public class Cursor {
                     myWriter.write(5+"\n");
                     myWriter.write(mine.getX() + "\n");
                     myWriter.write(mine.getY() + "\n");
+                    myWriter.write(mine.getH()+"\n");
                 }
                 for(Turret turret:panel.turrets)
                 {

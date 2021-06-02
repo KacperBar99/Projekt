@@ -13,10 +13,10 @@ public class Mine {
     Image g;
 
 
-    public Mine(int x,int y,Image I)
+    public Mine(int x,int y,Image I,boolean H)
     {
+        horizontal=H;
         g=I;
-        horizontal=true;
         increase=true;
         this.x=x;
         this.y=y;
@@ -83,8 +83,6 @@ public class Mine {
             if (hitBox.intersects(spike.hitBox)){
                 increase=!increase;
             }
-
-
         }
         for(Mine mine:panel.mines)
         {
@@ -102,6 +100,4 @@ public class Mine {
         }
         hitBox=new Rectangle(x,y,width,height);
     }
-
-
 }
