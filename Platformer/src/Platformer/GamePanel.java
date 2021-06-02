@@ -290,8 +290,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 for(Mine mine:mines)mine.draw(gtd);
                 for(Bullet bullet:bullets)bullet.draw(gtd);
                 for(Turret turret:turrets)turret.draw(gtd);
-                for(Letter show:Points_Show)show.draw(gtd);
                 for(Win_block win_block:win_blocks)win_block.draw(gtd);
+
+                for(Letter show:Points_Show)show.draw(gtd);//musi być na wierzchu
                 player.draw(gtd);
                 break;
             case 2:
