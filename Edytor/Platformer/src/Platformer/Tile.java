@@ -8,10 +8,11 @@ public class Tile {
     int width;
     int height;
     Image g;
-    int i;
+    int id;
 
     public Tile(int x,int y,Image I,int i)
     {
+        id=i;
         this.x=x;
         this.y=y;
         this.width=64;
@@ -23,6 +24,6 @@ public class Tile {
     }
     public int getX(){return x;}
     public int getY(){return y;}
-    public int geti(){return i;}
+    public int geti(){return id;}
 
 }

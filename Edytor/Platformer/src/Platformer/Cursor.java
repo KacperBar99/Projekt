@@ -122,9 +122,14 @@ public class Cursor {
                     break;
                 case 5:
                     if(Id2==0)
+                    {
                         panel.mines.add(new Mine(x,y,panel.mine_png,true));
+                    }
                     else
+                    {
                         panel.mines.add(new Mine(x,y,panel.mine_png,false));
+                    }
+                    panel.tiles.add(new Tile(x,y, panel.tileset[Id2],Id2));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 6:
@@ -199,6 +204,12 @@ public class Cursor {
                 {
                     Mine mine = (Mine) itr.next();
                     if(mine.getX()==x && mine.getY()==y)itr.remove();
+                }
+                itr=panel.tiles.iterator();
+                while (itr.hasNext())
+                {
+                    Tile tile = (Tile) itr.next();
+                    if(tile.getX()==x && tile.getY()==y)itr.remove();
                 }
                 break;
             case 6:

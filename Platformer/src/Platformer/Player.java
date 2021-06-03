@@ -145,7 +145,7 @@ public class Player {
         i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
         i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
-        width=63;
+        width=60;
         height=96;
         hitBox = new Rectangle(x,y,width,height);
 
@@ -400,7 +400,7 @@ public class Player {
             {
                 if(panel.Points<=0)
                 {
-                    panel.exit_failure();
+                    //panel.exit_failure();
                     break;
                 }
                 else
@@ -417,7 +417,7 @@ public class Player {
             {
                 if(panel.Points<=0)
                 {
-                    panel.exit_failure();
+                   // panel.exit_failure();
                     break;
                 }
                 else
@@ -434,7 +434,7 @@ public class Player {
                 if(panel.Points<=0)
                 {
                     bullet.remove=true;
-                    panel.exit_failure();
+                    //panel.exit_failure();
                     break;
                 }
 
@@ -451,7 +451,7 @@ public class Player {
             {
                 if(panel.Points<=0)
                 {
-                    panel.exit_failure();
+                    //panel.exit_failure();
                     break;
                 }
                 else
