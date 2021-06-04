@@ -466,6 +466,7 @@ public class Player {
             if(hitBox.intersects(win_block.hitBox))
             {
                 panel.exit_success();
+                break;
             }
         }
 

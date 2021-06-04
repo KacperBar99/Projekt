@@ -83,6 +83,7 @@ public class Cursor {
         }
         for(Tile tile:panel.tiles)
         {
+            if(Taken[tile.getX()/64][tile.getY()/64]!=5)
             Taken[tile.getX()/64][tile.getY()/64]=8;
         }
         for(Win_block win_block:panel.win_blocks)

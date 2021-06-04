@@ -743,6 +743,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             Letter letter=(Letter) itr.next();
             itr.remove();
         }
+        itr=win_blocks.iterator();
+        while(itr.hasNext())
+        {
+            Win_block win_block=(Win_block) itr.next();
+            itr.remove();
+        }
     }
     public void create_End()
     {
