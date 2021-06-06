@@ -69,7 +69,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image hp_numbers[]=new Image[10];
     ArrayList <Letter> Points_Show = new ArrayList<>();
     ArrayList <Win_block> win_blocks = new ArrayList<>();
-    Image win_blockI=t.getImage("files/Tiles/gravity.png");
+    Image win_blockI=t.getImage("files/Tiles/win.png");
+    Image background_menu=t.getImage("files/menu/menubackground.png");
+    ArrayList <Background> backgrounds= new ArrayList<>();
+    Image result_false=t.getImage("files/menu/wynikiw.png");
+    Image result_true=t.getImage("files/menu/wyniki.png");
 
     Instant start;
 
@@ -274,6 +278,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         switch (state)
         {
             case 0:
+                for(Background background :backgrounds)background.draw(gtd);
                 for(Tile tile:tiles)tile.draw(gtd);
                 for(Letter letter:letters)
                 {
@@ -296,7 +301,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 player.draw(gtd);
                 break;
             case 2:
-                for(Tile tile:tiles)tile.draw_C(gtd);
+                for(Tile tile:tiles)tile.draw(gtd);
                 for(Letter letter:letters)letter.draw(gtd);
                 for(int i=0;i<10;i++)
                 {
@@ -304,7 +309,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 }
                 break;
             case 3:
-                for(Tile tile:tiles)tile.draw_C(gtd);
+                for(Tile tile:tiles)tile.draw(gtd);
                 for(Letter letter:letters)
                 {
                     letter.draw(gtd);
@@ -616,7 +621,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        Points= (int) (Points-(Input_time/1000));
         if(Points<0)Points=0;
         for(int i=0;i<10;i++)
         {
@@ -670,6 +674,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     public void clear()
     {
+
         Iterator itr;
         itr = walls.iterator();
         while(itr.hasNext())
@@ -749,6 +754,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             Win_block win_block=(Win_block) itr.next();
             itr.remove();
         }
+        itr=backgrounds.iterator();
+        while(itr.hasNext())
+        {
+            Background background = (Background) itr.next();
+            itr.remove();
+        }
     }
     public void create_End()
     {
@@ -776,12 +787,12 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
         for(int i=0;i<10;i++)
         {
-            Tile tmp1=new Tile(0,i*102,960,102,tileset[0]);
-            Tile tmp2=new Tile(960,i*102,960,102,tileset[0]);
+            Tile tmp1=new Tile(0,i*102,960,102,result_false);
+            Tile tmp2=new Tile(960,i*102,960,102,result_false);
             if(i==Place_in_results)
             {
-                tmp1.change_special();
-                tmp2.change_special();
+                tmp1.set_graphic(result_true);
+                tmp2.set_graphic(result_true);
             }
             tiles.add(tmp1);
             tiles.add(tmp2);
@@ -824,14 +835,15 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         }
         for(int i=0;i<10;i++)
         {
-            Tile tmp1=new Tile(0,i*102,960,102,tileset[0]);
-            Tile tmp2=new Tile(960,i*102,960,102,tileset[0]);
+            Tile tmp1=new Tile(0,i*102,960,102,result_false);
+            Tile tmp2=new Tile(960,i*102,960,102,result_false);
             tiles.add(tmp1);
             tiles.add(tmp2);
         }
     }
     public void create_menu()
     {
+       backgrounds.add(new Background(0,0,background_menu));
         for(int i=0;i<3;i++)
         {
             tiles.add(new Tile(1920/3,i*(1080/3),1920/3,1080/6,menuN[i]));

@@ -35,7 +35,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image turret_png =t.getImage("files/Tiles/turret.png");
     Image tileset[] = new Image[tileset_size];
-    Image winblockI = t.getImage("files/Tiles/gravity.png");
+    Image winblockI = t.getImage("files/Tiles/win.png");
 
 
     public GamePanel()

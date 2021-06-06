@@ -58,10 +58,14 @@ public class Player {
         RUNNING_LEFT(3),
         JUMPING_RIGHT(4),
         JUMPING_LEFT(5),
-        INVERTED_RIGHT(6),
-        INVERTED_LEFT(7),
-        DARK_RIGHT(9),
-        DARK_LEFT(10);
+        INVERTED_IDLE_RIGHT(6),
+        INVERTED_IDLE_LEFT(7),
+        INVERTED_RUNNING_LEFT(8),
+        INVERTED_RUNNING_RIGHT(9),
+        INVERTED_JUMPING_RIGHT(10),
+        INVERTED_JUMPING_LEFT(11),
+        DARK_RIGHT(12),
+        DARK_LEFT(13);
 
         private int Id;
         private Images(int I)
@@ -130,7 +134,7 @@ public class Player {
         grav=1.6;
         jumpforce=20;
         where = new New_level();
-        i = new Image[11];
+        i = new Image[14];
         Toolkit t=Toolkit.getDefaultToolkit();
 
         i[Images.IDLE_RIGHT.give_Id()]=t.getImage("files/character/idle_right.gif");
@@ -140,8 +144,13 @@ public class Player {
         i[Images.JUMPING_RIGHT.give_Id()]=t.getImage("files/character/jumping_right.gif");
         i[Images.JUMPING_LEFT.give_Id()]=t.getImage("files/character/jumping_left.gif");
 
-        i[Images.INVERTED_LEFT.give_Id()]=t.getImage("files/yusminiinvertflipped.gif");
-        i[Images.INVERTED_RIGHT.give_Id()]=t.getImage("files/yusminiinvert.gif");
+        i[Images.INVERTED_IDLE_LEFT.give_Id()]=t.getImage("files/character/idle_left_inverted.gif");
+        i[Images.INVERTED_IDLE_RIGHT.give_Id()]=t.getImage("files/character/idle_right_inverted.gif");
+        i[Images.INVERTED_RUNNING_LEFT.give_Id()]=t.getImage("files/character/running_left_inverted.gif");
+        i[Images.INVERTED_RUNNING_RIGHT.give_Id()]=t.getImage("files/character/running_right_inverted.gif");
+        i[Images.INVERTED_JUMPING_RIGHT.give_Id()]=t.getImage("files/character/jumping_right_inverted.gif");
+        i[Images.INVERTED_JUMPING_LEFT.give_Id()]=t.getImage("files/character/jumping_left_inverted.gif");
+
         i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
         i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
@@ -514,8 +523,25 @@ public class Player {
         }
         else
         {
-            if(looking_left)tmp=Images.INVERTED_LEFT;
-            else tmp=Images.INVERTED_RIGHT;
+            if (!test) {
+                if(looking_left)
+                {
+                    if (keyLeft)
+                        tmp=Images.INVERTED_RUNNING_LEFT;
+                    else
+                        tmp=Images.INVERTED_IDLE_LEFT;
+                } else {
+                    if (keyRight)
+                        tmp=Images.INVERTED_RUNNING_RIGHT;
+                    else
+                        tmp=Images.INVERTED_IDLE_RIGHT;
+                }
+            } else {
+                if (looking_left)
+                    tmp=Images.INVERTED_JUMPING_LEFT;
+                else
+                    tmp=Images.INVERTED_JUMPING_RIGHT;
+            }
         }
         if(!hitBox_type)
         {
