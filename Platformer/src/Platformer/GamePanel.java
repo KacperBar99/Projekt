@@ -19,8 +19,8 @@ import java.util.Timer;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
-    int tileset_size = 24;
-    int background_size = 8;
+    int tileset_size = 21;
+    int background_size = 9;
 
     int state=0;
     int menu_handler=0;
@@ -59,8 +59,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image wallI[] = new Image[tileset_size];
     Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallBI[] = new Image[tileset_size];
-    Image wallJI=t.getImage("files/Tiles/gravity.png");
-    Image spikeI=t.getImage("files/Tiles/gravity.png");
+    Image wallJI=t.getImage("files/Tiles/wjump.png");
+    Image spikeI=t.getImage("files/Tiles/bolec.png");
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image turret_png =t.getImage("files/Tiles/turret.png");
     Image tileset[] = new Image[background_size];
@@ -296,6 +296,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 for(Bullet bullet:bullets)bullet.draw(gtd);
                 for(Turret turret:turrets)turret.draw(gtd);
                 for(Win_block win_block:win_blocks)win_block.draw(gtd);
+                for(Spawn spawn:spawns)spawn.draw(gtd);
 
                 for(Letter show:Points_Show)show.draw(gtd);//musi być na wierzchu
                 player.draw(gtd);

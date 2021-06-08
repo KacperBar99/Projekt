@@ -409,6 +409,8 @@ public class Cursor {
     }
     public void change_type(Graphics2D gtd)
     {
+        System.out.println("Id: "+Id);
+
         switch (Id)
         {
             case 0:

@@ -13,7 +13,7 @@ public class Platformer {
         frame.setLocation((int)(screenSize.getWidth()/2-frame.getSize().getWidth()/2), (int)(screenSize.getHeight()/2-frame.getSize().getHeight()/2));
 
         frame.setResizable(true);
-        frame.setTitle("Platformówka | L/P - ");
+        frame.setTitle("L/P - zmiana typu bloku    U/H - zmiana tekstury    F - wypełnienie tła");
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

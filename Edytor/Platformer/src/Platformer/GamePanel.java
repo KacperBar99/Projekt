@@ -25,16 +25,16 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Win_block> win_blocks = new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
 
-    int tileset_size = 24;
-    int background_size = 8;
+    int tileset_size = 21;
+    int background_size = 9;
     Image wallI[] = new Image[tileset_size];
     Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallBI[] = new Image[tileset_size];
-    Image wallJI=t.getImage("files/Tiles/gravity.png");
-    Image spikeI=t.getImage("files/Tiles/gravity.png");
+    Image wallJI=t.getImage("files/Tiles/wjump.png");
+    Image spikeI=t.getImage("files/Tiles/bolec.png");
     Image mine_png=t.getImage("files/Tiles/mine.png");
     Image turret_png =t.getImage("files/Tiles/turret.png");
-    Image tileset[] = new Image[tileset_size];
+    Image tileset[] = new Image[background_size];
     Image winblockI = t.getImage("files/Tiles/win.png");
 
 

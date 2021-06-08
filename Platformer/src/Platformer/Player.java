@@ -82,7 +82,7 @@ public class Player {
     int Restart=0;
     boolean hitBox_type;
     GamePanel panel;
-    int counter;
+    int counter, counter2;
 
     int x;
     int y;
@@ -112,8 +112,12 @@ public class Player {
     boolean dash;
 
     boolean can_jump;
-    boolean djump;
     int jumpforce;
+
+    boolean djump;
+
+    boolean can_left;
+    boolean can_right;
 
     Rectangle hitBox;
 
@@ -124,6 +128,7 @@ public class Player {
         looking_left=false;
         hitBox_type=true;
         counter=0;
+        counter2=0;
         this.panel=panel;
         this.x=x;
         this.y=y;
@@ -131,8 +136,11 @@ public class Player {
         gravity_switch=true;
         maxspeed=12;
         frc=1.3;
-        grav=1.6;
-        jumpforce=20;
+        grav=1.4;
+        jumpforce=18;
+        can_left=true;
+        can_right=true;
+
         where = new New_level();
         i = new Image[14];
         Toolkit t=Toolkit.getDefaultToolkit();
@@ -154,8 +162,8 @@ public class Player {
         i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
         i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
 
-        width=60;
-        height=96;
+        width=63;
+        height=74;
         hitBox = new Rectangle(x,y,width,height);
 
     }
@@ -192,22 +200,30 @@ public class Player {
         x+=xspeed;
         y+=yspeed;
 
+        if (!can_left) can_right=true;
+        if (!can_right) can_left=true;
+        if (counter2>0) counter2--;
+        if (counter2<=0) {
+            can_right = true;
+            can_left = true;
+        }
+
         //gravitation acceleration
         if(gravity_switch) yspeed+=grav;
         else yspeed-=grav;
 
         //horizontal movement of a character
-        if(keyRight && xspeed<maxspeed)
-        {
-            xspeed=7;
-            looking_left=false;
+
+        if (keyRight && xspeed < maxspeed && can_right) {
+            xspeed = 6;
+            looking_left = false;
         }
 
-        if(keyLeft && xspeed>-maxspeed)
-        {
-            xspeed=-7;
-            looking_left=true;
+        if (keyLeft && xspeed > -maxspeed && can_left) {
+            xspeed = -6;
+            looking_left = true;
         }
+
 
         if (xspeed>0 && !keyRight) xspeed-=frc;
         if (xspeed<0 && !keyLeft) xspeed+=frc;
@@ -216,8 +232,8 @@ public class Player {
         if(dash)
         {
             counter++;
-            if(!looking_left) xspeed=30;
-            else xspeed=-30;
+            if(!looking_left) xspeed=20;
+            else xspeed=-20;
             if(counter>=10) dash=false;
         }
         else
@@ -226,7 +242,10 @@ public class Player {
             if(xspeed<-maxspeed) xspeed=-maxspeed;
         }
 
-        if(keyUP && can_jump) { panel.Sound_Play("files/sounds/jump.wav");jump(); }
+        if(keyUP && can_jump) {
+            panel.Sound_Play("files/sounds/jump.wav");
+            jump();
+        }
 
         //All the collision tests for the horizontal movement
         //It is necessary to ask all valid block types if hitboxes intersect
@@ -285,6 +304,8 @@ public class Player {
                 x=hitBox.x;
             }
         }
+
+
 
         //Collision tests for blocks
         //It is a different thing then jumping
@@ -380,28 +401,43 @@ public class Player {
         //Testing for wall jump
         for(Wall_Jump Wjump:panel.jumps)
         {
-            if(looking_left)hitBox.x-=2;
-            else hitBox.x+=2;
+            hitBox.x += Math.signum(xspeed);
             if(hitBox.intersects(Wjump.hitBox))
             {
-                test=false;
-                yspeed=0;
+                //test=false;
+                can_jump=false;
+                djump=false;
                 xspeed=0;
-                can_jump=true;
-                djump=true;
+                yspeed=0;
 
-                if(keyUP)
+                /*if(keyUP && !can_jump && (can_left || can_right))
                 {
-                    if(looking_left) xspeed=80;
-                    else xspeed=-80;
+                    counter2=20;
+                    if(looking_left)
+                    {
+                        xspeed=10;
+                        can_left=false;
+                    }
+                    else {
+                        xspeed=-10;
+                        can_right=false;
+                    }
 
-                    if(gravity_switch) yspeed=-10;
-                    else yspeed=10;
+                    if(gravity_switch) yspeed=-jumpforce;
+                    else yspeed=jumpforce*1.5;
+                }*/
+                if (keyUP)
+                {
+                    yspeed=-4;
+                }
+                if (keyDown)
+                {
+                    yspeed=4;
                 }
             }
-            if(looking_left)hitBox.x+=2;
-            else hitBox.x-=2;
+            hitBox.x -= Math.signum(xspeed);
         }
+
         //Collision tests for spikes
         for(Spike spike:panel.spikes)
         {
