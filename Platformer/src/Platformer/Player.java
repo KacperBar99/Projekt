@@ -443,15 +443,16 @@ public class Player {
         {
             if(hitBox.intersects(spike.hitBox))
             {
+                panel.Points-=Penalty;
                 if(panel.Points<=0)
                 {
-                    //panel.exit_failure();
+                    panel.exit_failure();
                     break;
                 }
                 else
                 {
                     Player_restart();
-                    panel.Points-=Penalty;
+                    break;
                 }
             }
         }
@@ -460,15 +461,17 @@ public class Player {
         {
             if(hitBox.intersects(mine.hitBox))
             {
+                panel.Points-=Penalty;
                 if(panel.Points<=0)
                 {
-                   // panel.exit_failure();
+                   panel.exit_failure();
                     break;
                 }
                 else
                 {
                     Player_restart();
-                    panel.Points-=Penalty;
+
+                    break;
                 }
             }
         }
@@ -476,17 +479,19 @@ public class Player {
         {
             if(hitBox.intersects(bullet.hitBox))
             {
+                panel.Points-=Penalty;
                 if(panel.Points<=0)
                 {
                     bullet.remove=true;
-                    //panel.exit_failure();
+                    panel.exit_failure();
                     break;
                 }
 
                 else
                 {
                     Player_restart();
-                    panel.Points-=Penalty;
+
+                    break;
                 }
             }
         }
@@ -494,15 +499,17 @@ public class Player {
         {
             if(hitBox.intersects(turret.hitBox))
             {
+                panel.Points-=Penalty;
                 if(panel.Points<=0)
                 {
-                    //panel.exit_failure();
+                    panel.exit_failure();
                     break;
                 }
                 else
                 {
                     Player_restart();
-                    panel.Points-=Penalty;
+
+                    break;
                 }
             }
         }

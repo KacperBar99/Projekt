@@ -918,6 +918,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     void hp_update()
     {
+        System.out.println(Points);
         if(Points>0) {
             Iterator itr;
             itr = Points_Show.iterator();
@@ -930,6 +931,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 Points_Show.add(new Letter(i * universal_value, 0, universal_value, universal_value, hp_numbers[tmp.charAt(i) - '0']));
             }
         }
-        else exit_failure();
+        //else exit_failure();
     }
 }
