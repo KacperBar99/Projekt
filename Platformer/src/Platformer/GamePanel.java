@@ -622,6 +622,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+        Place_in_results=9;
         if(Points<0)Points=0;
         for(int i=0;i<10;i++)
         {
