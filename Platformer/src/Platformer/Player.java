@@ -381,6 +381,10 @@ public class Player {
         //Test for blocks changing gravity
         for(Gravity_Changer changer:panel.changers)
         {
+           /*
+            if(gravity_switch)hitBox.y++;
+            else hitBox.y--;
+            */
             if(hitBox.intersects(changer.hitBox))
             {
                 gravity_switch=!gravity_switch;
@@ -396,6 +400,10 @@ public class Player {
                 yspeed=0;
                 y=hitBox.y;
             }
+            /*
+            if(!gravity_switch)hitBox.y--;
+            else hitBox.y++;
+            */
         }
 
         //Testing for wall jump
@@ -599,7 +607,7 @@ public class Player {
             if(test)C=Color.ORANGE;
 
             gtd.setColor(C);
-            gtd.drawRect(x,y,width,height);
+            gtd.drawRect(hitBox.x,hitBox.y,width,height);
             gtd.setColor(C);
             gtd.fillRect(x+1,y+1,width-2,height-2);
         }

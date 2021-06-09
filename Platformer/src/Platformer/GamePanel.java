@@ -918,7 +918,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     void hp_update()
     {
-        System.out.println(Points);
         if(Points>0) {
             Iterator itr;
             itr = Points_Show.iterator();
