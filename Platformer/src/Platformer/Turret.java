@@ -8,15 +8,13 @@ public class Turret {
     int width;
     int height;
     int count;
-    int direction;
     Image g;
     Image b;
 
     Rectangle hitBox;
 
-    public Turret(int x,int y,Image I1,Image I2,int D)
+    public Turret(int x,int y,Image I1,Image I2)
     {
-        direction=D;
         count=0;
         this.x=x;
         this.y=y;

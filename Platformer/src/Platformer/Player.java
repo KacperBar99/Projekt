@@ -381,16 +381,15 @@ public class Player {
         //Test for blocks changing gravity
         for(Gravity_Changer changer:panel.changers)
         {
-
-            if(gravity_switch)hitBox.y++;
-            else hitBox.y--;
+            if (hitBox.x+width>=changer.hitBox.x && hitBox.x<changer.hitBox.x+64) {
+                if (gravity_switch && hitBox.y+height==changer.hitBox.y)
+                    gravity_switch=false;
+                else if (!gravity_switch && hitBox.y==changer.hitBox.y+64)
+                    gravity_switch=true;
+            }
 
             if(hitBox.intersects(changer.hitBox))
             {
-                gravity_switch=!gravity_switch;
-                can_jump=true;
-                djump=true;
-
                 hitBox.y-=yspeed;
                 while(!changer.hitBox.intersects(hitBox))
                 {
@@ -400,10 +399,6 @@ public class Player {
                 yspeed=0;
                 y=hitBox.y;
             }
-
-            if(!gravity_switch)hitBox.y--;
-            else hitBox.y++;
-
         }
 
         //Testing for wall jump
