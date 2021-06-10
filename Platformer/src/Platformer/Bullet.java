@@ -17,25 +17,21 @@ public class Bullet {
     int xspeed;
     int yspeed;
     Image g;
+    int direction;
 
 
-    public Bullet(int x,int y,int PX, int PY,Image I)
+    public Bullet(int x,int y,Image I,int D)
     {
+        direction=D;
         g=I;
-        xspeed=1;
+        xspeed=10;
         yspeed=10;
         this.x=x;
         this.y=y;
         this.width=9;
         this.height=9;
         remove=false;
-        Px=PX;
-        Py=PY;
         count=0;
-        if(x<Px)xincrease=true;
-        else xincrease= false;
-        if(y<Py)yincrease=true;
-        else yincrease=false;
 
 
         hitBox = new Rectangle(x,y,width,height);
@@ -47,17 +43,28 @@ public class Bullet {
         gtd.drawRect(x,y,width,height);
         gtd.setColor(Color.pink);
         gtd.fillRect(x+1,y+1,width-2,height-2);
-
          */
     }
     public void set()
     {
             count++;
             if(count==100)remove=true;
-            if(xincrease)x+=xspeed;
-            else x-=xspeed;
-            if(yincrease)y+=yspeed;
-            else y-=yspeed;
+
+            switch (direction)
+            {
+                case 0:
+                    x-=xspeed;
+                    break;
+                case 1:
+                    x+=xspeed;
+                    break;
+                case 2:
+                    y+=yspeed;
+                    break;
+                case 3:
+                    y-=yspeed;
+                    break;
+            }
 
         hitBox.x=x;
         hitBox.y=y;

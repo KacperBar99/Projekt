@@ -8,13 +8,15 @@ public class Turret {
     int width;
     int height;
     int count;
+    int direction;
     Image g;
     Image b;
 
     Rectangle hitBox;
 
-    public Turret(int x,int y,Image I1,Image I2)
+    public Turret(int x,int y,Image I1,Image I2,int D)
     {
+        direction=D;
         count=0;
         this.x=x;
         this.y=y;
@@ -39,7 +41,7 @@ public class Turret {
         if(count==50)
         {
             panel.Sound_Play("files/sounds/shoot.wav");
-            Bullet tmp=new Bullet(x+32,y+32,panel.player.x,panel.player.y,b);
+            Bullet tmp=new Bullet(x+32,y+32,b,direction);
             panel.bullets.add(tmp);
             count=0;
         }

@@ -62,7 +62,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Image wallJI=t.getImage("files/Tiles/wjump.png");
     Image spikeI=t.getImage("files/Tiles/bolec.png");
     Image mine_png=t.getImage("files/Tiles/mine.png");
-    Image turret_png =t.getImage("files/Tiles/turret.png");
+    Image turret_png[] = new Image[4];
     Image tileset[] = new Image[background_size];
     Image menuN[] = new Image[3];
     Image menuS[]= new Image[3];
@@ -80,6 +80,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     public GamePanel()
     {
+        for(int i=0;i<4;i++)
+        {
+            turret_png[i]=t.getImage("files/Tiles/d"+(i+1)+".png");
+        }
         for(int i=0;i<10;i++)
         {
             hp_numbers[i]=t.getImage("literki/hp/"+i+".png");
@@ -217,7 +221,10 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             mines.add(new Mine(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),mine_png,Boolean.valueOf(myReader.nextLine())));
                             break;
                         case 6:
-                            turrets.add(new Turret(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),turret_png,bullet_png));
+                            tmp1=Integer.valueOf(myReader.nextLine());
+                            tmp2=Integer.valueOf(myReader.nextLine());
+                            tmp3=Integer.valueOf(myReader.nextLine());
+                            turrets.add(new Turret(tmp1,tmp2,turret_png[tmp3],bullet_png,tmp3));
                             break;
                         case 7:
                             level_counter++;
