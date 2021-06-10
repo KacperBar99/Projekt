@@ -281,6 +281,11 @@ public class Cursor {
                 if(Id2==0)Id2=1;
                 else Id2=0;
             }
+            else if(Id==1)
+            {
+                if(Id2>= Id2_max)Id2=0;
+                else Id2++;
+            }
         }
         else
         {
@@ -297,6 +302,11 @@ public class Cursor {
             {
                 if(Id2==1)Id2=0;
                 else Id2=1;
+            }
+            else if (Id==1)
+            {
+                if(Id2<=0)Id2=Id2_max;
+                else Id2--;
             }
         }
     }
@@ -409,7 +419,7 @@ public class Cursor {
     }
     public void change_type(Graphics2D gtd)
     {
-        System.out.println("Id: "+Id);
+       // System.out.println("Id: "+Id);
 
         switch (Id)
         {

@@ -20,7 +20,7 @@ import java.util.Timer;
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     int tileset_size = 21;
-    int background_size = 9;
+    int background_size = 9+1;
 
     int state=0;
     int menu_handler=0;
@@ -105,13 +105,14 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         for(int i=0;i<tileset_size;i++)
         {
             wallI[i]=t.getImage("files/Tiles/Wall/"+(i+1)+".png");
-
+            wallBI[i]=t.getImage("files/Tiles/Wall_B/"+(i+1)+".png");
         }
 
         for(int i=0;i<background_size;i++)
         {
             tileset[i] = t.getImage("files/Tiles/background/" + (i + 1) + ".png");
         }
+        tileset[background_size-1]=t.getImage("files/Tiles/torch.gif");
 
         listN = new String[10];
         listT = new long[10];
@@ -201,7 +202,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                             tmp1=Integer.valueOf(myReader.nextLine());
                             tmp2=Integer.valueOf(myReader.nextLine());
                             tmp3=Integer.valueOf(myReader.nextLine());
-                            wallsB.add(new WallB(tmp1,tmp2,wallI[tmp3]));
+                            wallsB.add(new WallB(tmp1,tmp2,wallBI[tmp3]));
                             break;
                         case 2:
                             changers.add(new Gravity_Changer(Integer.valueOf(myReader.nextLine()),Integer.valueOf(myReader.nextLine()),grav));
