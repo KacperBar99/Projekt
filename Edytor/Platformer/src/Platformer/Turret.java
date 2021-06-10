@@ -2,17 +2,19 @@ package Platformer;
 
 import java.awt.*;
 
+
 public class Turret {
     int x;
     int y;
     int width;
     int height;
     int count;
+    int direction;
     Image g;
 
     Rectangle hitBox;
 
-    public Turret(int x,int y,Image i)
+    public Turret(int x,int y,Image i,int D)
     {
         Toolkit t=Toolkit.getDefaultToolkit();
         g=i;
@@ -21,6 +23,7 @@ public class Turret {
         this.y=y;
         this.width=64;
         this.height=64;
+        direction=D;
 
         hitBox = new Rectangle(x,y,width,height);
     }
@@ -36,5 +39,6 @@ public class Turret {
     }
     public int getX(){return x;}
     public int getY(){return y;}
+    public int getD(){return direction;}
 
 }

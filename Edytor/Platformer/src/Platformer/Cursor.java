@@ -134,7 +134,7 @@ public class Cursor {
                     Taken[x/64][y/64]=Id;
                     break;
                 case 6:
-                    panel.turrets.add(new Turret(x,y,panel.turret_png));
+                    panel.turrets.add(new Turret(x,y,panel.turret_png[Id2],Id2));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 7:
@@ -286,6 +286,11 @@ public class Cursor {
                 if(Id2>= Id2_max)Id2=0;
                 else Id2++;
             }
+            else if(Id==6)
+            {
+                if(Id2>=3)Id2=0;
+                else Id2++;
+            }
         }
         else
         {
@@ -306,6 +311,11 @@ public class Cursor {
             else if (Id==1)
             {
                 if(Id2<=0)Id2=Id2_max;
+                else Id2--;
+            }
+            else if(Id==6)
+            {
+                if(Id2<=0)Id2=3;
                 else Id2--;
             }
         }
@@ -387,6 +397,7 @@ public class Cursor {
                     myWriter.write(6+"\n");
                     myWriter.write(turret.getX() + "\n");
                     myWriter.write(turret.getY() + "\n");
+                    myWriter.write(turret.getD()+"\n");
                 }
                 for(Player_spawn spawn:panel.spawns)
                 {
@@ -454,7 +465,7 @@ public class Cursor {
                 hitBox=new Rectangle(x,y,width,height);
                 break;
             case 6:
-                show=panel.turret_png;
+                show=panel.turret_png[Id2];
                 gtd.setColor(Color.magenta);
                 hitBox=new Rectangle(x,y,width,height);
                 break;
