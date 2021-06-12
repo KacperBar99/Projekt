@@ -120,7 +120,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
         listN = new String[10];
         listT = new long[10];
+
         create_menu();
+        Sound_Play("files/sounds/tmp.wav");
 
         player = new Player(StartX,StartY,this);
 
@@ -327,11 +329,14 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         }
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e)
+    {
         switch (state)
         {
             case 0:
             {
+                Sound_Play("files/sounds/select.wav");
+
                 if(e.getKeyCode()==KeyEvent.VK_DOWN || e.getKeyCode()== KeyEvent.VK_S)
                 {
                     menu_handler++;
@@ -339,6 +344,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 }
                 if(e.getKeyCode()==KeyEvent.VK_UP|| e.getKeyCode()== KeyEvent.VK_W)
                 {
+
                     menu_handler--;
                     menu_update();
                 }
@@ -862,7 +868,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
     public void menu_update()
     {
-        Sound_Play("files/sounds/tmp.wav");
         if(menu_handler>2)menu_handler=0;
         if(menu_handler<0)menu_handler=2;
 

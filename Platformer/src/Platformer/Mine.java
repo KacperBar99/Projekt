@@ -32,8 +32,6 @@ public class Mine {
     }
     public void set()
     {
-
-
             if(horizontal)
             {
                 if(increase)x++;

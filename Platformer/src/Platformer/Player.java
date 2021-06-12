@@ -305,8 +305,6 @@ public class Player {
             }
         }
 
-
-
         //Collision tests for blocks
         //It is a different thing then jumping
 
