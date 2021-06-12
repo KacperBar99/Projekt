@@ -26,7 +26,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Toolkit t=Toolkit.getDefaultToolkit();
 
     int tileset_size = 21;
-    int background_size = 9+1;
+    int background_size = 13+1;
     Image wallI[] = new Image[tileset_size];
     Image grav = t.getImage("files/Tiles/gravity.png");
     Image wallBI[] = new Image[tileset_size];

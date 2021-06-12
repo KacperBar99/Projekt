@@ -124,13 +124,13 @@ public class Cursor {
                 case 5:
                     if(Id2==0)
                     {
-                        panel.mines.add(new Mine(x,y,panel.mine_png,true));
+                        panel.mines.add(new Mine(x,y,panel.mine_png,false));
                     }
                     else
                     {
-                        panel.mines.add(new Mine(x,y,panel.mine_png,false));
+                        panel.mines.add(new Mine(x,y,panel.mine_png,true));
                     }
-                    panel.tiles.add(new Tile(x,y, panel.tileset[Id2],Id2));
+                    panel.tiles.add(new Tile(x,y, panel.tileset[0],0));
                     Taken[x/64][y/64]=Id;
                     break;
                 case 6:
@@ -252,6 +252,8 @@ public class Cursor {
 
     public void change_Id(boolean up)
     {
+        Id2=0;
+
         if(up)
         {
             if(Id==Id_max)Id=0;

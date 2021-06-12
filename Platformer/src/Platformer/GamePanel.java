@@ -20,7 +20,7 @@ import java.util.Timer;
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
     int tileset_size = 21;
-    int background_size = 9+1;
+    int background_size = 13+1;
 
     int state=0;
     int menu_handler=0;

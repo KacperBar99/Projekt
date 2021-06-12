@@ -38,7 +38,7 @@ public class Turret {
     }
     public void set(GamePanel panel)
     {
-        if(count==50)
+        if(count==65)
         {
             panel.Sound_Play("files/sounds/shoot.wav");
             Bullet tmp=new Bullet(x+32,y+32,b,direction);
@@ -49,7 +49,5 @@ public class Turret {
         {
             count++;
         }
-
     }
-
 }

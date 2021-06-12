@@ -23,7 +23,6 @@ public class Mine {
         this.width=64;
         this.height=64;
 
-
         hitBox = new Rectangle(x,y,width,height);
     }
     public void draw(Graphics2D gtd){

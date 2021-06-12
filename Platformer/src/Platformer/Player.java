@@ -64,8 +64,20 @@ public class Player {
         INVERTED_RUNNING_RIGHT(9),
         INVERTED_JUMPING_RIGHT(10),
         INVERTED_JUMPING_LEFT(11),
-        DARK_RIGHT(12),
-        DARK_LEFT(13);
+
+        DARK_IDLE_RIGHT(12),
+        DARK_IDLE_LEFT(13),
+        DARK_RUNNING_RIGHT(14),
+        DARK_RUNNING_LEFT(15),
+        DARK_JUMPING_RIGHT(16),
+        DARK_JUMPING_LEFT(17),
+        DARK_INVERTED_IDLE_RIGHT(18),
+        DARK_INVERTED_IDLE_LEFT(19),
+        DARK_INVERTED_RUNNING_LEFT(20),
+        DARK_INVERTED_RUNNING_RIGHT(21),
+        DARK_INVERTED_JUMPING_RIGHT(22),
+        DARK_INVERTED_JUMPING_LEFT(23);
+
 
         private int Id;
         private Images(int I)
@@ -107,7 +119,7 @@ public class Player {
     static double frc; //tarcie
 
     boolean gravity_switch;
-    static double grav;
+    double grav;
 
     boolean dash;
 
@@ -142,7 +154,7 @@ public class Player {
         can_right=true;
 
         where = new New_level();
-        i = new Image[14];
+        i = new Image[24];
         Toolkit t=Toolkit.getDefaultToolkit();
 
         i[Images.IDLE_RIGHT.give_Id()]=t.getImage("files/character/idle_right.gif");
@@ -159,13 +171,23 @@ public class Player {
         i[Images.INVERTED_JUMPING_RIGHT.give_Id()]=t.getImage("files/character/jumping_right_inverted.gif");
         i[Images.INVERTED_JUMPING_LEFT.give_Id()]=t.getImage("files/character/jumping_left_inverted.gif");
 
-        i[Images.DARK_RIGHT.give_Id()]=t.getImage("files/yusdark.gif");
-        i[Images.DARK_LEFT.give_Id()]=t.getImage("files/yusdarkflipped.gif");
+        i[Images.DARK_IDLE_RIGHT.give_Id()]=t.getImage("files/character/alt/idle_right.gif");
+        i[Images.DARK_IDLE_LEFT.give_Id()]=t.getImage("files/character/alt/idle_right.gif");
+        i[Images.DARK_RUNNING_RIGHT.give_Id()]=t.getImage("files/character/alt/running_right.gif");
+        i[Images.DARK_RUNNING_LEFT.give_Id()]=t.getImage("files/character/alt/running_left.gif");
+        i[Images.DARK_JUMPING_RIGHT.give_Id()]=t.getImage("files/character/alt/jumping_right.gif");
+        i[Images.DARK_JUMPING_LEFT.give_Id()]=t.getImage("files/character/alt/jumping_left.gif");
+
+        i[Images.DARK_INVERTED_IDLE_LEFT.give_Id()]=t.getImage("files/character/alt/idle_left_inverted.gif");
+        i[Images.DARK_INVERTED_IDLE_RIGHT.give_Id()]=t.getImage("files/character/alt/idle_right_inverted.gif");
+        i[Images.DARK_INVERTED_RUNNING_LEFT.give_Id()]=t.getImage("files/character/alt/running_left_inverted.gif");
+        i[Images.DARK_INVERTED_RUNNING_RIGHT.give_Id()]=t.getImage("files/character/alt/running_right_inverted.gif");
+        i[Images.DARK_INVERTED_JUMPING_RIGHT.give_Id()]=t.getImage("files/character/alt/jumping_right_inverted.gif");
+        i[Images.DARK_INVERTED_JUMPING_LEFT.give_Id()]=t.getImage("files/character/alt/jumping_left_inverted.gif");
 
         width=63;
         height=74;
         hitBox = new Rectangle(x,y,width,height);
-
     }
 
     public void jump()
@@ -409,32 +431,27 @@ public class Player {
                 can_jump=false;
                 djump=false;
                 xspeed=0;
-                yspeed=0;
+                if (keyRight && !keyUP) yspeed=0;
 
-                /*if(keyUP && !can_jump && (can_left || can_right))
+                if(keyUP && !can_jump && (can_left || can_right))
                 {
                     counter2=20;
-                    if(looking_left)
-                    {
-                        xspeed=10;
-                        can_left=false;
-                    }
-                    else {
+
                         xspeed=-10;
                         can_right=false;
-                    }
 
-                    if(gravity_switch) yspeed=-jumpforce;
-                    else yspeed=jumpforce*1.5;
-                }*/
-                if (keyUP)
+
+                    if(gravity_switch) yspeed=-jumpforce*1.2;
+                    else yspeed=jumpforce*1.2;
+                }
+                /*if (keyUP)
                 {
                     yspeed=-4;
                 }
                 if (keyDown)
                 {
                     yspeed=4;
-                }
+                }*/
             }
             hitBox.x -= Math.signum(xspeed);
         }
@@ -589,8 +606,50 @@ public class Player {
         }
         if(!hitBox_type)
         {
-            if(looking_left)tmp=Images.DARK_LEFT;
-            else tmp=Images.DARK_RIGHT;
+            if(gravity_switch)
+            {
+                if (!test) {
+                    if(looking_left)
+                    {
+                        if (keyLeft)
+                            tmp=Images.DARK_RUNNING_LEFT;
+                        else
+                            tmp=Images.DARK_IDLE_LEFT;
+                    } else {
+                        if (keyRight)
+                            tmp=Images.DARK_RUNNING_RIGHT;
+                        else
+                            tmp=Images.DARK_IDLE_RIGHT;
+                    }
+                } else {
+                    if (looking_left)
+                        tmp=Images.DARK_JUMPING_LEFT;
+                    else
+                        tmp=Images.DARK_JUMPING_RIGHT;
+                }
+            }
+            else
+            {
+                if (!test) {
+                    if(looking_left)
+                    {
+                        if (keyLeft)
+                            tmp=Images.DARK_INVERTED_RUNNING_LEFT;
+                        else
+                            tmp=Images.DARK_INVERTED_IDLE_LEFT;
+                    } else {
+                        if (keyRight)
+                            tmp=Images.DARK_INVERTED_RUNNING_RIGHT;
+                        else
+                            tmp=Images.DARK_INVERTED_IDLE_RIGHT;
+                    }
+                } else {
+                    if (looking_left)
+                        tmp=Images.DARK_INVERTED_JUMPING_LEFT;
+                    else
+                        tmp=Images.DARK_INVERTED_JUMPING_RIGHT;
+                }
+            }
         }
 
         if(debug1) gtd.drawImage(i[tmp.give_Id()], x, y, null);
