@@ -9,8 +9,6 @@ public class Letter {
     int height;
     Image g;
 
-
-
     public Letter(int x,int y,int w,int h,Image I)
     {
         this.x=x;

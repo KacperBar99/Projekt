@@ -252,8 +252,6 @@ public class Cursor {
 
     public void change_Id(boolean up)
     {
-        Id2=0;
-
         if(up)
         {
             if(Id==Id_max)Id=0;

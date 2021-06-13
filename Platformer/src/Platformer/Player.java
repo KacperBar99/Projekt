@@ -76,7 +76,9 @@ public class Player {
         DARK_INVERTED_RUNNING_LEFT(20),
         DARK_INVERTED_RUNNING_RIGHT(21),
         DARK_INVERTED_JUMPING_RIGHT(22),
-        DARK_INVERTED_JUMPING_LEFT(23);
+        DARK_INVERTED_JUMPING_LEFT(23),
+
+        HOLDING(24);
 
 
         private int Id;
@@ -130,6 +132,7 @@ public class Player {
 
     boolean can_left;
     boolean can_right;
+    boolean holds;
 
     Rectangle hitBox;
 
@@ -152,9 +155,10 @@ public class Player {
         jumpforce=18;
         can_left=true;
         can_right=true;
+        holds=false;
 
         where = new New_level();
-        i = new Image[24];
+        i = new Image[25];
         Toolkit t=Toolkit.getDefaultToolkit();
 
         i[Images.IDLE_RIGHT.give_Id()]=t.getImage("files/character/idle_right.gif");
@@ -184,6 +188,8 @@ public class Player {
         i[Images.DARK_INVERTED_RUNNING_RIGHT.give_Id()]=t.getImage("files/character/alt/running_right_inverted.gif");
         i[Images.DARK_INVERTED_JUMPING_RIGHT.give_Id()]=t.getImage("files/character/alt/jumping_right_inverted.gif");
         i[Images.DARK_INVERTED_JUMPING_LEFT.give_Id()]=t.getImage("files/character/alt/jumping_left_inverted.gif");
+
+        i[Images.HOLDING.give_Id()]=t.getImage("files/character/holdin.png");
 
         width=63;
         height=74;
@@ -431,15 +437,18 @@ public class Player {
                 can_jump=false;
                 djump=false;
                 xspeed=0;
-                if (keyRight && !keyUP) yspeed=0;
+                if (keyRight && !keyUP)
+                {
+                    yspeed=0;
+                    holds=true;
+                } else holds=false;
 
                 if(keyUP && !can_jump && (can_left || can_right))
                 {
                     counter2=20;
 
-                        xspeed=-10;
-                        can_right=false;
-
+                    xspeed=-10;
+                    can_right=false;
 
                     if(gravity_switch) yspeed=-jumpforce*1.2;
                     else yspeed=jumpforce*1.2;
@@ -570,8 +579,10 @@ public class Player {
                     else
                         tmp=Images.IDLE_LEFT;
                 } else {
+
                     if (keyRight)
-                        tmp=Images.RUNNING_RIGHT;
+                        if (holds) tmp=Images.HOLDING;
+                        else tmp=Images.RUNNING_RIGHT;
                     else
                         tmp=Images.IDLE_RIGHT;
                 }
@@ -604,6 +615,7 @@ public class Player {
                     tmp=Images.INVERTED_JUMPING_RIGHT;
             }
         }
+
         if(!hitBox_type)
         {
             if(gravity_switch)
@@ -617,6 +629,7 @@ public class Player {
                             tmp=Images.DARK_IDLE_LEFT;
                     } else {
                         if (keyRight)
+
                             tmp=Images.DARK_RUNNING_RIGHT;
                         else
                             tmp=Images.DARK_IDLE_RIGHT;
