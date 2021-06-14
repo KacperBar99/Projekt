@@ -272,7 +272,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 }
                 player.Restart=level_counter;
             } catch (FileNotFoundException e) {
-                exit_failure();
+                xlevel-=player.where.changex(xlevel);
+                ylevel-=player.where.changey(ylevel);
+                player.where.clear();
+                level_counter=0;
+                Points-=player.Penalty;
+                if(Points<=0)exit_failure();
+                new_level();
             }
         }
     }
@@ -370,13 +376,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     player.keyUP = true;
                 }
                 if(e.getKeyChar() == ' ')player.dash();
-                if(e.getKeyCode()== KeyEvent.VK_G)player.change_Gravity();
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-                {
-                    exit_success();
-                }
+
                 if(e.getKeyChar() == 'f'  || e.getKeyChar()=='F')player.change_HitBox_type();
-                if(e.getKeyChar() == 'h'  || e.getKeyChar()=='H')player.debug1=!player.debug1;
                 break;
             }
             case 2: {
