@@ -272,6 +272,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 }
                 player.Restart=level_counter;
             } catch (FileNotFoundException e) {
+                player.where.clear();
+                level_counter=0;
                xlevel=0;
                ylevel=0;
                new_level();

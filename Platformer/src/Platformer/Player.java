@@ -48,6 +48,14 @@ public class Player {
             else if(down)return -1;
             else return 0;
         }
+        void clear()
+        {
+            start=true;
+            down=false;
+            up=false;
+            right=false;
+            left=false;
+        }
 
     }
     public enum Images
