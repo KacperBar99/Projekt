@@ -39,6 +39,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     int xlevel=0;
     int ylevel=0;
     int level_counter=0;
+    boolean opened=false;
+    boolean pulled=false;
+
     Player player;
     Timer gameTimer;
     ArrayList <Wall> walls = new ArrayList<>();
@@ -52,6 +55,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     ArrayList <Spawn> spawns = new ArrayList<>();
     ArrayList <Tile> tiles =new ArrayList<>();
     ArrayList <Letter> letters = new ArrayList<>();
+    ArrayList <Lever> levers = new ArrayList<>();
     Toolkit t=Toolkit.getDefaultToolkit();
     Image A_letter [] = new Image[26];
     Image Letter_0 [] = new Image[10];
@@ -190,8 +194,18 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 int tmp1;
                 int tmp2;
                 int tmp3;
-                System.out.println(xlevel+"_"+ylevel);
-                File myObj = new File("levels/"+xlevel+"_"+ylevel+".txt");
+                System.out.println(xlevel + "_" + ylevel);
+                File myObj;
+                if (xlevel==3 && ylevel==0) {
+                    if (!opened) {
+                        myObj = new File("levels/closed.txt");
+                    } else {
+                        myObj = new File("levels/open.txt");
+                    }
+                } else {
+                    myObj = new File("levels/" + xlevel + "_" + ylevel + ".txt");
+                }
+
                 Scanner myReader = new Scanner(myObj);
                 while (myReader.hasNextLine()) {
                     String data = myReader.nextLine();
@@ -244,6 +258,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                     }
                 }
                 myReader.close();
+                Image closed=t.getImage("files/d2.png");
+                if (xlevel==1 && ylevel==-1) levers.add(new Lever(192,256,closed));
+
                 level_counter=0;
                 if(player.where.up)
                 {
@@ -311,6 +328,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
                 for(Turret turret:turrets)turret.draw(gtd);
                 for(Win_block win_block:win_blocks)win_block.draw(gtd);
                 for(Spawn spawn:spawns)spawn.draw(gtd);
+                for(Lever lever:levers)lever.draw(gtd);
 
                 for(Letter show:Points_Show)show.draw(gtd);//musi być na wierzchu
                 player.draw(gtd);
@@ -616,6 +634,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         state=2;
         clear();
 
+
         listN = new String[10];
         listT = new long[10];
 
@@ -652,7 +671,7 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         enter_name = new Letter[max_nickname_length];
         name_iterator=0;
 
-
+        Sound_Play("files/sounds/winning.wav");
     }
     public void exit_failure()
     {
@@ -775,7 +794,14 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
             Background background = (Background) itr.next();
             itr.remove();
         }
+        itr=levers.iterator();
+        while(itr.hasNext())
+        {
+            Lever lever = (Lever) itr.next();
+            itr.remove();
+        }
     }
+
     public void create_End()
     {
         int y_shift=15;

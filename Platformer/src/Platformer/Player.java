@@ -2,6 +2,7 @@ package Platformer;
 
 import java.awt.*;
 import java.awt.desktop.AboutEvent;
+import java.util.Iterator;
 
 
 public class Player {
@@ -141,6 +142,8 @@ public class Player {
     boolean can_left;
     boolean can_right;
     boolean holds;
+
+    boolean removed=false;
 
     Rectangle hitBox;
 
@@ -548,6 +551,20 @@ public class Player {
                 }
             }
         }
+
+        if (!removed) {
+            for (Lever lever : panel.levers) {
+                if (hitBox.intersects(lever.hitBox)) {
+                    if (!panel.opened) panel.opened = true;
+                    System.out.println(panel.opened);
+                    panel.Sound_Play("files/sounds/tmp.wav");
+                    removed=true;
+                }
+
+            }
+        }
+
+
         for(Win_block win_block:panel.win_blocks)
         {
             if(hitBox.intersects(win_block.hitBox))
@@ -688,6 +705,7 @@ public class Player {
 
     void Player_restart()
     {
+        gravity_switch=true;
         if(Restart==0)
         {
             x= panel.StartX;

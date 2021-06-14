@@ -2,8 +2,8 @@ boss
 900
 giorgio
 800
-zbigniew
-700
+konrad
+722
 al
 600
 bob
