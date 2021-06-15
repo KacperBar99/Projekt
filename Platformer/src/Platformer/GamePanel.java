@@ -915,6 +915,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         switch (menu_handler)
         {
             case 0:
+                opened=false;
+                pulled=false;
                 xlevel=0;
                 ylevel=0;
                 change_state(1);
